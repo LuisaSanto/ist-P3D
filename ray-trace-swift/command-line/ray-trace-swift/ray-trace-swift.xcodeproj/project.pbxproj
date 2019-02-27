@@ -11,6 +11,11 @@
 		3E430C1D2225F96600C318A1 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E430C1C2225F96600C318A1 /* Camera.swift */; };
 		3E430C1F2225FABB00C318A1 /* vec3_extend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E430C1E2225FABB00C318A1 /* vec3_extend.swift */; };
 		3E430C2122260A0D00C318A1 /* Ray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E430C2022260A0D00C318A1 /* Ray.swift */; };
+		3E430C232226AA9D00C318A1 /* Hitable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E430C222226AA9D00C318A1 /* Hitable.swift */; };
+		3E430C252226ABA600C318A1 /* Material.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E430C242226ABA600C318A1 /* Material.swift */; };
+		3E430C272226AD9D00C318A1 /* Sphere.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E430C262226AD9D00C318A1 /* Sphere.swift */; };
+		3E430C292226AE2500C318A1 /* Polygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E430C282226AE2500C318A1 /* Polygon.swift */; };
+		3E430C2B2226B18000C318A1 /* Cone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E430C2A2226B18000C318A1 /* Cone.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +36,11 @@
 		3E430C1C2225F96600C318A1 /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		3E430C1E2225FABB00C318A1 /* vec3_extend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = vec3_extend.swift; sourceTree = "<group>"; };
 		3E430C2022260A0D00C318A1 /* Ray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ray.swift; sourceTree = "<group>"; };
+		3E430C222226AA9D00C318A1 /* Hitable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hitable.swift; sourceTree = "<group>"; };
+		3E430C242226ABA600C318A1 /* Material.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Material.swift; sourceTree = "<group>"; };
+		3E430C262226AD9D00C318A1 /* Sphere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sphere.swift; sourceTree = "<group>"; };
+		3E430C282226AE2500C318A1 /* Polygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Polygon.swift; sourceTree = "<group>"; };
+		3E430C2A2226B18000C318A1 /* Cone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cone.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +77,11 @@
 				3E430C1C2225F96600C318A1 /* Camera.swift */,
 				3E430C1E2225FABB00C318A1 /* vec3_extend.swift */,
 				3E430C2022260A0D00C318A1 /* Ray.swift */,
+				3E430C222226AA9D00C318A1 /* Hitable.swift */,
+				3E430C242226ABA600C318A1 /* Material.swift */,
+				3E430C262226AD9D00C318A1 /* Sphere.swift */,
+				3E430C282226AE2500C318A1 /* Polygon.swift */,
+				3E430C2A2226B18000C318A1 /* Cone.swift */,
 			);
 			path = "ray-trace-swift";
 			sourceTree = "<group>";
@@ -128,10 +143,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E430C2B2226B18000C318A1 /* Cone.swift in Sources */,
+				3E430C292226AE2500C318A1 /* Polygon.swift in Sources */,
+				3E430C272226AD9D00C318A1 /* Sphere.swift in Sources */,
 				3E430C2122260A0D00C318A1 /* Ray.swift in Sources */,
 				3E430C1D2225F96600C318A1 /* Camera.swift in Sources */,
 				3E430C162225F7F700C318A1 /* main.swift in Sources */,
 				3E430C1F2225FABB00C318A1 /* vec3_extend.swift in Sources */,
+				3E430C252226ABA600C318A1 /* Material.swift in Sources */,
+				3E430C232226AA9D00C318A1 /* Hitable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

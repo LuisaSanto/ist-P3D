@@ -17,7 +17,7 @@ struct ray {
     }
     
     var origin: vec3_extend { return o }
-    var direction: vec3_extend { return d}
+    var direction: vec3_extend { return d }
     func pointAtParameter(_ t: Float) -> vec3_extend {
         return o + t*d
     }
