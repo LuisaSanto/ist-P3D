@@ -16,6 +16,7 @@ class Camera {
 
 
 	public:
+		Camera() {}
 		Camera(Point eye, Point at, Point up, double fovy, double near, double far, int ResX, int ResY);
 };
 

@@ -6,9 +6,10 @@
 class Sphere {
 	private:
 		Point _pos;
-		float _radius
+		float _radius;	
 	public:
+		Sphere() {}
 		Sphere(Point , float radius);
-}
+};
 
 #endif

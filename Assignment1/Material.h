@@ -11,6 +11,7 @@ class Material {
 		float _refr_index;
 
 	public:
+		Material() {}
 		Material(float r, float g, float b, float Kd, float Ks, float shine, float T, float refr_index);
 };
 

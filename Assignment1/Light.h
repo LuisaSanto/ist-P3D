@@ -10,6 +10,7 @@ class Light {
 		float _r, _g, _b;
 
 	public:
+		Light() {}
 		Light(Point pos, float r, float g, float b);
 };
 
