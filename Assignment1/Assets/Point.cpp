@@ -1,6 +1,6 @@
 #include "Point.h"
 
-Point::Point(double x, double y, double z) {
+Point::Point(float x, float y, float z) {
         xval = x;
         yval = y;
         zval = z;
@@ -8,11 +8,15 @@ Point::Point(double x, double y, double z) {
 
 
 // Distance to another point.  Pythagorean thm.
-double Point::dist(Point other) {
-    double xd = xval - other.xval;
-    double yd = yval - other.yval;
-    double zd = zval - other.zval;
+float Point::dist(Point other) {
+    float xd = xval - other.xval;
+    float yd = yval - other.yval;
+    float zd = zval - other.zval;
     return sqrt(xd*xd + yd*yd + zd*zd);
+}
+
+float Point::norm() {
+    return sqrt(xval*xval + yval*yval + zval*zval);
 }
 
 // Add or subtract two points.
@@ -24,8 +28,24 @@ Point Point::sub(Point b) {
 }
 
 // Move the existing point.
-void Point::move(double a, double b, double c) {
+void Point::move(float a, float b, float c) {
     xval += a;
     yval += b;
     zval += c;
+}
+
+// Cross Product
+Point Point::cross(Point b) {
+    float x, y, z;
+    x = yval * b.zval - zval * b.yval;
+    y = xval * b.zval - zval * b.xval;
+    z = xval * b.yval - yval * b.xval;
+    return Point(x, y, z); 
+}
+
+//Print point
+void Point::print() {
+    cout << "x: " << xval << endl;
+    cout << "y: " << yval << endl;
+    cout << "z: " << zval << endl;
 }

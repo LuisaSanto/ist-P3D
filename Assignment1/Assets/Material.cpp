@@ -12,3 +12,16 @@ Material::Material (float r, float g, float b,
 	_T = T;
 	_refr_index = refr_index;
 } 
+
+void Material::print() {
+	cout << "======== Material Info =======" << endl;
+	cout << "r color: " << _r << endl;
+	cout << "g color: " << _g << endl;
+	cout << "b color: " << _b << endl;
+	cout << "Diffuse component: " << _Kd << endl;
+	cout << "Specular component: " << _Ks << endl;
+	cout << "Shine: " << _shine << endl; 
+	cout << "Transmittance: " << _T << endl;
+	cout << "Refaction index: " << _refr_index << endl;
+
+}

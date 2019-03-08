@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -35,16 +36,32 @@ class Scene {
 		//Constructor
 		Scene();
 
+		//Getters
+		vector<float> getBgColor() { return bgColor; }
+		Camera getCamera() { return camera; }
+		vector<Material> getMaterials() { return materials; }
+		vector<Light> getLights() { return lights; }
+		vector<Sphere> getSpheres() { return spheres; }
+		vector<Point> getPoints() { return points; }
 
 
-		//
+
+		//Parsing
 		void parse_nff(string fp);
-		void do_camera(string line);
-		void do_cylinder(string line);
-		void do_light(string line);
-		void do_material(string line);
-		void do_sphere(string line);
-		void do_point(string line);
+		void do_background(stringstream& line);
+		void do_camera(stringstream& line);
+		void do_cylinder(stringstream& line);
+		void do_light(stringstream& line);
+		void do_material(stringstream& line);
+		void do_sphere(stringstream& line);
+		void do_point(stringstream& line);
+
+
+		//Auxiliar Methods
+		float get_float(stringstream& line);
+		Point create_Point(stringstream& line);
+
+		void print();
 };
 
 #endif

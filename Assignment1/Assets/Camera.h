@@ -3,6 +3,10 @@
 
 #include "Point.h"
 
+#include <math.h>
+
+using namespace std;
+
 //Class to represent a Camera
 class Camera {
 	private:
@@ -12,12 +16,31 @@ class Camera {
 		int _ResX, _ResY;
 
 		float _w, _h;
-		Point _xe, _ye, _ze; //??
+		Point _xe, _ye, _ze;
 
 
 	public:
+		//Constructors
 		Camera() {}
-		Camera(Point eye, Point at, Point up, double fovy, double near, double far, int ResX, int ResY);
+		Camera(Point eye, Point at, Point up, int angle, float hither, int ResX, int ResY);
+
+		//Getters
+
+		Point getEye() { return _eye; }
+		Point getAt() { return _at; }
+		Point getUp() { return _up; }
+		float getFovy() { return _fovy; }
+		float getNear() { return _near; }
+		float getFar() { return _far; }
+		float getResX() { return _ResX; }
+		float getResY() { return _ResY; }
+		float getWidth() { return _w; }
+		float getHeight() { return _h; }
+		Point getXe() { return _xe; }
+		Point getYe() { return _ye; }
+		Point getZe() { return _ze; }
+
+		void print();
 };
 
 #endif

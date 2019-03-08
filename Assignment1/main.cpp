@@ -15,5 +15,6 @@ int main (int argc, char* argv[])
     Scene scene;
     //cout << argv[1] << endl;
     scene.parse_nff(argv[1]);
+    scene.print();
     return 0;
 }
