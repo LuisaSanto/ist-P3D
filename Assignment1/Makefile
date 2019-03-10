@@ -2,12 +2,15 @@ CC=g++ -std=c++11
 
 CFLAGS=-c
 
-all: Point.o Camera.o Light.o Material.o Sphere.o Cylinder.o Scene.o main.o
-	$(CC) Point.o Camera.o Light.o Material.o Sphere.o Cylinder.o Scene.o main.o -o main
+all: Point.o Ray.o Camera.o Light.o Material.o Sphere.o Cylinder.o Scene.o main.o
+	$(CC) Point.o Ray.o Camera.o Light.o Material.o Sphere.o Cylinder.o Scene.o main.o -o main
 
 
 Point.o: Assets/Point.cpp
 	$(CC) $(CFLAGS) Assets/Point.cpp
+
+Ray.o: Assets/Ray.cpp
+	$(CC) $(CFLAGS) Assets/Ray.cpp
 
 Camera.o: Assets/Camera.cpp
 	$(CC) $(CFLAGS) Assets/Camera.cpp
