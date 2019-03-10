@@ -25,7 +25,7 @@ typedef std::vector<Sphere> spheres;*/
 class Scene {
 	private:
 		vector<float> bgColor;
-		Camera camera;
+		Camera _camera;
 		vector<Material> materials;
 		vector<Light> lights;
 		vector<Sphere> spheres;
@@ -38,11 +38,19 @@ class Scene {
 
 		//Getters
 		vector<float> getBgColor() { return bgColor; }
-		Camera getCamera() { return camera; }
+		Camera getCamera() { return _camera; }
 		vector<Material> getMaterials() { return materials; }
 		vector<Light> getLights() { return lights; }
 		vector<Sphere> getSpheres() { return spheres; }
 		vector<Point> getPoints() { return points; }
+
+		//Setters
+		void addCamera(Camera camera) { _camera = camera; }
+		void addMaterial(Material material) { materials.push_back(material); }
+		void addLight(Light light) { lights.push_back(light); }
+		void addSphere(Sphere sphere) { spheres.push_back(sphere); }
+		void addCylinder(Cylinder cylinder) { cylinders.push_back(cylinder); }
+		void addPoint(Point point) { points.push_back(point); }
 
 
 

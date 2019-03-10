@@ -27,6 +27,11 @@ Point Point::sub(Point b) {
     return Point(xval - b.xval, yval - b.yval, zval - b.zval);
 }
 
+//Multiply by a float
+Point Point::multiply(float a) {
+    return Point(a * xval, a * yval, a * zval);
+}
+
 // Move the existing point.
 void Point::move(float a, float b, float c) {
     xval += a;

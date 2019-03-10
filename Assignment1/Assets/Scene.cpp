@@ -80,7 +80,8 @@ void Scene::do_camera(stringstream& line) {
 	float ResX = get_float(line);
 	float ResY = get_float(line);
 
-	camera = Camera(from, at, up, angle, hither, ResX, ResY);
+	Camera camera = Camera(from, at, up, angle, hither, ResX, ResY);
+	addCamera(camera);
 }
 
 void Scene::do_light(stringstream& line) {
@@ -97,7 +98,7 @@ void Scene::do_light(stringstream& line) {
 
 	//Create Light
 	Light l = Light(p, r, g, b);
-	lights.push_back(l);
+	addLight(l);
 }
 
 void Scene::do_material(stringstream& line) {
@@ -116,7 +117,7 @@ void Scene::do_material(stringstream& line) {
 
 	//Create Light
 	Material m = Material (r, g, b, Kd, Ks, shine, T, refr_index);
-	materials.push_back(m);
+	addMaterial(m);
 }
 
 void Scene::do_sphere(stringstream& line) {
@@ -130,10 +131,14 @@ void Scene::do_sphere(stringstream& line) {
 
 	radius = get_float(line);
 
+	//Get material
+
+	Material material = materials.back();
+
 
 	//Create Sphere
-	Sphere s = Sphere(p, radius);
-	spheres.push_back(s);
+	Sphere s = Sphere(p, radius, material);
+	addSphere(s);
 }
 
 void Scene::do_point(stringstream& line) {
@@ -163,17 +168,17 @@ Point Scene::create_Point(stringstream& line) {
 }
 
 void Scene::print() {
-	camera.print();
+	getCamera().print();
 	//cout << materials.size() << endl;
-	for (auto value : materials) {
+	for (auto value : getMaterials()) {
 		value.print();
 	}
-	for (auto value : lights) {
+	for (auto value : getLights()) {
 		value.print();
 	}
-	for (auto value : spheres) {
+	for (auto value : getSpheres()) {
 		value.print();
-	}for (auto value : points) {
+	}for (auto value : getPoints()) {
 		value.print();
 	}
 }

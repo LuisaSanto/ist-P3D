@@ -1,8 +1,9 @@
 #include "Sphere.h"
 
-Sphere::Sphere (Point pos, float radius) {
+Sphere::Sphere (Point pos, float radius, Material material) {
 	_pos = pos;
 	_radius = radius;
+	_material = material;
 }
 
 void Sphere::print() {

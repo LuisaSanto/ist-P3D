@@ -21,9 +21,13 @@ class Point {
 	    // Distance to another point.  Pythagorean thm.
 	    float dist(Point other);
 
-	    // Add or subtract two points.
+	    // Add and subtract two Points
 	    Point add(Point b);
 	    Point sub(Point b);
+
+	    //Multiply Point by a Float
+	    Point multiply(float a);
+
 
 	    // Move the existing point.
 	    void move(float a, float b, float c);

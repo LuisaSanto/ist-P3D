@@ -56,4 +56,20 @@ void Camera::print() {
 	_ze.print();
 }
 
+Ray Camera::computePrimaryRay(float x, float y) {
+	Point origin = getEye();
+
+	//We assume the left-bottom corner of the unit square pixel??
+	//Compute direction
+
+	Point ze = getZe().multiply(-(getEye().dist(getAt())));
+	Point ye = getYe().multiply(getHeight() * (y / getResY() - 0.5));
+	Point xe = getXe().multiply(getWidth() * (x / getResX() - 0.5));  
+	
+	Point direction = ze.add(ye.add(xe)); 
+
+	return Ray(origin, direction);
+
+}
+
 	

@@ -2,6 +2,7 @@
 #define CAMERA_H
 
 #include "Point.h"
+#include "Ray.h"
 
 #include <math.h>
 
@@ -40,7 +41,11 @@ class Camera {
 		Point getYe() { return _ye; }
 		Point getZe() { return _ze; }
 
+		//Print Camera Information
 		void print();
+
+		//Compute a Primary ray
+		Ray computePrimaryRay(float x, float y);
 };
 
 #endif
