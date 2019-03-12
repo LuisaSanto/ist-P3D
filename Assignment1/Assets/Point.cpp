@@ -15,7 +15,7 @@ float Point::dist(Point other) {
     return sqrt(xd*xd + yd*yd + zd*zd);
 }
 
-float Point::norm() {
+float Point::norma() {
     return sqrt(xval*xval + yval*yval + zval*zval);
 }
 
@@ -39,6 +39,11 @@ void Point::move(float a, float b, float c) {
     zval += c;
 }
 
+//Inner Product
+float Point::inner(Point b) {
+    return xval * b.xval + yval * b.yval + zval * b.zval;
+}
+
 // Cross Product
 Point Point::cross(Point b) {
     float x, y, z;
@@ -53,4 +58,11 @@ void Point::print() {
     cout << "x: " << xval << endl;
     cout << "y: " << yval << endl;
     cout << "z: " << zval << endl;
+}
+
+void Point::normalize() {
+    float norm = norma();
+    xval = xval / norm;
+    yval = yval / norm;
+    zval = zval / norm;
 }

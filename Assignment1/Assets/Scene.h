@@ -6,6 +6,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <limits>
 
 #include "Camera.h"
 #include "Cylinder.h"
@@ -30,7 +31,7 @@ class Scene {
 		vector<Light> lights;
 		vector<Sphere> spheres;
 		vector<Cylinder> cylinders;
-		vector<Point> points;
+		vector<Point> points;   //Create plane class
 
 	public:
 		//Constructor
@@ -63,6 +64,9 @@ class Scene {
 		void do_material(stringstream& line);
 		void do_sphere(stringstream& line);
 		void do_point(stringstream& line);
+
+		//Whitted Ray-Tracing Algorithm
+		vector<float> trace(Ray ray, int depth); //Ior?
 
 
 		//Auxiliar Methods

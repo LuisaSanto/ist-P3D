@@ -32,11 +32,15 @@ class Point {
 	    // Move the existing point.
 	    void move(float a, float b, float c);
 
+
+	    // Inner Product
+	    float inner(Point b);
 	    // Cross Product
 	    Point cross(Point b);
 
 	    //norm
-	    float norm();
+	    float norma();
+	    void normalize();
 
 	    void print();
 };

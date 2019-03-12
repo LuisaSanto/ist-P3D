@@ -3,6 +3,11 @@
 
 #include "Point.h"
 #include "Material.h"
+#include "Ray.h"
+#include <math.h>
+#include <limits>
+
+using namespace std;
 
 class Sphere {
 	private:
@@ -19,6 +24,9 @@ class Sphere {
 		float getRadius() { return _radius; }
 
 		void print();
+
+		//Intersection of a ray
+		float intersectSphere(Ray ray);
 
 
 };

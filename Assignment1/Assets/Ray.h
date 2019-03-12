@@ -19,6 +19,9 @@ class Ray {
 
 		Point getOrigin() { return _origin; }
 		Point getDirection() { return _direction; }
+
+		//Get a Ray from origin to a point
+		Point pointAtParameter(float t);
 };
 
 #endif

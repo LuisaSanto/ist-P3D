@@ -3,6 +3,40 @@
 Scene::Scene() {}
 
 
+
+
+//=================Whitted Ray Tracing Algorithm============
+vector<float> Scene::trace(Ray ray, int depth) {
+	//Set the Nearest Point to infinity
+	float tNear = numeric_limits<float>::max();
+	float tNearK;
+
+	//Intersect with all spheres of the scene
+	for (auto sphere : getSpheres()) {
+		tNearK = sphere.intersectSphere(ray);
+
+		if (tNearK < tNear) {
+			tNear = tNearK;
+		}
+	}
+
+	//Intersect with all planes
+
+	//Intersect with all polygons
+	
+	//Check if tNear is infinity then return bColor
+	
+	if (tNear == numeric_limits<float>::max()) {
+		return getBgColor();
+	}
+	else {
+		Point hitPoint = ray.pointAtParameter(tNear);
+	}
+	return getBgColor();
+
+}
+
+
 //=================Parsing NFF Methods============
 void Scene::parse_nff(string fileName) {
 	
@@ -149,8 +183,6 @@ void Scene::do_point(stringstream& line) {
 		points.push_back(p);
 	}
 }
-
-
 
 //=================Auxiliar Methods============
 float Scene::get_float(stringstream& line) {

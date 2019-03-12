@@ -28,9 +28,12 @@ Camera::Camera(Point eye, Point at, Point up, int angle, float hither, int ResX,
 	_ze = Point(aux.x() / df, aux.y() / df, aux.z() / df);
 
 	//Calculate xe
-	Point cross = up.cross(_ze);
+	/*Point cross = up.cross(_ze);
 	float norm = cross.norm();
-	_xe = Point(cross.x() / norm, cross.y() / norm, cross.z() / norm);
+	_xe = Point(cross.x() / norm, cross.y() / norm, cross.z() / norm);*/
+
+	_xe = up.cross(_ze);
+	_xe.normalize();
 	
 	//Calculate ye
 	_ye = _ze.cross(_xe); 
