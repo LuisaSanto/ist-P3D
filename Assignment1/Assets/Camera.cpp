@@ -13,10 +13,10 @@ Camera::Camera(Point eye, Point at, Point up, int angle, float hither, int ResX,
 
 	//Calculate df
 	float df;
-	df = eye.dist(at);
+	df = eye.sub(at).norma();
 
 	//Calculate height
-	_h = 2 * df * tan(_fovy / 2);
+	_h = 2 * df * tan(_fovy / 2	/** M_PI / 180*/);
 
 	//Calculate width
 	_w = _h * ResX / ResY;
@@ -24,9 +24,10 @@ Camera::Camera(Point eye, Point at, Point up, int angle, float hither, int ResX,
 	//Calculate ze
 	Point aux;
 	Point _ze;
-	aux = eye.sub(at);
-	_ze = Point(aux.x() / df, aux.y() / df, aux.z() / df);
-
+	//aux = eye.sub(at);
+	//_ze = Point(aux.x() / df, aux.y() / df, aux.z() / df);
+	_ze = eye.sub(at);
+	_ze.normalize();
 	//Calculate xe
 	/*Point cross = up.cross(_ze);
 	float norm = cross.norm();
@@ -64,8 +65,9 @@ Ray Camera::computePrimaryRay(float x, float y) {
 
 	//We assume the left-bottom corner of the unit square pixel??
 	//Compute direction
-
-	Point ze = getZe().multiply(-(getEye().dist(getAt())));
+	float df;
+	df = getEye().sub(getAt()).norma();
+	Point ze = getZe().multiply(-df);
 	Point ye = getYe().multiply(getHeight() * (y / getResY() - 0.5));
 	Point xe = getXe().multiply(getWidth() * (x / getResX() - 0.5));  
 	

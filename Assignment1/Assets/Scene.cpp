@@ -14,8 +14,17 @@ vector<float> Scene::trace(Ray ray, int depth) {
 	//Intersect with all spheres of the scene
 	for (auto sphere : getSpheres()) {
 		tNearK = sphere.intersectSphere(ray);
+		//cout << "tNearK: " << tNearK << endl;
+
+		/*if (tNearK == numeric_limits<float>::max())
+			//cout << "No intersection for this sphere!" << endl;
+		else {
+			//cout << "There's an intersection!!" << endl;
+			//cout << tNearK << endl;
+		}*/
 
 		if (tNearK < tNear) {
+			cout << "Entrei!!" << endl;
 			tNear = tNearK;
 		}
 	}
@@ -27,10 +36,14 @@ vector<float> Scene::trace(Ray ray, int depth) {
 	//Check if tNear is infinity then return bColor
 	
 	if (tNear == numeric_limits<float>::max()) {
+		//cout << "Returning BG color" << endl;
 		return getBgColor();
 	}
 	else {
 		Point hitPoint = ray.pointAtParameter(tNear);
+		cout << "Returning intersection color" << endl;
+		return vector<float>(3, 0.0f); 
+	 
 	}
 	return getBgColor();
 

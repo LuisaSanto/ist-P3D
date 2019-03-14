@@ -3,6 +3,7 @@
 Ray::Ray(Point origin, Point direction) {
 	_origin = origin;
 	//Normalize vector
+	//When creating a ray it will always be normalized!
 	direction.normalize();
 	_direction = direction;
 }

@@ -17,32 +17,30 @@ float Sphere::intersectSphere(Ray ray) {
 	float tNear = numeric_limits<float>::max();
 
 	float radius = getRadius();
+	Point rayOrigin = ray.getOrigin();
+	Point rayDirection = ray.getDirection();
+	Point sphereCenter = getPosition();
 
-	float xo = ray.getOrigin().x();
-	float yo = ray.getOrigin().y();
-	float zo = ray.getOrigin().z();
-	
-	float xd = ray.getDirection().x();
-	float yd = ray.getDirection().y();
-	float zd = ray.getDirection().z();
+	//print();
 
-	float xc = getPosition().x();
-	float yc = getPosition().y();
-	float zc = getPosition().z();
+	Point L = sphereCenter.sub(rayOrigin);
 
 	//Get b
-	float b = xd * (xc - xo) + yd * (yc - yo) + zd * (zd - zo);
+	float b = rayDirection.inner(L);
 	//Get c
-	float c = pow((xc - xo), 2) + pow((yc - yo), 2) + pow((zc - zo), 2) - pow(radius, 2);
-
+	float c = L.inner(L) - pow(radius, 2);
 
 	if (c > 0 and b < 0) {
+		//cout << "c: " << c << endl;
+		//cout << "b: " << b << endl;
 		return tNear;
 	}
 
 	float r = pow(b, 2) - c;
 
 	if (r < 0) {
+		//cout << "r: " << r << endl;
+		//cout << "BUAHHHH" << endl;	
 		return tNear;
 	}
 

@@ -1,9 +1,10 @@
 CC=g++ -std=c++11
 
-CFLAGS=-c
+CFLAGS=-c 
+OPENGLFLAGS= -lglut -lGLU -lGL -lGLEW
 
 all: Point.o Ray.o Camera.o Light.o Material.o Sphere.o Cylinder.o Scene.o main.o
-	$(CC) Point.o Ray.o Camera.o Light.o Material.o Sphere.o Cylinder.o Scene.o main.o -o main
+	$(CC) Point.o Ray.o Camera.o Light.o Material.o Sphere.o Cylinder.o Scene.o main.o -o main $(OPENGLFLAGS) 
 
 
 Point.o: Assets/Point.cpp
