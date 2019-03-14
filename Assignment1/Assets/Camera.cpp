@@ -16,28 +16,28 @@ Camera::Camera(Point eye, Point at, Point up, int angle, float hither, int ResX,
 	df = eye.sub(at).norma();
 
 	//Calculate height
-	_h = 2 * df * tan(_fovy / 2	/** M_PI / 180*/);
+	_h = 2 * df * tan((_fovy / 2) * M_PI / 180);
 
 	//Calculate width
 	_w = _h * ResX / ResY;
 
 	//Calculate ze
-	Point aux;
-	Point _ze;
+	
 	//aux = eye.sub(at);
 	//_ze = Point(aux.x() / df, aux.y() / df, aux.z() / df);
-	_ze = eye.sub(at);
+	_ze = _eye.sub(at);
 	_ze.normalize();
 	//Calculate xe
 	/*Point cross = up.cross(_ze);
 	float norm = cross.norm();
 	_xe = Point(cross.x() / norm, cross.y() / norm, cross.z() / norm);*/
 
-	_xe = up.cross(_ze);
+	_xe = _up.cross(_ze);
 	_xe.normalize();
 	
 	//Calculate ye
 	_ye = _ze.cross(_xe); 
+	_ye.normalize();
 }
 
 void Camera::print() {
@@ -71,7 +71,17 @@ Ray Camera::computePrimaryRay(float x, float y) {
 	Point ye = getYe().multiply(getHeight() * (y / getResY() - 0.5));
 	Point xe = getXe().multiply(getWidth() * (x / getResX() - 0.5));  
 	
+
+	//ze.norma();
+	//ye.norma();
+	//xe.norma();
+	
 	Point direction = ze.add(ye.add(xe)); 
+
+	//float Px = (2 * ((x + 0.5) / getWidth()) - 1) * tan(getFovy() / 2 * M_PI / 180); /** imageAspectRatio*/
+	//float Py = (1 - 2 * ((y + 0.5) / getHeight())) * tan(getFovy() / 2 * M_PI / 180);
+
+	//Point direction = Point(Px, Py, -1); 
 
 	return Ray(origin, direction);
 

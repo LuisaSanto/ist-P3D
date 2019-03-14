@@ -48,7 +48,7 @@ float Point::inner(Point b) {
 Point Point::cross(Point b) {
     float x, y, z;
     x = yval * b.zval - zval * b.yval;
-    y = xval * b.zval - zval * b.xval;
+    y = zval * b.xval - xval * b.zval;
     z = xval * b.yval - yval * b.xval;
     return Point(x, y, z); 
 }

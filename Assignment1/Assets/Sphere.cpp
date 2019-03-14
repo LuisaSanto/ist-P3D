@@ -22,17 +22,22 @@ float Sphere::intersectSphere(Ray ray) {
 	Point sphereCenter = getPosition();
 
 	//print();
+	//rayDirection.print();
 
 	Point L = sphereCenter.sub(rayOrigin);
+
+	//cout << "L: " << L.inner(L) << endl;
 
 	//Get b
 	float b = rayDirection.inner(L);
 	//Get c
 	float c = L.inner(L) - pow(radius, 2);
 
+	//cout << "c: " << c << endl;
+	//cout << "b: " << b << endl;
+	
 	if (c > 0 and b < 0) {
-		//cout << "c: " << c << endl;
-		//cout << "b: " << b << endl;
+		//cout << "No Intersection!!!!!!" << endl;
 		return tNear;
 	}
 
@@ -40,7 +45,7 @@ float Sphere::intersectSphere(Ray ray) {
 
 	if (r < 0) {
 		//cout << "r: " << r << endl;
-		//cout << "BUAHHHH" << endl;	
+		//cout << "No Intersection!!" << endl;	
 		return tNear;
 	}
 

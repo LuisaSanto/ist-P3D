@@ -22,6 +22,8 @@ class Ray {
 
 		//Get a Ray from origin to a point
 		Point pointAtParameter(float t);
+
+		void print();
 };
 
 #endif

@@ -24,7 +24,7 @@ vector<float> Scene::trace(Ray ray, int depth) {
 		}*/
 
 		if (tNearK < tNear) {
-			cout << "Entrei!!" << endl;
+			//cout << "Entrei!!" << endl;
 			tNear = tNearK;
 		}
 	}

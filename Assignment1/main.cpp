@@ -225,7 +225,7 @@ void renderScene()
 		    /*YOUR 2 FUNTIONS:*/ 
 			Ray ray = scene.getCamera().computePrimaryRay(x, y);
 			vector<float> color = scene.trace(ray, 1);
-			printf("%f %f %f\n", color[0], color[1], color[2]);
+			//printf("%f %f %f\n", color[0], color[1], color[2]);
 			vertices[index_pos++]= (float)x;
 			vertices[index_pos++]= (float)y;
 			colors[index_col++]= (float)color[0];
