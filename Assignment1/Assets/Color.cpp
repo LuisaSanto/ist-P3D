@@ -10,6 +10,10 @@ Color::Color(float red, float green, float blue) {
 Color Color::add(Color c) {
     return Color(r() + c.r(), g() + c.g(), b() + c.b());
 }
+
+Color Color::mul(float t) {
+	return Color(r() * t, g() * t, b() * t);
+}
 /*Point Point::sub(Point b) {
     return Point(xval - b.xval, yval - b.yval, zval - b.zval);
 }*/

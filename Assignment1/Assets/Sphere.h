@@ -13,6 +13,7 @@ class Sphere {
 	private:
 		Point _pos;
 		float _radius;
+		Point _normal;
 		Material _material;	
 	public:
 		//Constructors
@@ -23,11 +24,14 @@ class Sphere {
 		Point getPosition() { return _pos; }
 		float getRadius() { return _radius; }
 		Material getMaterial() { return _material; }
+		Point getNormal() { return _normal; }
 
 		void print();
 
 		//Intersection of a ray
 		float intersectSphere(Ray ray);
+
+		void setNormalIntersectionPoint(Point point);
 
 
 };

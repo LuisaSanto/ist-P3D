@@ -23,6 +23,7 @@ class Color {
 
 	    // Add and subtract color
 	    Color add(Color c);
+	    Color mul(float t);
 	    //Point sub(Point b);
 
 	    //Multiply Point by a Float

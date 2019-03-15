@@ -12,6 +12,10 @@ void Sphere::print() {
 	cout << "radius: " << _radius << endl;
 }
 
+void Sphere::setNormalIntersectionPoint(Point p) {
+	_normal = p.sub(getPosition()).norma();
+}
+
 float Sphere::intersectSphere(Ray ray) {
 	//Declare variables
 	float tNear = numeric_limits<float>::max();
@@ -56,6 +60,8 @@ float Sphere::intersectSphere(Ray ray) {
 	else {
 		t = b + sqrt(r);
 	}
+
+	setNormalIntersectionPoint(ray.pointAtParameter(t));
 
 	return t;
 

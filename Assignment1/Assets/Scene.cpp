@@ -13,7 +13,10 @@ Color Scene::trace(Ray ray, int depth) {
 	float tNearK;
 	float k = 0;
 
-	//Save the material of the nearest object intersected by the ray
+	//Save the nearest object intersected by the ray and what type of object
+	Sphere s;
+	Plane p;
+	int object; //0 for sphere, 1 for polygon and 2 for plane;
 	Material material;
 
 	//Intersect with all spheres of the scene
@@ -22,7 +25,10 @@ Color Scene::trace(Ray ray, int depth) {
 		if (tNearK < tNear) {
 			//cout << "Entrei!!" << endl;
 			tNear = tNearK;
-			material = sphere.getMaterial();
+			//material = sphere.getMaterial();
+			s = sphere;
+			material = s.getMaterial();
+			object = 0;
 		}
 	}
 
@@ -33,7 +39,10 @@ Color Scene::trace(Ray ray, int depth) {
 		if (tNearK < tNear) {
 			tNear = tNearK;
 			k = 1;
-			material = plane.getMaterial();
+			//material = plane.getMaterial();
+			p = plane;
+			material = p.getMaterial();
+			object = 1;
 		}
 	}
 
@@ -47,19 +56,40 @@ Color Scene::trace(Ray ray, int depth) {
 	}
 	else {
 		//Color 
-		Color colorAmbient = Color(0.0f, 0.0f, 0.0f);
+		Color colorFinal = Color(0.0f, 0.0f, 0.0f);
 
 
 		//Get the hitPoint from the Nearest Intersection tNear
 		Point hitPoint = ray.pointAtParameter(tNear);
 		
 		//Get the Normal at that Hit Point
+		Point normal;
+		if (object == 0) //Sphere 
+			normal = s.getNormal();
+		else if (object == 1) //Plane
+			normal = p.getNormal();
+
 
 		//Local Color and illumination
 
-		/*for (Light l : getLights()) {
-			Point L =
-		}*/
+		for (Light l : getLights()) {
+			Point L = l.getPos().sub(hitPoint).norma();
+			if (L.inner(normal) > 0) {
+				//Trace Shadow Ray
+				Color diffuseColor = l.getColor().mul(material.getDiffuse() * L.inner(normal));
+				colorFinal = colorFinal.add(diffuseColor);
+			}
+		}
+
+		if (depth >= 3) { //maxDepth
+			return colorFinal;
+		}
+
+		//Reflective object
+
+		//Translucid object
+
+		return colorFinal;
 
 		
 
@@ -79,17 +109,16 @@ Color Scene::trace(Ray ray, int depth) {
 
 
 
-		if (k == 0)
+		/*if (k == 0)
 			return Color(0.0f, 0.0f, 0.0f);
 		else {
-			return Color(0.0f, 1.0f, 0.0f);
+			return Color(0.0f, 1.0f, 0.0f);*/
 		}
 
 	 
-	}
-	return getBgColor();
-
 }
+	//return getBgColor();
+
 
 
 //=================Parsing NFF Methods============
