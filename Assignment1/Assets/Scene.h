@@ -14,6 +14,7 @@
 #include "Material.h"
 #include "Point.h"
 #include "Sphere.h"
+#include "Plane.h"
 
 using namespace std;
 
@@ -31,6 +32,7 @@ class Scene {
 		vector<Light> lights;
 		vector<Sphere> spheres;
 		vector<Cylinder> cylinders;
+		vector<Plane> planes;
 		vector<Point> points;   //Create plane class
 
 	public:
@@ -43,6 +45,7 @@ class Scene {
 		vector<Material> getMaterials() { return materials; }
 		vector<Light> getLights() { return lights; }
 		vector<Sphere> getSpheres() { return spheres; }
+		vector<Plane> getPlanes() { return planes; }
 		vector<Point> getPoints() { return points; }
 
 		//Setters
@@ -52,6 +55,7 @@ class Scene {
 		void addSphere(Sphere sphere) { spheres.push_back(sphere); }
 		void addCylinder(Cylinder cylinder) { cylinders.push_back(cylinder); }
 		void addPoint(Point point) { points.push_back(point); }
+		void addPlane(Plane plane) { planes.push_back(plane); }
 
 
 
@@ -64,6 +68,7 @@ class Scene {
 		void do_material(stringstream& line);
 		void do_sphere(stringstream& line);
 		void do_point(stringstream& line);
+		void do_plane(stringstream& line);
 
 		//Whitted Ray-Tracing Algorithm
 		vector<float> trace(Ray ray, int depth); //Ior?

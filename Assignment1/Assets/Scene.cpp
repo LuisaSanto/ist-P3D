@@ -1,4 +1,5 @@
 #include "Scene.h"
+#include <string>
 
 Scene::Scene() {}
 
@@ -30,6 +31,13 @@ vector<float> Scene::trace(Ray ray, int depth) {
 	}
 
 	//Intersect with all planes
+	/*for (auto plane : getPlanes()) {
+		tNearK = plane.intersectPlane(ray);
+		cout << tNearK << endl;
+		if (tNearK < tNear) {
+			tNear = tNearK;
+		}
+	}*/
 
 	//Intersect with all polygons
 	
@@ -41,7 +49,7 @@ vector<float> Scene::trace(Ray ray, int depth) {
 	}
 	else {
 		Point hitPoint = ray.pointAtParameter(tNear);
-		cout << "Returning intersection color" << endl;
+		//cout << "Returning intersection color" << endl;
 		return vector<float>(3, 0.0f); 
 	 
 	}
@@ -93,7 +101,15 @@ void Scene::parse_nff(string fileName) {
 			do_sphere(lineContent);
 		}
 		else if (token.compare("pl") == 0) {
-			do_point(lineContent);
+			do_plane(lineContent);
+		}
+		else if (token.compare("p") == 0) {
+			string auxLine = lineContent.str();
+			int auxNumber = stoi(auxLine.substr(auxLine.find(' ')+ 1,2));
+			for (int i = 0; i < auxNumber; i++) {
+				getline(file, nextLine);
+			}
+			//doPolygon(nextLine);
 		}
 	}
 	file.close();
@@ -188,6 +204,25 @@ void Scene::do_sphere(stringstream& line) {
 	addSphere(s);
 }
 
+void Scene::do_plane(stringstream& line) {
+
+	//Create Points
+	
+	Point p1 = create_Point(line);
+	Point p2 = create_Point(line);
+	Point p3 = create_Point(line);
+	
+
+	//Get material
+
+	Material material = materials.back();
+
+
+	//Create Plane
+	Plane plane = Plane(p1, p2, p3, material);
+	addPlane(plane);
+}
+
 void Scene::do_point(stringstream& line) {
 
 	//Create Point
@@ -222,6 +257,8 @@ void Scene::print() {
 		value.print();
 	}
 	for (auto value : getSpheres()) {
+		value.print();
+	}for (auto value : getPlanes()) {
 		value.print();
 	}for (auto value : getPoints()) {
 		value.print();
