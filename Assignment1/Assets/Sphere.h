@@ -22,6 +22,7 @@ class Sphere {
 		//Getters
 		Point getPosition() { return _pos; }
 		float getRadius() { return _radius; }
+		Material getMaterial() { return _material; }
 
 		void print();
 

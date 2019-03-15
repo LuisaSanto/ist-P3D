@@ -4,12 +4,12 @@
 #include <iostream>
 using namespace std;
 
+#include "Color.h"
+
 //Class to represent a Material
 class Material {
 	private:
-		float _r;
-		float _g;
-		float _b;
+		Color _color;
 		float _Kd, _Ks;
 		float _shine;
 		float _T;
@@ -18,12 +18,10 @@ class Material {
 	public:
 		//Constructors
 		Material() {}
-		Material(float r, float g, float b, float Kd, float Ks, float shine, float T, float refr_index);
+		Material(Color color, float Kd, float Ks, float shine, float T, float refr_index);
 
 		//Getters
-		float getRedColor() { return _r; } 
-		float getGreenColor() { return _g; } 
-		float getBlueColor() { return _b; } 
+		Color getColor() { return _color; }
 		float getDiffuse() { return _Kd; }
 		float getSpecular() { return _Ks; }
 		float getShine() { return _shine; }

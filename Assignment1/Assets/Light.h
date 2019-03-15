@@ -2,6 +2,7 @@
 #define LIGHT_H
 
 #include "Point.h"
+#include "Color.h"
 
 using namespace std;
 
@@ -9,19 +10,15 @@ using namespace std;
 class Light {
 	private:
 		Point _pos;
-		float _r;
-		float _g;
-		float _b;
+		Color _color;
 
 	public:
 		Light() {}
-		Light(Point pos, float r, float g, float b);
+		Light(Point pos, Color color);
 
 		//Getters
 		Point getPos() { return _pos; }
-		float getRedColor() { return _r; } 
-		float getGreenColor() { return _g; } 
-		float getBlueColor() { return _b; } 
+		Color getColor() {return _color; }
 
 		void print();
 };

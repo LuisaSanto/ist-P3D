@@ -9,6 +9,7 @@
 #include <limits>
 
 #include "Camera.h"
+#include "Color.h"
 #include "Cylinder.h"
 #include "Light.h"
 #include "Material.h"
@@ -26,7 +27,7 @@ typedef std::vector<Sphere> spheres;*/
 
 class Scene {
 	private:
-		vector<float> bgColor;
+		Color _bgColor;
 		Camera _camera;
 		vector<Material> materials;
 		vector<Light> lights;
@@ -40,7 +41,7 @@ class Scene {
 		Scene();
 
 		//Getters
-		vector<float> getBgColor() { return bgColor; }
+		Color getBgColor() { return _bgColor; }
 		Camera getCamera() { return _camera; }
 		vector<Material> getMaterials() { return materials; }
 		vector<Light> getLights() { return lights; }
@@ -49,6 +50,7 @@ class Scene {
 		vector<Point> getPoints() { return points; }
 
 		//Setters
+		void addBgColor(Color color) { _bgColor = color; }
 		void addCamera(Camera camera) { _camera = camera; }
 		void addMaterial(Material material) { materials.push_back(material); }
 		void addLight(Light light) { lights.push_back(light); }
@@ -71,7 +73,7 @@ class Scene {
 		void do_plane(stringstream& line);
 
 		//Whitted Ray-Tracing Algorithm
-		vector<float> trace(Ray ray, int depth); //Ior?
+		Color trace(Ray ray, int depth); //Ior?
 
 
 		//Auxiliar Methods

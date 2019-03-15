@@ -20,6 +20,7 @@
 #include <GL/freeglut.h>
 #include "Assets/Scene.h"
 #include "Assets/Ray.h"
+#include "Assets/Color.h"
 
 //#include "scene.h"
 
@@ -224,13 +225,13 @@ void renderScene()
 		
 		    /*YOUR 2 FUNTIONS:*/ 
 			Ray ray = scene.getCamera().computePrimaryRay(x, y);
-			vector<float> color = scene.trace(ray, 1);
+			Color color = scene.trace(ray, 1);
 			//printf("%f %f %f\n", color[0], color[1], color[2]);
 			vertices[index_pos++]= (float)x;
 			vertices[index_pos++]= (float)y;
-			colors[index_col++]= (float)color[0];
-			colors[index_col++]= (float)color[1];
-			colors[index_col++]= (float)color[2];
+			colors[index_col++]= color.r();
+			colors[index_col++]= color.g();
+			colors[index_col++]= color.b();
 			/*colors[index_col++]= 1.0f;
 			colors[index_col++]= 0.0f;
 			colors[index_col++]= 0.0f;*/	

@@ -23,6 +23,7 @@ class Plane {
 
 		//Getters
 		Point getNormal() { return _normal; }
+		Material getMaterial() { return _material; }
 
 		void print();
 

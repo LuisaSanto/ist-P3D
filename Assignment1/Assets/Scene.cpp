@@ -7,37 +7,35 @@ Scene::Scene() {}
 
 
 //=================Whitted Ray Tracing Algorithm============
-vector<float> Scene::trace(Ray ray, int depth) {
+Color Scene::trace(Ray ray, int depth) {
 	//Set the Nearest Point to infinity
 	float tNear = numeric_limits<float>::max();
 	float tNearK;
+	float k = 0;
+
+	//Save the material of the nearest object intersected by the ray
+	Material material;
 
 	//Intersect with all spheres of the scene
-	for (auto sphere : getSpheres()) {
+	for (Sphere sphere : getSpheres()) {
 		tNearK = sphere.intersectSphere(ray);
-		//cout << "tNearK: " << tNearK << endl;
-
-		/*if (tNearK == numeric_limits<float>::max())
-			//cout << "No intersection for this sphere!" << endl;
-		else {
-			//cout << "There's an intersection!!" << endl;
-			//cout << tNearK << endl;
-		}*/
-
 		if (tNearK < tNear) {
 			//cout << "Entrei!!" << endl;
 			tNear = tNearK;
+			material = sphere.getMaterial();
 		}
 	}
 
-	//Intersect with all planes
-	/*for (auto plane : getPlanes()) {
+	//Intersect with all planes of the scene
+	for (Plane plane : getPlanes()) {
 		tNearK = plane.intersectPlane(ray);
-		cout << tNearK << endl;
+		//cout << tNearK << endl;
 		if (tNearK < tNear) {
 			tNear = tNearK;
+			k = 1;
+			material = plane.getMaterial();
 		}
-	}*/
+	}
 
 	//Intersect with all polygons
 	
@@ -48,9 +46,45 @@ vector<float> Scene::trace(Ray ray, int depth) {
 		return getBgColor();
 	}
 	else {
+		//Color 
+		Color colorAmbient = Color(0.0f, 0.0f, 0.0f);
+
+
+		//Get the hitPoint from the Nearest Intersection tNear
 		Point hitPoint = ray.pointAtParameter(tNear);
-		//cout << "Returning intersection color" << endl;
-		return vector<float>(3, 0.0f); 
+		
+		//Get the Normal at that Hit Point
+
+		//Local Color and illumination
+
+		/*for (Light l : getLights()) {
+			Point L =
+		}*/
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		if (k == 0)
+			return Color(0.0f, 0.0f, 0.0f);
+		else {
+			return Color(0.0f, 1.0f, 0.0f);
+		}
+
 	 
 	}
 	return getBgColor();
@@ -116,12 +150,16 @@ void Scene::parse_nff(string fileName) {
 }
 
 void Scene::do_background(stringstream& line) {
-	string token;
+	//string token;
 
-	for (int i = 0; i < 3; i++) {
-		getline(line, token, ' ');
-		bgColor.push_back(stof(token));
-	}
+	//Get rgb
+	float r, g, b;
+	r = get_float(line);
+	g = get_float(line);
+	b = get_float(line);
+
+	Color color = Color(r, g, b);
+	addBgColor(color);
 }
 
 void Scene::do_camera(stringstream& line) {
@@ -159,8 +197,10 @@ void Scene::do_light(stringstream& line) {
 	g = get_float(line);
 	b = get_float(line);
 
+	Color color = Color(r, g, b);
+
 	//Create Light
-	Light l = Light(p, r, g, b);
+	Light l = Light(p, color);
 	addLight(l);
 }
 
@@ -172,6 +212,7 @@ void Scene::do_material(stringstream& line) {
 	r = get_float(line);
 	g = get_float(line);
 	b = get_float(line);
+	Color color = Color(r, g, b);
 	Kd = get_float(line);
 	Ks = get_float(line);
 	shine = get_float(line);
@@ -179,7 +220,7 @@ void Scene::do_material(stringstream& line) {
 	refr_index = get_float(line);
 
 	//Create Light
-	Material m = Material (r, g, b, Kd, Ks, shine, T, refr_index);
+	Material m = Material (color, Kd, Ks, shine, T, refr_index);
 	addMaterial(m);
 }
 
