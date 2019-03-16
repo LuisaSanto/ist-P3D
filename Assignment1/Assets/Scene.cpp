@@ -9,66 +9,34 @@ Scene::Scene() {}
 //=================Whitted Ray Tracing Algorithm============
 Color Scene::trace(Ray ray, int depth) {
 	//Set the Nearest Point to infinity
-	float tNear = numeric_limits<float>::max();
-	float tNearK;
-	float k = 0;
+	float tNear = INFINITE;
+
 
 	//Save the nearest object intersected by the ray and what type of object
-	Sphere s;
-	Plane p;
-	int object; //0 for sphere, 1 for polygon and 2 for plane;
-	Material material;
+	tuple<float, Material, Point> nearestObject;
 
-	//Intersect with all spheres of the scene
-	for (Sphere sphere : getSpheres()) {
-		tNearK = sphere.intersectSphere(ray);
-		if (tNearK < tNear) {
-			//cout << "Entrei!!" << endl;
-			tNear = tNearK;
-			//material = sphere.getMaterial();
-			s = sphere;
-			material = s.getMaterial();
-			object = 0;
-		}
-	}
 
-	//Intersect with all planes of the scene
-	for (Plane plane : getPlanes()) {
-		tNearK = plane.intersectPlane(ray);
-		//cout << tNearK << endl;
-		if (tNearK < tNear) {
-			tNear = tNearK;
-			k = 1;
-			//material = plane.getMaterial();
-			p = plane;
-			material = p.getMaterial();
-			object = 1;
-		}
-	}
 
-	//Intersect with all polygons
+	//Get some info about the closest intersection Object
+	//Returns Tuple with closest Intersection, closest object's material and closest object's normal;
+	nearestObject = getClosestIntersection(ray, tNear);
 	
-	//Check if tNear is infinity then return bColor
+
+	//Check if there isn't nearest object then return bColor
 	
-	if (tNear == numeric_limits<float>::max()) {
-		//cout << "Returning BG color" << endl;
+	if (get<0>(nearestObject) == INFINITE) {
 		return getBgColor();
 	}
 	else {
-		//Color 
-		Color colorFinal = Color(0.0f, 0.0f, 0.0f);
+		Material material = get<1>(nearestObject);
+		Color colorFinal = material.getColor();
 
 
 		//Get the hitPoint from the Nearest Intersection tNear
-		Point hitPoint = ray.pointAtParameter(tNear);
+		Point hitPoint = ray.pointAtParameter(get<0>(nearestObject));
 		
 		//Get the Normal at that Hit Point
-		Point normal;
-		if (object == 0) //Sphere 
-			normal = s.getNormal();
-		else if (object == 1) //Plane
-			normal = p.getNormal();
-
+		Point normal = get<2>(nearestObject);
 
 		//Local Color and illumination
 
@@ -332,5 +300,51 @@ void Scene::print() {
 		value.print();
 	}for (auto value : getPoints()) {
 		value.print();
+	}
+}
+
+tuple<float, Material, Point> Scene::getClosestIntersection(Ray ray, float tNear) {
+	int closestObject;
+	Sphere closestSphere;
+	Plane closestPlane;
+	float tNearK;
+
+	//Intersect with all spheres of the scene
+	for (Sphere sphere : getSpheres()) {
+		tNearK = sphere.intersectSphere(ray);
+		if (tNearK < tNear) {
+			tNear = tNearK;
+			closestSphere = sphere;
+			closestObject = 0;
+		}
+	}
+
+	//Intersect with all planes of the scene
+	for (Plane plane : getPlanes()) {
+		tNearK = plane.intersectPlane(ray);
+		//cout << tNearK << endl;
+		if (tNearK < tNear) {
+			tNear = tNearK;
+			closestPlane = plane;
+			closestObject = 1;
+		}
+	}
+
+
+	//Intersect with all polygons
+
+	//======TO DO======
+
+	if (tNear != INFINITE) {
+		if (closestObject == 0) { //closestObject is a sphere
+			return make_tuple(tNear, closestSphere.getMaterial(), closestSphere.getNormal());
+		} 
+		else if (closestObject == 1) { //closestObjcect is a plane
+			return make_tuple(tNear, closestPlane.getMaterial(), closestPlane.getNormal());
+		}
+		// TO DO: else if for polygons
+	}
+	else {
+		return make_tuple(tNear, Material(), Point());
 	}
 }

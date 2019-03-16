@@ -27,6 +27,7 @@ class Point {
 
 	    //Multiply Point by a Float
 	    Point multiply(float a);
+	    Point divide(float a);
 
 
 	    // Move the existing point.

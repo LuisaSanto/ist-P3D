@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include <limits>
+#include <tuple>
 
 #include "Camera.h"
 #include "Color.h"
@@ -16,6 +17,8 @@
 #include "Point.h"
 #include "Sphere.h"
 #include "Plane.h"
+
+#define INFINITE numeric_limits<float>::max()
 
 using namespace std;
 
@@ -79,6 +82,7 @@ class Scene {
 		//Auxiliar Methods
 		float get_float(stringstream& line);
 		Point create_Point(stringstream& line);
+		tuple<float, Material, Point> getClosestIntersection(Ray ray, float tNear);
 
 		void print();
 };

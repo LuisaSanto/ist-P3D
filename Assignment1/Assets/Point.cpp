@@ -32,6 +32,11 @@ Point Point::multiply(float a) {
     return Point(a * xval, a * yval, a * zval);
 }
 
+//Divide by a float
+Point Point::divide(float a) {
+    return Point(xval / a, yval / a, zval / a);
+}
+
 // Move the existing point.
 void Point::move(float a, float b, float c) {
     xval += a;
