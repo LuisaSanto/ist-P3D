@@ -161,10 +161,11 @@ void Scene::parse_nff(string fileName) {
 		if (token.compare("b") == 0) {
 			do_background(lineContent);
 		}
-		else if (token.compare("v") == 0) {	
+		else if (token.compare("from") == 0) {	
 			//Save the next 6 lines of the file
 			cout << "Entrei" << endl;
-			for (int i = 0; i < 6; i++) {
+			auxLine << nextLine;
+			for (int i = 0; i < 5; i++) {
 				getline(file, nextLine);
 				auxLine << nextLine;
 				auxLine << '\n';
