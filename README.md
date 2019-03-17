@@ -7,7 +7,8 @@ Functions to be implemented:
 Done, works for the exercise 1 nff file. Still need to add condition for cone/cylinder and polygonal patch
 
 ### PrimaryRay
-Done, not tested. In the file Camera.cpp.
+Done
 
 ### RayTracer
-Not yet implemented
+Almost done! The refraction part on the Global Illumination still needs to be done
+
