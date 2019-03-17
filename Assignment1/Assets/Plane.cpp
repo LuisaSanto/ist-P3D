@@ -7,6 +7,7 @@ Plane::Plane (Point p1, Point p2, Point p3, Material material) {
 	_material = material;
 
 	_normal = (p2.sub(p1)).cross((p3.sub(p1)));
+	_normal.normalize();
 }
 
 void Plane::print() {

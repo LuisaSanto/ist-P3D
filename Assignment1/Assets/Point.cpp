@@ -71,7 +71,9 @@ void Point::print() {
 
 void Point::normalize() {
     float norm = norma();
-    xval = xval / norm;
-    yval = yval / norm;
-    zval = zval / norm;
+    /*if (norm > 0) { */
+        xval = xval / norm;
+        yval = yval / norm;
+        zval = zval / norm;
+    //}
 }

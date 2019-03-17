@@ -225,7 +225,7 @@ void renderScene()
 		
 		    /*YOUR 2 FUNTIONS:*/ 
 			Ray ray = scene.getCamera().computePrimaryRay(x, y);
-			Color color = scene.trace(ray, 1);
+			Color color = scene.trace(ray, 0);
 			//printf("%f %f %f\n", color[0], color[1], color[2]);
 			vertices[index_pos++]= (float)x;
 			vertices[index_pos++]= (float)y;
@@ -353,8 +353,8 @@ int main(int argc, char* argv[])
 	RES_X = scene.getCamera().getResX();
 	RES_Y = scene.getCamera().getResY(); 
 	
-    /*RES_Y = 512;
-    RES_X = 512;*/
+    //RES_Y = 512;
+    //RES_X = 512;
 	if(draw_mode == 0) { // desenhar o conteúdo da janela ponto a ponto
 		size_vertices = 2*sizeof(float);
 		size_colors = 3*sizeof(float);

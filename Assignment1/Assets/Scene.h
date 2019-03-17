@@ -82,7 +82,7 @@ class Scene {
 		//Auxiliar Methods
 		float get_float(stringstream& line);
 		Point create_Point(stringstream& line);
-		tuple<float, Material, Point> getClosestIntersection(Ray ray, float tNear);
+		tuple<float, Material, Point> getClosestIntersection(Ray ray, float tNear, int i);
 
 		void print();
 };
