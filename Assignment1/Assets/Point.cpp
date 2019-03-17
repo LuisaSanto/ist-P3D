@@ -32,6 +32,10 @@ Point Point::multiply(float a) {
     return Point(a * xval, a * yval, a * zval);
 }
 
+Point Point::mul(Point b) {
+    return Point(xval * b.xval, yval * b.yval, zval * b.zval);
+}
+
 //Divide by a float
 Point Point::divide(float a) {
     return Point(xval / a, yval / a, zval / a);

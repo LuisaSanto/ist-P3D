@@ -37,15 +37,37 @@ Color Scene::trace(Ray ray, int depth) {
 		
 		//Get the Normal at that Hit Point
 		Point normal = get<2>(nearestObject);
+		normal.print();
 
 		//Local Color and illumination
 
 		for (Light l : getLights()) {
-			Point L = l.getPos().sub(hitPoint).norma();
+			Point L = l.getPos().sub(hitPoint);
+			//Point L = hitPoint.sub(l.getPos());
+			L.normalize();
 			if (L.inner(normal) > 0) {
 				//Trace Shadow Ray
-				Color diffuseColor = l.getColor().mul(material.getDiffuse() * L.inner(normal));
-				colorFinal = colorFinal.add(diffuseColor);
+				Ray shadowRay = Ray(hitPoint, L);
+				tuple<float, Material, Point> shadow = getClosestIntersection(shadowRay, tNear);
+				if (get<0>(shadow) != INFINITE) {
+					//cout << "Entrei!" << endl;
+					
+					//Diffuse color
+					Color diffuseColor = l.getColor().mul(material.getDiffuse() * L.inner(normal));
+					
+
+					/*//Specular color
+					Point r = normal.multiply(L.inner(normal));
+					r = r.multiply(2);
+					r = r.sub(L);
+					r.normalize();
+
+					Color specularColor = l.getColor().mul(material.getSpecular() * r.inner(ray.getDirection()));*/
+
+
+					colorFinal = colorFinal.add(diffuseColor)/*.add(specularColor)*/;
+				}
+				
 			}
 		}
 

@@ -24,6 +24,7 @@ class Point {
 	    // Add and subtract two Points
 	    Point add(Point b);
 	    Point sub(Point b);
+	    Point mul(Point b);
 
 	    //Multiply Point by a Float
 	    Point multiply(float a);
