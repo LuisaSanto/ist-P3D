@@ -13,8 +13,8 @@ class Sphere {
 	private:
 		Point _pos;
 		float _radius;
-		Point _normal;
 		Material _material;	
+		Point _normal;
 	public:
 		//Constructors
 		Sphere() {}
@@ -31,7 +31,7 @@ class Sphere {
 		//Intersection of a ray
 		float intersectSphere(Ray ray);
 
-		void setNormalIntersectionPoint(Point point);
+		void setNormalIntersectionPoint(Point point, int i);
 
 
 };
