@@ -11,7 +11,7 @@ using namespace std;
 
 class Polygon {
 	private:
-		Point _points[];
+		//Point _points[];
 		Material _material;	
 	public:
 		//Constructors

@@ -16,6 +16,7 @@
 #include "Point.h"
 #include "Sphere.h"
 #include "Plane.h"
+#include "Polygon.h"
 
 using namespace std;
 
@@ -34,6 +35,7 @@ class Scene {
 		vector<Sphere> spheres;
 		vector<Cylinder> cylinders;
 		vector<Plane> planes;
+		vector<Polygon> polygons;
 		vector<Point> points;   //Create plane class
 
 	public:
@@ -48,6 +50,7 @@ class Scene {
 		vector<Sphere> getSpheres() { return spheres; }
 		vector<Plane> getPlanes() { return planes; }
 		vector<Point> getPoints() { return points; }
+		vector<Polygon> getPolygons() { return polygons; }
 
 		//Setters
 		void addBgColor(Color color) { _bgColor = color; }
@@ -58,6 +61,7 @@ class Scene {
 		void addCylinder(Cylinder cylinder) { cylinders.push_back(cylinder); }
 		void addPoint(Point point) { points.push_back(point); }
 		void addPlane(Plane plane) { planes.push_back(plane); }
+		void addPolygon(Polygon polygon) { polygons.push_back(polygon); }
 
 
 
@@ -71,6 +75,7 @@ class Scene {
 		void do_sphere(stringstream& line);
 		void do_point(stringstream& line);
 		void do_plane(stringstream& line);
+		void do_polygon(stringstream& line);
 
 		//Whitted Ray-Tracing Algorithm
 		Color trace(Ray ray, int depth); //Ior?

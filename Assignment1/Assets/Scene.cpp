@@ -1,4 +1,5 @@
 #include "Scene.h"
+#include <string.h>
 #include <string>
 
 Scene::Scene() {}
@@ -125,8 +126,9 @@ Color Scene::trace(Ray ray, int depth) {
 void Scene::parse_nff(string fileName) {
 	
 	ifstream file;
-	string nextLine, token;
-	stringstream lineContent, auxLine;
+	int auxNumber;
+	string nextLine,nextLine1, token, auxStr;
+	stringstream lineContent, auxLine, auxLine1;
 
 	file.open(fileName.c_str());
 		
@@ -167,12 +169,18 @@ void Scene::parse_nff(string fileName) {
 			do_plane(lineContent);
 		}
 		else if (token.compare("p") == 0) {
-			string auxLine = lineContent.str();
-			int auxNumber = stoi(auxLine.substr(auxLine.find(' ')+ 1,2));
+			auxStr = lineContent.str();
+			auxNumber = stoi(auxStr.substr(auxStr.find(' ')+ 1,2));
+
+			auxLine1.str("");
+			auxLine1.clear();
+
 			for (int i = 0; i < auxNumber; i++) {
-				getline(file, nextLine);
+				getline(file, nextLine1);
+				auxLine1 << nextLine1;
+				auxLine1 << '\n';
 			}
-			//doPolygon(nextLine);
+			do_polygon(auxLine1);
 		}
 	}
 	file.close();
@@ -274,6 +282,36 @@ void Scene::do_sphere(stringstream& line) {
 	addSphere(s);
 }
 
+void Scene::do_polygon(stringstream& line) {
+	string token;
+	//string lineAux = line.str();
+
+	//getline(line, token, '\n');
+	//token = strtok ((char *)lineAux.c_str(),"\n");
+
+	
+
+	//cout << line.str() << endl;
+
+	Point p1 = create_Point(line);
+	//cout << line.str() << endl;
+	//Point p2 = create_Point(line);
+	//Point p3 = create_Point(line);
+
+	//cout << p1.print() << endl;
+	//cout << p2.print() << endl;
+	//cout << p3.print() << endl;
+	cout << "======== Another one =======" << endl;
+
+	//Get material
+	Material material = materials.back();
+
+
+	//Create Sphere
+	//Polygon p = Polygon(p, radius, material);
+	//addPolygon(s);
+}
+
 void Scene::do_plane(stringstream& line) {
 
 	//Create Points
@@ -331,6 +369,8 @@ void Scene::print() {
 	}for (auto value : getPlanes()) {
 		value.print();
 	}for (auto value : getPoints()) {
+		value.print();
+	}for (auto value : getPolygons()) {
 		value.print();
 	}
 }
