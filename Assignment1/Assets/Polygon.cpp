@@ -35,7 +35,28 @@ float Polygon::intersectPolygon(Ray ray) {
 	crossDir = rayDirection.cross((_point3.sub(_point1)));
 	innerVert = (_point2.sub(_point1)).inner(crossDir);
 
-	if(innerVert < 0.0000001 && innerVert > -0.0000001){
+	if(innerVert < 0.0000001){
+		return tNear;
+	}
+
+	ori = rayOrigin.sub(_point1);
+
+	u = ori.inner(crossDir);
+
+	if(u < 0.0 || u > innerVert){
+		return tNear;
+	}
+
+	q = ori.cross(_point2.sub(_point1));
+	v = rayDirection.inner(q);
+
+	if(v < 0.0 || u + v > innerVert){
+		return tNear;
+	}
+
+	t = (_point3.sub(_point1)).inner(q);
+
+	/*if(innerVert < 0.0000001 && innerVert > -0.0000001){
 		return tNear;
 	}
 
@@ -56,7 +77,7 @@ float Polygon::intersectPolygon(Ray ray) {
 		return tNear;
 	}
 
-	t = invInnerVert * ((_point3.sub(_point1)).inner(q));
+	t = invInnerVert * ((_point3.sub(_point1)).inner(q));*/
 
 
 	return t;
