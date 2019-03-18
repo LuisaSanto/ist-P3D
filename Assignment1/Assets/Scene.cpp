@@ -139,7 +139,7 @@ Color Scene::trace(Ray ray, int depth) {
 		//Translucid object
 
 		if (material.getTransmittance() != 0) {
-			Point tRayOrigin = hitPoint.add(normal.multiply(0.001));
+			Point tRayOrigin = hitPoint.add(normal.multiply(-0.001));
 			Point tRayDirection = refract(ray.getDirection().multiply(-1), normal, material.getRefrIndex()); 
 			Ray tRay = Ray(tRayOrigin, tRayDirection);
 			Color tColor = trace(tRay, depth++);
@@ -430,20 +430,40 @@ void Scene::print() {
 
 //Compute the refracted ray Direction
 Point Scene::refract(Point i, Point normal, float ior) {
-	Point v, t, r;
+	/*Point v, t, r;
 	float sin, cos;
+
+	float etai = 1 
+	float etat = ior;
 
 	v = normal.multiply(i.inner(normal)).sub(i);
 	sin = v.norma();
 	sin = ior * sin;
 	cos = sqrt(1 - pow(sin, 2));
 
+	if (cos < 0) {
+		cos = -cos;
+
+	}
+	else {
+		swap(etai, etat);
+		normal = normal.multiply(-1);
+	}
+
 	t = v;
 	t.normalize();
 
 	r = t.multiply(sin).add(normal.multiply(-cos));
 	r.normalize();
-	return r;
+	return r;*/
+	float eta = 1 / ior;
+
+	float N_dot_I = normal.inner(i);
+	float k = 1 - pow(eta, 2) * (1 - pow(N_dot_I, 2));
+	if (k < 0)
+		return Point();
+	else
+		return i.multiply(eta).sub(normal.multiply((eta * N_dot_I + sqrt(k)))); 
 }
 
 tuple<float, Material, Point> Scene::getClosestIntersection(Ray ray, float tNear, int i) {

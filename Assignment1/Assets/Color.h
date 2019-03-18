@@ -25,7 +25,7 @@ class Color {
 	    Color add(Color c);
 	    Color mul(Color c);
 	    Color mul(float t);
-	    //Point sub(Point b);
+	    Color sub(Color b);
 
 	    //Multiply Point by a Float
 	    //Point multiply(float a);

@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include <limits>
+#include <algorithm>
 #include <tuple>
 
 #include "Camera.h"

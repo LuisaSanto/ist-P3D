@@ -11,6 +11,10 @@ Color Color::add(Color c) {
     return Color(r() + c.r(), g() + c.g(), b() + c.b());
 }
 
+Color Color::sub(Color c) {
+    return Color(r() - c.r(), g() - c.g(), b() - c.b());
+}
+
 Color Color::mul(Color c) {
     return Color(r() * c.r(), g() * c.g(), b() * c.b());
 }
