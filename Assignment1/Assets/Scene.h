@@ -81,13 +81,14 @@ class Scene {
 		void do_polygon(stringstream& line);
 
 		//Whitted Ray-Tracing Algorithm
-		Color trace(Ray ray, int depth); //Ior?
+		Color trace(Ray ray, int depth);
 
 
 		//Auxiliar Methods
 		float get_float(stringstream& line);
 		Point create_Point(stringstream& line);
 		tuple<float, Material, Point> getClosestIntersection(Ray ray, float tNear, int i);
+		Point refract(Point i, Point n, float ior);
 
 		void print();
 };

@@ -25,12 +25,16 @@ Color Scene::trace(Ray ray, int depth) {
 	//Check if there isn't nearest object then return bColor
 	
 	if (get<0>(nearestObject) == INFINITE) {
+		//cout << "======BG=====" << endl;
 		return getBgColor();
 	}
 	else {
 		Material material = get<1>(nearestObject);
 		//Color colorFinal = material.getColor(); //What is the ambient color;
-		Color colorFinal = Color(0.0f, 0.0f, 0.0f);
+		Color colorFinal = Color(0.1f, 0.1f, 0.1f)	;
+		colorFinal = colorFinal.mul(material.getColor());
+		//cout << "================= INITIAL COLOR ================" << endl;
+		//colorFinal.print();
 		//Color ambientColor = Color(0.0f, 0.0f, 0.0f);
 		//Color specularColor = Color(0.0f, 0.0f, 0.0f);
 		//Color diffuseColor = Color(0.0f, 0.0f, 0.0f);
@@ -43,8 +47,9 @@ Color Scene::trace(Ray ray, int depth) {
 		//cout << normal.norma() << endl;
 		//normal.print();
 
-		//Local Color and illumination
 
+
+		//Local Color and illumination
 		for (Light l : getLights()) {
 
 
@@ -59,22 +64,26 @@ Color Scene::trace(Ray ray, int depth) {
 				//Trace Shadow Ray
 				Point shadowHitPoint = hitPoint.add(normal.multiply(0.001)); // add an offset
 				Ray shadowRay = Ray(shadowHitPoint, L); 
-				tuple<float, Material, Point> shadow = getClosestIntersection(shadowRay, INFINITE, 1);
+				tuple<float, Material, Point> shadow = getClosestIntersection(shadowRay, INFINITE, 25);
 				
 				if (get<0>(shadow) == INFINITE) {
 					//cout << "Point not in shadow!!" << endl;
 					//cout << "Entrei!" << endl;
 					//cout << get<1>(shadow).getSpecular() << endl;
+
+
 					
 
 					//Ambient Color
 					//ambientColor = ambientColor.add(L.inner(normal));
 
 
-
+					//material.print();	
 					//Diffuse color
 					//Color diffuseColor = material.getColor().mul(material.getDiffuse() * L.inner(normal));
 					Color diffuseColor = material.getColor().mul(material.getDiffuse() * L.inner(normal));
+					//cout << "================= DIFFUSE COLOR ================" << endl;
+					//colorFinal.print();
 					//Multiply by color intensity
 					//diffuseColorLight = diffuseColor.mul(0.1);
 
@@ -95,20 +104,22 @@ Color Scene::trace(Ray ray, int depth) {
 					//diffuseColor.print();	
 					//specularColor.print();
 
+					//cout << "================= SPECULAR COLOR ================" << endl;
+					//specularColor.print();
+
 					colorFinal = colorFinal.add(diffuseColor).add(specularColor);
 
 					
 				}
-				/*else {
-					cout << "Point in shadow!!" << endl;
-				}		*/
+				else {
+					//cout << "Point in shadow!!" << endl;
+				}		
 			}
 		}
 
-		//colorFinal = colorFinal.add(ambientColor).add(diffuseColor).add(specularColor);
-
 		if (depth >= 3) { //maxDepth
-			colorFinal.print();
+			//cout << "================= FINAL COLOR ================" << endl;
+			//	colorFinal.print();
 			return colorFinal;
 		}
 
@@ -127,6 +138,19 @@ Color Scene::trace(Ray ray, int depth) {
 
 		//Translucid object
 
+		if (material.getTransmittance() != 0) {
+			Point tRayOrigin = hitPoint.add(normal.multiply(0.001));
+			Point tRayDirection = refract(ray.getDirection().multiply(-1), normal, material.getRefrIndex()); 
+			Ray tRay = Ray(tRayOrigin, tRayDirection);
+			Color tColor = trace(tRay, depth++);
+			colorFinal = colorFinal.add(tColor.mul(1 - material.getTransmittance()));
+		}
+
+		//colorFinal = colorFinal.add(ambientColor).add(diffuseColor).add(specularColor);
+
+
+
+		//cout << "================= FINAL COLOR ================" << endl;
 		//colorFinal.print();
 		return colorFinal;
 
@@ -169,14 +193,14 @@ void Scene::parse_nff(string fileName) {
 			for (int i = 0; i < 5; i++) {
 				getline(file, nextLine);
 				auxLine << nextLine;
-				cout << nextLine << endl;
+				//cout << nextLine << endl;
 				auxLine << '\n';
 			}
 			do_camera(auxLine);
 		}
 		
 		else if (token.compare("l") == 0) {
-			cout << "Doing light" << endl;
+			//cout << "Doing light" << endl;
 			do_light(lineContent);
 		}	
 		else if (token.compare("f") == 0) {
@@ -187,7 +211,7 @@ void Scene::parse_nff(string fileName) {
 		}
 		else if (token.compare("pl") == 0) {
 			do_plane(lineContent);
-			cout << "plane" << lineContent.str() << endl;
+			//cout << "plane" << lineContent.str() << endl;
 		}
 		else if (token.compare("p") == 0) {
 			auxStr = lineContent.str();
@@ -199,13 +223,12 @@ void Scene::parse_nff(string fileName) {
 			auxLine << nextLine;
 			for (int i = 0; i < auxNumber; i++) {
 				getline(file, nextLine1);
-				cout << "nextline" << nextLine1 + '\n' << endl;
+				//cout << "nextline" << nextLine1 + '\n' << endl;
 				auxLine1 << nextLine1 + '\n';
 				auxLine1 << '\n';
 			}
 			
 			do_polygon(auxLine1);
->>>>>>> 8b55cba27fb3acedc549728c2246c43c4122bbd6
 		}
 	}
 	file.close();
@@ -312,7 +335,7 @@ void Scene::do_polygon(stringstream& line) {
 	stringstream p1, p2, p3;
 
 
-	cout << line.str() << endl;
+	//cout << line.str() << endl;
 	string aux = line.str().substr(0,line.str().find('\n'));
 	//cout << "======== aux =======" << aux << endl;
 	myString.erase(0,myString.find('\n')+2);
@@ -343,7 +366,7 @@ void Scene::do_polygon(stringstream& line) {
 void Scene::do_plane(stringstream& line) {
 
 	//Create Points
-	cout << "======== plane =======" << line.str() << endl;
+	//cout << "======== plane =======" << line.str() << endl;
 
 	Point p1 = create_Point(line);
 	Point p2 = create_Point(line);
@@ -402,6 +425,27 @@ void Scene::print() {
 	}
 }
 
+
+//===================== Whitted Ray Tracer auxiliar methods ==============
+
+//Compute the refracted ray Direction
+Point Scene::refract(Point i, Point normal, float ior) {
+	Point v, t, r;
+	float sin, cos;
+
+	v = normal.multiply(i.inner(normal)).sub(i);
+	sin = v.norma();
+	sin = ior * sin;
+	cos = sqrt(1 - pow(sin, 2));
+
+	t = v;
+	t.normalize();
+
+	r = t.multiply(sin).add(normal.multiply(-cos));
+	r.normalize();
+	return r;
+}
+
 tuple<float, Material, Point> Scene::getClosestIntersection(Ray ray, float tNear, int i) {
 	int closestObject;
 	Sphere closestSphere;
@@ -443,17 +487,21 @@ tuple<float, Material, Point> Scene::getClosestIntersection(Ray ray, float tNear
 			closestObject = 2;
 		}
 	}
-
+	//cout << "================= CLOSEST OBJECT ================" << endl;
 	if (tNear != INFINITE) {
 		if (closestObject == 0) { //closestObject is a sphere
+			//cout << "===SPHERE===" << endl;
+			//closestSphere.print();
 			return make_tuple(tNear, closestSphere.getMaterial(), closestSphere.getNormal());
 		} 
 		else if (closestObject == 1) { //closestObjcect is a plane
+			//cout << "===PLANE===" << endl;
 			//closestPlane.print();
 			return make_tuple(tNear, closestPlane.getMaterial(), closestPlane.getNormal());
 		}
 		else if (closestObject == 2) { //closestObjcect is a plane
-			//closestPlane.print();
+			//cout << "===POLYGON===" << endl;
+			//closestPolygon.print();
 			return make_tuple(tNear, closestPolygon.getMaterial(), closestPolygon.getNormal());
 		}
 	}

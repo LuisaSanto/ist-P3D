@@ -10,6 +10,7 @@ void Sphere::print() {
 	cout << "======== Sphere Info =======" << endl;
 	_pos.print();
 	cout << "radius: " << _radius << endl;
+	_material.print();
 }
 
 void Sphere::setNormalIntersectionPoint(Point p, int i) {

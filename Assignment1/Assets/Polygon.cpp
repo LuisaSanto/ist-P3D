@@ -17,6 +17,7 @@ void Polygon::print() {
 	_point2.print();
 	_point3.print();
 	_normal.print();
+	_material.print();
 	cout << "END" << endl;
 }
 
