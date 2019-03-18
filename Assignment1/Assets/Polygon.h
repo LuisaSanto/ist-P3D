@@ -11,15 +11,21 @@ using namespace std;
 
 class Polygon {
 	private:
-		//Point _points[];
+		Point _point1;
+		Point _point2;
+		Point _point3;
+		Point _normal;
 		Material _material;	
 	public:
 		//Constructors
 		Polygon() {}
-		Polygon(Point ,Material material);
+		Polygon(Point , Point ,Point ,Material material);
 
 		//Getters
-
+		//Getters
+		Point getNormal() { return _normal; }
+		Material getMaterial() { return _material; }
+		
 		void print();
 
 		//Intersection of a ray

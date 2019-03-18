@@ -165,7 +165,6 @@ void Scene::parse_nff(string fileName) {
 		}
 		else if (token.compare("from") == 0) {	
 			//Save the next 6 lines of the file
-			cout << "Entrei" << endl;
 			auxLine << nextLine;
 			for (int i = 0; i < 5; i++) {
 				getline(file, nextLine);
@@ -187,6 +186,7 @@ void Scene::parse_nff(string fileName) {
 		}
 		else if (token.compare("pl") == 0) {
 			do_plane(lineContent);
+			cout << "plane" << lineContent.str() << endl;
 		}
 		else if (token.compare("p") == 0) {
 			auxStr = lineContent.str();
@@ -197,9 +197,11 @@ void Scene::parse_nff(string fileName) {
 
 			for (int i = 0; i < auxNumber; i++) {
 				getline(file, nextLine1);
-				auxLine1 << nextLine1;
+				cout << "nextline" << nextLine1 + '\n' << endl;
+				auxLine1 << nextLine1 + '\n';
 				auxLine1 << '\n';
 			}
+			
 			do_polygon(auxLine1);
 		}
 	}
@@ -222,7 +224,7 @@ void Scene::do_background(stringstream& line) {
 void Scene::do_camera(stringstream& line) {
 	string token;
 	getline(line, token, ' ');
-	
+
 	//From at up 
 	Point from = create_Point(line);
 	Point at = create_Point(line);
@@ -303,43 +305,46 @@ void Scene::do_sphere(stringstream& line) {
 }
 
 void Scene::do_polygon(stringstream& line) {
-	string token;
-	//string lineAux = line.str();
+	string myString = line.str();
+	stringstream p1, p2, p3;
 
-	//getline(line, token, '\n');
-	//token = strtok ((char *)lineAux.c_str(),"\n");
 
-	
+	cout << line.str() << endl;
+	string aux = line.str().substr(0,line.str().find('\n'));
+	//cout << "======== aux =======" << aux << endl;
+	myString.erase(0,myString.find('\n')+2);
+	string aux1 = myString.substr(0, myString.find('\n'));
+	//cout << "======== aux1 =======" << aux1 << endl;
+	myString.erase(0,myString.find('\n')+2);
+	string aux2 = myString.substr(0,myString.find('\n'));
+	//cout << "======== aux2 =======" << aux2 << endl;
 
-	//cout << line.str() << endl;
+	p1 << aux;
+	p2 << aux1;
+	p3 << aux2;
 
-	Point p1 = create_Point(line);
-	//cout << line.str() << endl;
-	//Point p2 = create_Point(line);
-	//Point p3 = create_Point(line);
-
-	//cout << p1.print() << endl;
-	//cout << p2.print() << endl;
-	//cout << p3.print() << endl;
-	cout << "======== Another one =======" << endl;
+	//From at up 
+	Point point1 = create_Point(p1);
+	Point point2 = create_Point(p2);
+	Point point3 = create_Point(p3);
 
 	//Get material
 	Material material = materials.back();
 
 
-	//Create Sphere
-	//Polygon p = Polygon(p, radius, material);
-	//addPolygon(s);
+	//Create Polygon
+	Polygon p = Polygon(point1, point2, point3, material);
+	addPolygon(p);
 }
 
 void Scene::do_plane(stringstream& line) {
 
 	//Create Points
-	
+	cout << "======== plane =======" << line.str() << endl;
+
 	Point p1 = create_Point(line);
 	Point p2 = create_Point(line);
 	Point p3 = create_Point(line);
-	
 
 	//Get material
 
@@ -352,7 +357,6 @@ void Scene::do_plane(stringstream& line) {
 }
 
 void Scene::do_point(stringstream& line) {
-
 	//Create Point
 	for (int i = 0; i < 3; i++) {
 		Point p = create_Point(line);
@@ -399,6 +403,7 @@ tuple<float, Material, Point> Scene::getClosestIntersection(Ray ray, float tNear
 	int closestObject;
 	Sphere closestSphere;
 	Plane closestPlane;
+	Polygon closestPolygon;
 	float tNearK;
 
 	//Intersect with all spheres of the scene
@@ -426,8 +431,15 @@ tuple<float, Material, Point> Scene::getClosestIntersection(Ray ray, float tNear
 
 
 	//Intersect with all polygons
-
-	//======TO DO======
+	for (Polygon polygon : getPolygons()) {
+		tNearK = polygon.intersectPolygon(ray);
+		//cout << tNearK << endl;
+		if (tNearK < tNear) {
+			tNear = tNearK;
+			closestPolygon = polygon;
+			closestObject = 2;
+		}
+	}
 
 	if (tNear != INFINITE) {
 		if (closestObject == 0) { //closestObject is a sphere
@@ -437,7 +449,10 @@ tuple<float, Material, Point> Scene::getClosestIntersection(Ray ray, float tNear
 			//closestPlane.print();
 			return make_tuple(tNear, closestPlane.getMaterial(), closestPlane.getNormal());
 		}
-		// TO DO: else if for polygons
+		else if (closestObject == 2) { //closestObjcect is a plane
+			//closestPlane.print();
+			return make_tuple(tNear, closestPolygon.getMaterial(), closestPolygon.getNormal());
+		}
 	}
 	else {
 		return make_tuple(tNear, Material(), Point());

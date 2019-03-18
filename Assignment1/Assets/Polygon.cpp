@@ -1,27 +1,64 @@
 #include "Polygon.h"
 
-Polygon::Polygon (Point points, Material material) {
-	//cout << "======== Polygon Info =======" << sizeof(array)/sizeof(array[0]) << endl;
-	//_points[] = points;
+Polygon::Polygon (Point p1, Point p2, Point p3, Material material) {
+	_point1 = p1;
+	_point2 = p2;
+	_point3 = p3;
 	_material = material;
+
+	_normal = (p2.sub(p1)).cross((p3.sub(p1)));
+	_normal.normalize();
 
 }
 
 void Polygon::print() {
 	cout << "======== Polygon Info =======" << endl;
-	
-	cout << "END OF Polygon" << endl;
+	_point1.print();
+	_point2.print();
+	_point3.print();
+	_normal.print();
+	cout << "END" << endl;
 }
 
 float Polygon::intersectPolygon(Ray ray) {
 	//Declare variables
 	float tNear = numeric_limits<float>::max();
-	float t;
+	float t, innerVert, invInnerVert, u, v;
+	Point crossDir, ori, q;
 
-	Point rayDirection = ray.getDirection();
+	Point normal = getNormal();
 	Point rayOrigin = ray.getOrigin();
-
+	Point rayDirection = ray.getDirection();
 	
-	return tNear;
+
+	crossDir = rayDirection.cross((_point3.sub(_point1)));
+	innerVert = (_point2.sub(_point1)).inner(crossDir);
+
+	if(innerVert < 0.0000001 && innerVert > -0.0000001){
+		return tNear;
+	}
+
+	invInnerVert = 1.0 / innerVert;
+
+	ori = rayOrigin.sub(_point1);
+
+	u = invInnerVert * (ori.inner(crossDir));
+
+	if(u < 0.0 || u > 1.0){
+		return tNear;
+	}
+
+	q = ori.cross(_point2.sub(_point1));
+	v = invInnerVert * (rayDirection.inner(q));
+
+	if(v < 0.0 || u + v > 1.0){
+		return tNear;
+	}
+
+	t = invInnerVert * ((_point3.sub(_point1)).inner(q));
+
+
+	return t;
+
 
 }
