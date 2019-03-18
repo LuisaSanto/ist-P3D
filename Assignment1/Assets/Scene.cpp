@@ -139,10 +139,11 @@ Color Scene::trace(Ray ray, int depth) {
 		//Translucid object
 
 		if (material.getTransmittance() != 0) {
-			Point tRayOrigin = hitPoint.add(normal.multiply(-0.001));
+			Point tRayOrigin = hitPoint.add(normal.multiply(0.001));
 			Point tRayDirection = refract(ray.getDirection().multiply(-1), normal, material.getRefrIndex()); 
 			Ray tRay = Ray(tRayOrigin, tRayDirection);
 			Color tColor = trace(tRay, depth++);
+			//what to add?
 			colorFinal = colorFinal.add(tColor.mul(1 - material.getTransmittance()));
 		}
 
@@ -154,7 +155,7 @@ Color Scene::trace(Ray ray, int depth) {
 		//colorFinal.print();
 		return colorFinal;
 
-	
+		
 	}
 
 	 
@@ -430,6 +431,8 @@ void Scene::print() {
 
 //Compute the refracted ray Direction
 Point Scene::refract(Point i, Point normal, float ior) {
+
+	// 1st way
 	/*Point v, t, r;
 	float sin, cos;
 
@@ -450,12 +453,29 @@ Point Scene::refract(Point i, Point normal, float ior) {
 		normal = normal.multiply(-1);
 	}
 
+
 	t = v;
 	t.normalize();
 
 	r = t.multiply(sin).add(normal.multiply(-cos));
 	r.normalize();
 	return r;*/
+
+
+	// 2nd way
+	/*float cosi = i.inner(normal);
+	float etai = 1, etat = ior;
+	Point n = normal;
+	if (cosi < 0) { cosi = -cosi; } else { swap(etai, etat); n= normal.multiply(-1); }
+	float eta = etai / etat;
+	float k = 1 - eta * eta * (1 - cosi * cosi);
+	return k < 0 ? Point() : i.multiply(eta).add(n.multiply((eta * cosi - sqrtf(k))));*/ 
+
+
+
+
+
+	// 3rd way
 	float eta = 1 / ior;
 
 	float N_dot_I = normal.inner(i);
