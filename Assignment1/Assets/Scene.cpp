@@ -170,6 +170,7 @@ void Scene::parse_nff(string fileName) {
 			for (int i = 0; i < 5; i++) {
 				getline(file, nextLine);
 				auxLine << nextLine;
+				cout << nextLine << endl;
 				auxLine << '\n';
 			}
 			do_camera(auxLine);
@@ -194,13 +195,16 @@ void Scene::parse_nff(string fileName) {
 
 			auxLine1.str("");
 			auxLine1.clear();
-
+			
+			auxLine << nextLine;
 			for (int i = 0; i < auxNumber; i++) {
-				getline(file, nextLine1);
-				auxLine1 << nextLine1;
-				auxLine1 << '\n';
+				getline(file, nextLine);
+				auxLine << nextLine;
+				cout << "Polygon: " << endl;
+				cout << nextLine << endl;
+				auxLine << '\n';
 			}
-			do_polygon(auxLine1);
+			do_polygon(auxLine);
 		}
 	}
 	file.close();
