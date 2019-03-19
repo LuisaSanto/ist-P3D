@@ -20,24 +20,34 @@ float Point::norma() {
 }
 
 // Add or subtract two points.
-Point Point::add(Point b) {
+
+Point Point::operator+(Point b) {
     return Point(xval + b.xval, yval + b.yval, zval + b.zval);
 }
-Point Point::sub(Point b) {
+
+
+Point Point::operator-(Point b) {
     return Point(xval - b.xval, yval - b.yval, zval - b.zval);
 }
 
+Point Point::operator-() {
+    return Point(-xval, -yval, -zval);
+}
+
 //Multiply by a float
-Point Point::multiply(float a) {
+
+Point Point::operator*(float a) {
     return Point(a * xval, a * yval, a * zval);
 }
 
-Point Point::mul(Point b) {
+Point Point::operator*(Point b) {
     return Point(xval * b.xval, yval * b.yval, zval * b.zval);
 }
 
-//Divide by a float
-Point Point::divide(float a) {
+
+//Divide by a float 
+
+Point Point::operator/(float a) {
     return Point(xval / a, yval / a, zval / a);
 }
 
@@ -70,10 +80,11 @@ void Point::print() {
 }
 
 void Point::normalize() {
-    float norm = norma();
-    /*if (norm > 0) { */
-        xval = xval / norm;
-        yval = yval / norm;
-        zval = zval / norm;
-    //}
+    float norm = xval * xval + yval * yval + zval * zval;
+    if (norm > 0) { 
+        float invNorm = 1 / sqrt(norm);
+        xval = xval * invNorm;
+        yval = yval * invNorm;
+        zval = zval * invNorm;
+    }
 }

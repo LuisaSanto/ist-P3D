@@ -14,7 +14,8 @@ Point Ray::pointAtParameter(float t) {
 	// o + d * t
 	Point origin = getOrigin();
 	Point direction = getDirection();
-	return origin.add(direction.multiply(t));
+	//return origin.add(direction.multiply(t));
+	return origin + direction * t;
 }
 
 void Ray::print() {

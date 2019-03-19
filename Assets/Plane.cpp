@@ -6,7 +6,7 @@ Plane::Plane (Point p1, Point p2, Point p3, Material material) {
 	_point3 = p3;
 	_material = material;
 
-	_normal = (p2.sub(p1)).cross((p3.sub(p1)));
+	_normal = (p2 - p1).cross(p3 - p1);
 	_normal.normalize();
 }
 
@@ -32,7 +32,7 @@ float Plane::intersectPlane(Ray ray) {
 		return tNear;
 	}
 
-	t = -((normal.inner(rayOrigin.sub(_point1))) / normal.inner(rayDirection));
+	t = -((normal.inner((rayOrigin - _point1) / normal.inner(rayDirection))));
 	if(t < 0){
 		return tNear;
 	}

@@ -25,134 +25,94 @@ Color Scene::trace(Ray ray, int depth) {
 	//Check if there isn't nearest object then return bColor
 	
 	if (get<0>(nearestObject) == INFINITE) {
-		//cout << "======BG=====" << endl;
 		return getBgColor();
 	}
 	else {
 		Material material = get<1>(nearestObject);
-		//Color colorFinal = material.getColor(); //What is the ambient color;
 		Color colorFinal = Color(0.1f, 0.1f, 0.1f)	;
-		colorFinal = colorFinal.mul(material.getColor());
-		//cout << "================= INITIAL COLOR ================" << endl;
-		//colorFinal.print();
-		//Color ambientColor = Color(0.0f, 0.0f, 0.0f);
-		//Color specularColor = Color(0.0f, 0.0f, 0.0f);
-		//Color diffuseColor = Color(0.0f, 0.0f, 0.0f);
+		colorFinal = colorFinal * material.getColor();
+
 
 		//Get the hitPoint from the Nearest Intersection tNear
 		Point hitPoint = ray.pointAtParameter(get<0>(nearestObject));
 		
 		//Get the Normal at that Hit Point
 		Point normal = get<2>(nearestObject);
-		//cout << normal.norma() << endl;
-		//normal.print();
-
-
 
 		//Local Color and illumination
 		for (Light l : getLights()) {
 
 
 			//Unit Vector from the hit Point to Light source position
-			//Light l = getLights()[0];
-			Point L = l.getPos().sub(hitPoint);
-			//Point L = hitPoint.sub(l.getPos());
-			//L.print();
+			Point L = l.getPos() - hitPoint;
 			L.normalize();
-			//cout << L.norma() << endl;
+
 			if (L.inner(normal) > 0) {
 				//Trace Shadow Ray
-				Point shadowHitPoint = hitPoint.add(normal.multiply(0.001)); // add an offset
+				Point shadowHitPoint = hitPoint + normal * 0.001; // add an offset
 				Ray shadowRay = Ray(shadowHitPoint, L); 
 				tuple<float, Material, Point> shadow = getClosestIntersection(shadowRay, INFINITE, 25);
 				
 				if (get<0>(shadow) == INFINITE) {
-					//cout << "Point not in shadow!!" << endl;
-					//cout << "Entrei!" << endl;
-					//cout << get<1>(shadow).getSpecular() << endl;
 
-
-					
-
-					//Ambient Color
-					//ambientColor = ambientColor.add(L.inner(normal));
 
 
 					//material.print();	
 					//Diffuse color
-					//Color diffuseColor = material.getColor().mul(material.getDiffuse() * L.inner(normal));
-					Color diffuseColor = material.getColor().mul(material.getDiffuse() * L.inner(normal));
-					//cout << "================= DIFFUSE COLOR ================" << endl;
-					//colorFinal.print();
-					//Multiply by color intensity
-					//diffuseColorLight = diffuseColor.mul(0.1);
 
-					//diffuseColor = diffuseColor.add(diffuseColorLight);
+					Color diffuseColor = material.getColor() * material.getDiffuse() * L.inner(normal);
+
 					
 
 					//Specular color
-					Point r = normal.multiply(L.inner(normal));
-					r = r.multiply(-2);
-					r = r.sub(L);
+					Point r = normal * L.inner(normal);
+					r = r * (-2);
+					r = r - L;
 					r.normalize();
 
-					Point v = hitPoint.sub(getCamera().getEye());
+					Point v = hitPoint - getCamera().getEye();
 					v.normalize();
 
-					Color specularColor = material.getColor().mul(material.getSpecular() * pow(r.inner(v), 25));
-					//specularColor = specularColor.add(specularColorLight);
-					//diffuseColor.print();	
-					//specularColor.print();
+					Color specularColor = material.getColor() * (material.getSpecular() * pow(r.inner(v), 25));
 
-					//cout << "================= SPECULAR COLOR ================" << endl;
-					//specularColor.print();
 
-					colorFinal = colorFinal.add(diffuseColor).add(specularColor);
+					colorFinal = colorFinal + diffuseColor + specularColor;
 
 					
-				}
-				else {
-					//cout << "Point in shadow!!" << endl;
 				}		
 			}
 		}
 
 		if (depth >= 3) { //maxDepth
-			//cout << "================= FINAL COLOR ================" << endl;
-			//	colorFinal.print();
 			return colorFinal;
 		}
 
 		//Reflective object
 
 		if (material.getSpecular() != 0) {
-			Point rRayOrigin = hitPoint.add(normal.multiply(0.001));
-			Point rRayDirection = normal.multiply(ray.getDirection().inner(normal));
-			rRayDirection = rRayDirection.multiply(-2);
-			rRayDirection = rRayDirection.add(ray.getDirection());
+			Point rRayOrigin = hitPoint + normal * 0.001;
+			Point rRayDirection = normal * ray.getDirection().inner(normal);
+			rRayDirection = rRayDirection * (-2);
+			rRayDirection = rRayDirection + ray.getDirection();
 
 			Ray rRay = Ray(rRayOrigin, rRayDirection);
 			Color rColor = trace(rRay, depth++);
-			colorFinal = colorFinal.add(rColor.mul(material.getSpecular()));
+			colorFinal = colorFinal + rColor * material.getSpecular();
 		}
 
 		//Translucid object
 
 		if (material.getTransmittance() != 0) {
-			Point tRayOrigin = hitPoint.add(normal.multiply(0.001));
-			Point tRayDirection = refract(ray.getDirection().multiply(-1), normal, material.getRefrIndex()); 
+			Point tRayOrigin = hitPoint + normal * 0.001;
+			Point tRayDirection = refract(-ray.getDirection(), normal, material.getRefrIndex()); 
 			Ray tRay = Ray(tRayOrigin, tRayDirection);
 			Color tColor = trace(tRay, depth++);
 			//what to add?
-			colorFinal = colorFinal.add(tColor.mul(1 - material.getTransmittance()));
+			colorFinal = colorFinal + tColor * (1 - material.getTransmittance());
 		}
 
 		//colorFinal = colorFinal.add(ambientColor).add(diffuseColor).add(specularColor);
 
-
-
-		//cout << "================= FINAL COLOR ================" << endl;
-		//colorFinal.print();
 		return colorFinal;
 
 		
@@ -160,7 +120,6 @@ Color Scene::trace(Ray ray, int depth) {
 
 	 
 }
-	//return getBgColor();
 
 
 
@@ -212,7 +171,6 @@ void Scene::parse_nff(string fileName) {
 		}
 		else if (token.compare("pl") == 0) {
 			do_plane(lineContent);
-			//cout << "plane" << lineContent.str() << endl;
 		}
 		else if (token.compare("p") == 0) {
 			auxStr = lineContent.str();
@@ -224,7 +182,6 @@ void Scene::parse_nff(string fileName) {
 			auxLine << nextLine;
 			for (int i = 0; i < auxNumber; i++) {
 				getline(file, nextLine1);
-				//cout << "nextline" << nextLine1 + '\n' << endl;
 				auxLine1 << nextLine1 + '\n';
 				auxLine1 << '\n';
 			}
@@ -236,7 +193,6 @@ void Scene::parse_nff(string fileName) {
 }
 
 void Scene::do_background(stringstream& line) {
-	//string token;
 
 	//Get rgb
 	float r, g, b;
@@ -338,13 +294,10 @@ void Scene::do_polygon(stringstream& line) {
 
 	//cout << line.str() << endl;
 	string aux = line.str().substr(0,line.str().find('\n'));
-	//cout << "======== aux =======" << aux << endl;
 	myString.erase(0,myString.find('\n')+2);
 	string aux1 = myString.substr(0, myString.find('\n'));
-	//cout << "======== aux1 =======" << aux1 << endl;
 	myString.erase(0,myString.find('\n')+2);
 	string aux2 = myString.substr(0,myString.find('\n'));
-	//cout << "======== aux2 =======" << aux2 << endl;
 
 	p1 << aux;
 	p2 << aux1;
@@ -482,8 +435,8 @@ Point Scene::refract(Point i, Point normal, float ior) {
 	float k = 1 - pow(eta, 2) * (1 - pow(N_dot_I, 2));
 	if (k < 0)
 		return Point();
-	else
-		return i.multiply(eta).sub(normal.multiply((eta * N_dot_I + sqrt(k)))); 
+	else 
+		return i * eta - normal * (eta * N_dot_I + sqrt(k));
 }
 
 tuple<float, Material, Point> Scene::getClosestIntersection(Ray ray, float tNear, int i) {

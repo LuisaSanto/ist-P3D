@@ -6,7 +6,7 @@ Polygon::Polygon (Point p1, Point p2, Point p3, Material material) {
 	_point3 = p3;
 	_material = material;
 
-	_normal = (p2.sub(p1)).cross((p3.sub(p1)));
+	_normal = (p2 - p1).cross(p3 - p1);
 	_normal.normalize();
 
 }
@@ -32,14 +32,14 @@ float Polygon::intersectPolygon(Ray ray) {
 	Point rayDirection = ray.getDirection();
 	
 
-	crossDir = rayDirection.cross((_point3.sub(_point1)));
-	innerVert = (_point2.sub(_point1)).inner(crossDir);
+	crossDir = rayDirection.cross((_point3 - _point1));
+	innerVert = (_point2 - _point1).inner(crossDir);
 
 	if(innerVert < 0.0000001){
 		return tNear;
 	}
 
-	ori = rayOrigin.sub(_point1);
+	ori = rayOrigin - _point1;
 
 	u = ori.inner(crossDir);
 
@@ -47,14 +47,14 @@ float Polygon::intersectPolygon(Ray ray) {
 		return tNear;
 	}
 
-	q = ori.cross(_point2.sub(_point1));
+	q = ori.cross(_point2 - _point1);
 	v = rayDirection.inner(q);
 
 	if(v < 0.0 || u + v > innerVert){
 		return tNear;
 	}
 
-	t = (_point3.sub(_point1)).inner(q);
+	t = (_point3 - _point1).inner(q);
 
 	/*if(innerVert < 0.0000001 && innerVert > -0.0000001){
 		return tNear;

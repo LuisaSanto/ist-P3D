@@ -22,27 +22,11 @@ class Color {
 	    //float dist(Point other);
 
 	    // Add and subtract color
-	    Color add(Color c);
-	    Color mul(Color c);
-	    Color mul(float t);
-	    Color sub(Color b);
 
-	    //Multiply Point by a Float
-	    //Point multiply(float a);
-
-
-	    // Move the existing point.
-	    //void move(float a, float b, float c);
-
-
-	    // Inner Product
-	    //float inner(Point b);
-	    // Cross Product
-	    //Point cross(Point b);
-
-	    //norm
-	    //float norma();
-	    //void normalize();
+	    Color operator+(Color c);
+	    Color operator-(Color c);
+	    Color operator*(Color c);
+	    Color operator*(float t);
 
 	    void print();
 };

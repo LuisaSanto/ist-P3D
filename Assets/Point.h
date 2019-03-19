@@ -22,13 +22,14 @@ class Point {
 	    float dist(Point other);
 
 	    // Add and subtract two Points
-	    Point add(Point b);
-	    Point sub(Point b);
-	    Point mul(Point b);
+	    Point operator+(Point b);
+	    Point operator-(Point b);
+	    Point operator*(Point b);
+	    Point operator-();
 
 	    //Multiply Point by a Float
-	    Point multiply(float a);
-	    Point divide(float a);
+	    Point operator*(float a);
+	    Point operator/(float a);
 
 
 	    // Move the existing point.
