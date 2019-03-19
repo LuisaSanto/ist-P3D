@@ -49,7 +49,7 @@ Color Scene::trace(Ray ray, int depth) {
 
 			if (L.inner(normal) > 0) {
 				//Trace Shadow Ray
-				Point shadowHitPoint = hitPoint + normal * 0.001; // add an offset
+				Point shadowHitPoint = hitPoint + ray.getDirection() * 0.001; // add an offset
 				Ray shadowRay = Ray(shadowHitPoint, L); 
 				tuple<float, Material, Point> shadow = getClosestIntersection(shadowRay, INFINITE, 25);
 				
@@ -90,7 +90,7 @@ Color Scene::trace(Ray ray, int depth) {
 		//Reflective object
 
 		if (material.getSpecular() != 0) {
-			Point rRayOrigin = hitPoint + normal * 0.001;
+			Point rRayOrigin = hitPoint + ray.getDirection() * 0.001;
 			Point rRayDirection = normal * ray.getDirection().inner(normal);
 			rRayDirection = rRayDirection * (-2);
 			rRayDirection = rRayDirection + ray.getDirection();
@@ -103,12 +103,12 @@ Color Scene::trace(Ray ray, int depth) {
 		//Translucid object
 
 		if (material.getTransmittance() != 0) {
-			Point tRayOrigin = hitPoint + normal * 0.001;
+			Point tRayOrigin = hitPoint + ray.getDirection() * 0.001;
 			Point tRayDirection = refract(-ray.getDirection(), normal, material.getRefrIndex()); 
 			Ray tRay = Ray(tRayOrigin, tRayDirection);
 			Color tColor = trace(tRay, depth++);
 			//what to add?
-			colorFinal = colorFinal + tColor * (1 - material.getTransmittance());
+			colorFinal = colorFinal + tColor * (material.getTransmittance());
 		}
 
 		//colorFinal = colorFinal.add(ambientColor).add(diffuseColor).add(specularColor);
@@ -419,10 +419,10 @@ Point Scene::refract(Point i, Point normal, float ior) {
 	/*float cosi = i.inner(normal);
 	float etai = 1, etat = ior;
 	Point n = normal;
-	if (cosi < 0) { cosi = -cosi; } else { swap(etai, etat); n= normal.multiply(-1); }
+	if (cosi < 0) { cosi = -cosi; } else { swap(etai, etat); n= normal.operator*(-1); }
 	float eta = etai / etat;
 	float k = 1 - eta * eta * (1 - cosi * cosi);
-	return k < 0 ? Point() : i.multiply(eta).add(n.multiply((eta * cosi - sqrtf(k))));*/ 
+	return k < 0 ? Point() : i * (eta) + n * ((eta * cosi - sqrtf(k)));*/
 
 
 
