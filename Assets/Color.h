@@ -28,6 +28,12 @@ class Color {
 	    Color operator*(Color c);
 	    Color operator*(float t);
 
+	    Color add(Color c);
+	    Color sub(Color c);
+	    Color mul(Color c);
+
+	    Color mul(float t);
+
 	    void print();
 };
 
