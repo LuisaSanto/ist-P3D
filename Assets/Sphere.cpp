@@ -16,11 +16,14 @@ void Sphere::print() {
 void Sphere::setNormalIntersectionPoint(Point p, int i) {
 	Point center = getPosition();
 	float radius = getRadius();
-	_normal = (p - center) / radius;
-	if (i == 1) {
-		_normal * (-1);
+	float d = (center - p).norma();
+	Point result = (p - center) / radius;
+
+	if (d >= radius * radius) {
+		_normal = result;
 	}
-	_normal.normalize();
+	else
+		_normal = result * (-1);
 }
 
 float Sphere::intersectSphere(Ray ray) {
@@ -70,5 +73,8 @@ float Sphere::intersectSphere(Ray ray) {
 		t = b + sqrt(r);
 		setNormalIntersectionPoint(ray.pointAtParameter(t), 1);
 	}
+	//t = 0;
+	//_normal = Point(1, 0, 0);
+	//cout << "YAYYYYYYYY" << endl;
 	return t;
 }

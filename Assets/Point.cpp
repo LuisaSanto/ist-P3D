@@ -16,7 +16,7 @@ float Point::dist(Point other) {
 }
 
 float Point::norma() {
-    return sqrt(xval*xval + yval*yval + zval*zval);
+    return (float) sqrt(xval*xval + yval*yval + zval*zval);
 }
 
 // Add or subtract two points.
@@ -34,7 +34,7 @@ Point Point::operator-() {
     return Point(-xval, -yval, -zval);
 }
 
-//Multiply by a float
+//Multiply by a fmake loat
 
 Point Point::operator*(float a) {
     return Point(a * xval, a * yval, a * zval);
@@ -50,6 +50,7 @@ Point Point::operator*(Point b) {
 Point Point::operator/(float a) {
     return Point(xval / a, yval / a, zval / a);
 }
+
 
 // Move the existing point.
 void Point::move(float a, float b, float c) {

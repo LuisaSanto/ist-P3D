@@ -10,16 +10,18 @@ Scene::Scene() {}
 //=================Whitted Ray Tracing Algorithm============
 Color Scene::trace(Ray ray, int depth) {
 
-
+	//cout << "JOTA" << endl;
 
 	//Save the nearest object intersected by the ray and what type of object
 	tuple<float, Material, Point> nearestObject;
 
-
+	//cout << "JOTA" << endl;
 
 	//Get some info about the closest intersection Object
 	//Returns Tuple with closest Intersection, closest object's material and closest object's normal;
 	nearestObject = getClosestIntersection(ray, INFINITE, 0);
+
+	//cout << "ghgfhghgfg" << endl;
 	
 
 	//Check if there isn't nearest object then return bColor
@@ -35,6 +37,7 @@ Color Scene::trace(Ray ray, int depth) {
 
 		//Get the hitPoint from the Nearest Intersection tNear
 		Point hitPoint = ray.pointAtParameter(get<0>(nearestObject));
+		//cout << "FSADADSADS" << endl;
 		
 		//Get the Normal at that Hit Point
 		Point normal = get<2>(nearestObject);
@@ -42,17 +45,21 @@ Color Scene::trace(Ray ray, int depth) {
 		//Local Color and illumination
 		for (Light l : getLights()) {
 
-
+			//cout << "SUPPPP" << endl;
 			//Unit Vector from the hit Point to Light source position
 			Point L = l.getPos() - hitPoint;
 			L.normalize();
 
 			if (L.inner(normal) > 0) {
 				//Trace Shadow Ray
-				Point shadowHitPoint = hitPoint + ray.getDirection() * 0.001; // add an offset
+				//L.print();
+				Point shadowHitPoint = hitPoint + L * 0.001; // add an offset
+				//Point shadowHitPoint = hitPoint + normal * 0.001;
 				Ray shadowRay = Ray(shadowHitPoint, L); 
 				tuple<float, Material, Point> shadow = getClosestIntersection(shadowRay, INFINITE, 25);
 				
+
+				//
 				if (get<0>(shadow) == INFINITE) {
 
 
@@ -90,21 +97,28 @@ Color Scene::trace(Ray ray, int depth) {
 		//Reflective object
 
 		if (material.getSpecular() != 0) {
-			Point rRayOrigin = hitPoint + ray.getDirection() * 0.001;
 			Point rRayDirection = normal * ray.getDirection().inner(normal);
 			rRayDirection = rRayDirection * (-2);
 			rRayDirection = rRayDirection + ray.getDirection();
+			//rRayDirection.print();
+			//Point rRayOrigin = hitPoint + rRayDirection * 0.001;
+			Point rRayOrigin = hitPoint + normal * 0.001;
+			
 
 			Ray rRay = Ray(rRayOrigin, rRayDirection);
+			//cout << "UAAUAAUUU" << endl;
+			//cout << depth << endl;
 			Color rColor = trace(rRay, depth++);
+			//cout << "IUPIIII" << endl;		
 			colorFinal = colorFinal + rColor * material.getSpecular();
 		}
 
 		//Translucid object
 
 		if (material.getTransmittance() != 0) {
-			Point tRayOrigin = hitPoint + ray.getDirection() * 0.001;
-			Point tRayDirection = refract(-ray.getDirection(), normal, material.getRefrIndex()); 
+			Point tRayDirection = refract(-ray.getDirection(), normal, material.getRefrIndex());
+			//Point tRayOrigin = hitPoint + tRayDirection * 0.001;
+			Point tRayOrigin = hitPoint + normal * 0.001;
 			Ray tRay = Ray(tRayOrigin, tRayDirection);
 			Color tColor = trace(tRay, depth++);
 			//what to add?
@@ -368,9 +382,9 @@ void Scene::print() {
 	for (auto value : getLights()) {
 		value.print();
 	}
-	/*for (auto value : getSpheres()) {
+	for (auto value : getSpheres()) {
 		value.print();
-	}*/for (auto value : getPlanes()) {
+	}for (auto value : getPlanes()) {
 		value.print();
 	}for (auto value : getPoints()) {
 		value.print();
@@ -446,15 +460,21 @@ tuple<float, Material, Point> Scene::getClosestIntersection(Ray ray, float tNear
 	Polygon closestPolygon;
 	float tNearK;
 
+	//cout << "ANTES" << endl;
+
 	//Intersect with all spheres of the scene
 	for (Sphere sphere : getSpheres()) {
+		//cout << "ANTES2" << endl;
 		tNearK = sphere.intersectSphere(ray);
+		//cout << "DEPOIS" << endl;
 		if (tNearK < tNear) {
 			tNear = tNearK;
 			closestSphere = sphere;
 			closestObject = 0;
 		}
 	}
+
+	//cout << "BOM DIAAAAA" << endl;
 
 	
 	//Intersect with all planes of the scene
