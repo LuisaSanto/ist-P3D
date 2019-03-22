@@ -28,6 +28,7 @@ void Sphere::setNormalIntersectionPoint(Point p, int i) {
         //cout << "ola4" << endl;
         _normal = result * (-1);
     }
+    _normal.normalize();
 }
 
 float Sphere::intersectSphere(Ray ray) {

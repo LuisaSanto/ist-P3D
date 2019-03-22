@@ -95,9 +95,8 @@ Color Scene::trace(Ray ray, int depth) {
 			Point rRayDirection = normal * ray.getDirection().inner(normal);
 			rRayDirection = rRayDirection * (-2);
 			rRayDirection = rRayDirection + ray.getDirection();
-			//rRayDirection.print();
+			rRayDirection.normalize();
 			Point rRayOrigin = hitPoint + rRayDirection * 0.001;
-			//Point rRayOrigin = hitPoint + normal * 0.001;
 			
 
 			Ray rRay = Ray(rRayOrigin, rRayDirection);
@@ -110,12 +109,12 @@ Color Scene::trace(Ray ray, int depth) {
 
 		if (material.getTransmittance() != 0) {
 			Point tRayDirection = refract(-ray.getDirection(), normal, material.getRefrIndex());
+			tRayDirection.normalize();
 			Point tRayOrigin = hitPoint + tRayDirection * 0.001;
 			Ray tRay = Ray(tRayOrigin, tRayDirection);
 			depth = depth + 1;
 			Color tColor = trace(tRay, depth);
-			//what to add?
-			colorFinal = colorFinal + tColor * (material.getTransmittance());
+			colorFinal = colorFinal + tColor * material.getTransmittance();
 		}
 
 
@@ -387,33 +386,35 @@ void Scene::print() {
 Point Scene::refract(Point i, Point normal, float ior) {
 
 	// 1st way
-	/*Point v, t, r;
+	Point v, t, r;
 	float sin, cos;
 
-	float etai = 1 
+	float etai = 1;
 	float etat = ior;
 
-	v = normal.multiply(i.inner(normal)).sub(i);
+	//v = normal.multiply(i.inner(normal)).sub(i);
+	v = normal * i.inner(normal) - i;
 	sin = v.norma();
-	sin = ior * sin;
-	cos = sqrt(1 - pow(sin, 2));
+	sin = sin / ior;
+	cos = float (sqrt(1 - pow(sin, 2)));
 
-	if (cos < 0) {
+	/*if (cos < 0) {
 		cos = -cos;
 
 	}
 	else {
 		swap(etai, etat);
-		normal = normal.multiply(-1);
-	}
+		normal = -normal;
+	}*/
 
 
 	t = v;
 	t.normalize();
 
-	r = t.multiply(sin).add(normal.multiply(-cos));
+	//r = t.multiply(sin).add(normal.multiply(-cos));
+	r = t * sin + (-normal) * cos;
 	r.normalize();
-	return r;*/
+	return r;
 
 
 	// 2nd way
@@ -430,14 +431,14 @@ Point Scene::refract(Point i, Point normal, float ior) {
 
 
 	// 3rd way
-	float eta = 1 / ior;
+	/*float eta = 1 / ior;
 
 	float N_dot_I = normal.inner(i);
 	float k = 1 - pow(eta, 2) * (1 - pow(N_dot_I, 2));
 	if (k < 0)
 		return Point();
 	else 
-		return i * eta - normal * (eta * N_dot_I + sqrt(k));
+		return i * eta - normal * (eta * N_dot_I + sqrt(k));*/
 }
 
 tuple<float, Material, Point> Scene::getClosestIntersection(Ray ray) {
