@@ -20,7 +20,7 @@
 #include "Plane.h"
 #include "Polygon.h"
 
-#define INFINITE numeric_limits<float>::max()
+const float kInfinity = numeric_limits<float>::max();
 
 using namespace std;
 
@@ -88,7 +88,7 @@ class Scene {
 		//Auxiliar Methods
 		float get_float(stringstream& line);
 		Point create_Point(stringstream& line);
-		tuple<float, Material, Point> getClosestIntersection(Ray ray, float tNear, int i);
+		tuple<float, Material, Point> getClosestIntersection(Ray ray);
 		Point refract(Point i, Point n, float ior);
 
 		void print();
