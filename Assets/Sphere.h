@@ -31,7 +31,7 @@ class Sphere {
 		//Intersection of a ray
 		float intersectSphere(Ray ray);
 
-		void setNormalIntersectionPoint(Point point, int i);
+		void setNormalIntersectionPoint(Point point, float d);
 
 
 };

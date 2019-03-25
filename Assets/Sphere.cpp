@@ -13,20 +13,15 @@ void Sphere::print() {
 	_material.print();
 }
 
-void Sphere::setNormalIntersectionPoint(Point p, int i) {
+void Sphere::setNormalIntersectionPoint(Point p, float d) {
     Point center = getPosition();
     float radius = getRadius();
-    float d = (center - p).norma();
-    //cout << "ola" << endl;
     Point result = (p - center) / radius;
-    //cout << "ola2" << endl;
 
-    if (d >= radius * radius) {
-        //cout << "ola3" << endl;
+    if ((d * d) >= (radius * radius)) {
         _normal = result;
     } else {
-        //cout << "ola4" << endl;
-        _normal = result * (-1);
+        _normal = -result;
     }
     _normal.normalize();
 }
@@ -40,48 +35,34 @@ float Sphere::intersectSphere(Ray ray) {
 	Point rayDirection = ray.getDirection();
 	Point sphereCenter = getPosition();
 
-	//print();
-	//rayDirection.print();
 
-	//Point L = sphereCenter.sub(rayOrigin);
 	Point L = sphereCenter - rayOrigin;
+	float d = sphereCenter.dist(rayOrigin);
 
-	//cout << "L: " << L.inner(L) << endl;
 
 	//Get b
 	float b = rayDirection.inner(L);
 	//Get c
-	float c = L.inner(L) - pow(radius, 2);
-
-	//cout << "c: " << c << endl;
-	//cout << "b: " << b << endl;
+	float c = d * d - radius * radius;
 	
 	if (c > 0 and b < 0) {
-		//cout << "No Intersection!!!!!!" << endl;
 		return tNear;
 	}
 
 	float r = pow(b, 2) - c;
 
 	if (r < 0) {
-		//cout << "r: " << r << endl;
-		//cout << "No Intersection!!" << endl;	
 		return tNear;
 	}
 
 	float t;
 	if (c > 0) {
 		t = b - sqrt(r);
-		setNormalIntersectionPoint(ray.pointAtParameter(t), 0);
-		//cout << "adeus" << endl;
 	}
 	else {
 		t = b + sqrt(r);
-		setNormalIntersectionPoint(ray.pointAtParameter(t), 1);
-		//cout << "adeus2" << endl;
 	}
-	//t = 0;
-	//_normal = Point(1, 0, 0);
-	//cout << "YAYYYYYYYY" << endl;
+
+	setNormalIntersectionPoint(ray.pointAtParameter(t), d);
 	return t;
 }

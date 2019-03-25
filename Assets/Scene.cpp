@@ -17,11 +17,7 @@ Color Scene::trace(Ray ray, int depth) {
 
 	//Get some info about the closest intersection Object
 	//Returns Tuple with closest Intersection, closest object's material and closest object's normal;
-    //ray.print();
-    //cout << "DEPTH: " << depth << endl;
 	nearestObject = getClosestIntersection(ray);
-
-	
 
 	//Check if there isn't nearest object then return bColor
 	
@@ -30,8 +26,7 @@ Color Scene::trace(Ray ray, int depth) {
 	}
 	else {
 		Material material = get<1>(nearestObject);
-		Color colorFinal = Color(0.1f, 0.1f, 0.1f)	;
-		colorFinal = colorFinal * material.getColor();
+		Color colorFinal = Color(0.0f, 0.0f, 0.0f);
 
 
 		//Get the hitPoint from the Nearest Intersection tNear
@@ -48,40 +43,14 @@ Color Scene::trace(Ray ray, int depth) {
 			L.normalize();
 
 			if (L.inner(normal) > 0) {
-				//Trace Shadow Ray
-				Point shadowHitPoint = hitPoint + L * 0.001; // add an offset
-				//Point shadowHitPoint = hitPoint + normal * 0.001;
-				Ray shadowRay = Ray(shadowHitPoint, L);
-				tuple<float, Material, Point> shadow = getClosestIntersection(shadowRay);
-				
-
-				//
-				if (get<0>(shadow) == kInfinity) {
-
-
-
-					//Diffuse color
-
-					Color diffuseColor = material.getColor() * material.getDiffuse() * L.inner(normal);
-
-					
-
-					//Specular color
-					Point r = normal * L.inner(normal);
-					r = r * (-2);
-					r = r - L;
-					r.normalize();
-
-					Point v = hitPoint - getCamera().getEye();
-					v.normalize();
-
-					Color specularColor = material.getColor() * (material.getSpecular() * pow(r.inner(v), 25));
-
-
-					colorFinal = colorFinal + diffuseColor + specularColor;
-
-					
-				}		
+			    //Trace Shadow Ray
+			    Point shadowHitPoint = hitPoint + L * 0.001; // add an offset
+			    Ray shadowRay = Ray(shadowHitPoint, L);
+			    tuple<float, Material, Point> shadow = getClosestIntersection(shadowRay);
+			    //If point is not in shadow
+			    if (get<0>(shadow) == kInfinity) {
+			        colorFinal = colorFinal + getLocal(material, hitPoint, L, normal);
+			    }
 			}
 		}
 
@@ -385,6 +354,8 @@ void Scene::print() {
 //Compute the refracted ray Direction
 Point Scene::refract(Point i, Point normal, float ior) {
 
+    //cout << "Norma v: " << i.norma() << endl;
+    //cout << "Norma normal: " << normal.norma() << endl;
 	// 1st way
 	Point v, t, r;
 	float sin, cos;
@@ -439,6 +410,29 @@ Point Scene::refract(Point i, Point normal, float ior) {
 		return Point();
 	else 
 		return i * eta - normal * (eta * N_dot_I + sqrt(k));*/
+}
+
+Color Scene::getLocal(Material material, Point hitPoint, Point L, Point normal) {
+
+	//Diffuse color
+
+	Color diffuseColor = material.getColor() * material.getDiffuse() * L.inner(normal);
+
+
+
+	//Specular color
+	Point r = normal * L.inner(normal);
+	r = r * (-2);
+	r = r - L;
+	r.normalize();
+
+	Point v = hitPoint - getCamera().getEye();
+	v.normalize();
+
+	Color specularColor = material.getColor() * (material.getSpecular() * pow(r.inner(v), 25));
+
+
+	return diffuseColor + specularColor;
 }
 
 tuple<float, Material, Point> Scene::getClosestIntersection(Ray ray) {

@@ -15,6 +15,7 @@
 #include <string>
 #include <stdio.h>
 #include <vector>
+#include <chrono>
 
 #include <GL/glew.h>
 #include <GL/freeglut.h>
@@ -218,6 +219,8 @@ void renderScene()
 	int index_pos=0;
 	int index_col=0;
 
+	auto start = std::chrono::high_resolution_clock::now();
+
 	for (int y = 0; y < RES_Y; y++)
 	{
 		for (int x = 0; x < RES_X; x++)
@@ -253,7 +256,14 @@ void renderScene()
 	if(draw_mode == 2) //preenchar o conteúdo da janela com uma imagem completa
 		 drawPoints();
 
-	printf("Terminou!\n"); 	
+	auto stop = std::chrono::high_resolution_clock::now();
+
+	auto duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start);
+
+
+
+	printf("Terminou!\n");
+	cout << "Time taken by function: " <<   duration.count() << " seconds" << endl;
 }
 
 void cleanup()
@@ -355,6 +365,8 @@ int main(int argc, char* argv[])
 	
     //RES_Y = 512;
     //RES_X = 512;
+
+
 	if(draw_mode == 0) { // desenhar o conteúdo da janela ponto a ponto
 		size_vertices = 2*sizeof(float);
 		size_colors = 3*sizeof(float);
@@ -382,8 +394,10 @@ int main(int argc, char* argv[])
 	colors = (float*)malloc(size_colors);
     if (colors==NULL) exit (1);
 
+
+
 	init(argc, argv);
-	glutMainLoop();	
+	glutMainLoop();
 	exit(EXIT_SUCCESS);
 }
 ///////////////////////////////////////////////////////////////////////

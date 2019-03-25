@@ -88,6 +88,7 @@ class Scene {
 		//Auxiliar Methods
 		float get_float(stringstream& line);
 		Point create_Point(stringstream& line);
+		Color getLocal(Material material, Point hitPoint, Point L, Point normal);
 		tuple<float, Material, Point> getClosestIntersection(Ray ray);
 		Point refract(Point i, Point n, float ior);
 
