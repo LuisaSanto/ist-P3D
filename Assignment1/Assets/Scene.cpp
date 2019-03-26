@@ -77,7 +77,7 @@ Color Scene::trace(Ray ray, int depth, float refrIndex) {
 		//Translucid object
 
 		if (material.getTransmittance() != 0) {
-			Point tRayDirection = refract(-ray.getDirection(), normal, material.getRefrIndex(), refrIndex);
+			Point tRayDirection = refract(-ray.getDirection(), normal, refrIndex, material.getRefrIndex());
 			tRayDirection.normalize();
 			Point tRayOrigin = hitPoint + tRayDirection * 0.001;
 			Ray tRay = Ray(tRayOrigin, tRayDirection);
@@ -352,7 +352,7 @@ void Scene::print() {
 //===================== Whitted Ray Tracer auxiliar methods ==============
 
 //Compute the refracted ray Direction
-Point Scene::refract(Point i, Point normal, float ior1, float ior2) {
+Point Scene::refract(Point i, Point normal, float ioRin, float ioRout) {
 
     //cout << "Norma v: " << i.norma() << endl;
     //cout << "Norma normal: " << normal.norma() << endl;
@@ -366,7 +366,7 @@ Point Scene::refract(Point i, Point normal, float ior1, float ior2) {
 	//v = normal.multiply(i.inner(normal)).sub(i);
 	v = normal * i.inner(normal) - i;
 	sin = v.norma();
-	sin = sin * ior2 / ior1;
+	sin = sin * ioRin / ioRout;
 	cos = float (sqrt(1 - pow(sin, 2)));
 
 	/*if (cos < 0) {
