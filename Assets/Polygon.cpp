@@ -41,20 +41,24 @@ float Polygon::intersectPolygon(Ray ray) {
 
 	ori = rayOrigin - _point1;
 
-	u = ori.inner(crossDir);
+	u = ori.inner(crossDir) * (1/innerVert);
 
-	if(u < 0.0 || u > innerVert){
+	if(u < 0.0 || u > 1){
 		return tNear;
 	}
 
 	q = ori.cross(_point2 - _point1);
-	v = rayDirection.inner(q);
+	v = rayDirection.inner(q) * (1/innerVert);
 
-	if(v < 0.0 || u + v > innerVert){
+	if(v < 0.0 || u + v > 1){
 		return tNear;
 	}
 
-	t = (_point3 - _point1).inner(q);
+	t = (_point3 - _point1).inner(q) * (1/innerVert);
+
+	if(t < 0){
+		return tNear;
+	}
 
 	/*if(innerVert < 0.0000001 && innerVert > -0.0000001){
 		return tNear;
