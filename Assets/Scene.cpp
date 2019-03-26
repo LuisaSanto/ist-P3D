@@ -8,7 +8,7 @@ Scene::Scene() {}
 
 
 //=================Whitted Ray Tracing Algorithm============
-Color Scene::trace(Ray ray, int depth) {
+Color Scene::trace(Ray ray, int depth, float refrIndex) {
 
 
 	//Save the nearest object intersected by the ray and what type of object
@@ -66,23 +66,23 @@ Color Scene::trace(Ray ray, int depth) {
 			rRayDirection = rRayDirection + ray.getDirection();
 			rRayDirection.normalize();
 			Point rRayOrigin = hitPoint + rRayDirection * 0.001;
-			
+
 
 			Ray rRay = Ray(rRayOrigin, rRayDirection);
 			depth = depth + 1;
-			Color rColor = trace(rRay, depth);
+			Color rColor = trace(rRay, depth, refrIndex);
 			colorFinal = colorFinal + rColor * material.getSpecular();
 		}
 
 		//Translucid object
 
 		if (material.getTransmittance() != 0) {
-			Point tRayDirection = refract(-ray.getDirection(), normal, material.getRefrIndex());
+			Point tRayDirection = refract(-ray.getDirection(), normal, material.getRefrIndex(), refrIndex);
 			tRayDirection.normalize();
 			Point tRayOrigin = hitPoint + tRayDirection * 0.001;
 			Ray tRay = Ray(tRayOrigin, tRayDirection);
 			depth = depth + 1;
-			Color tColor = trace(tRay, depth);
+			Color tColor = trace(tRay, depth, material.getRefrIndex());
 			colorFinal = colorFinal + tColor * material.getTransmittance();
 		}
 
@@ -352,7 +352,7 @@ void Scene::print() {
 //===================== Whitted Ray Tracer auxiliar methods ==============
 
 //Compute the refracted ray Direction
-Point Scene::refract(Point i, Point normal, float ior) {
+Point Scene::refract(Point i, Point normal, float ior1, float ior2) {
 
     //cout << "Norma v: " << i.norma() << endl;
     //cout << "Norma normal: " << normal.norma() << endl;
@@ -360,13 +360,13 @@ Point Scene::refract(Point i, Point normal, float ior) {
 	Point v, t, r;
 	float sin, cos;
 
-	float etai = 1;
-	float etat = ior;
+	//float etai = 1;
+	//float etat = ior;
 
 	//v = normal.multiply(i.inner(normal)).sub(i);
 	v = normal * i.inner(normal) - i;
 	sin = v.norma();
-	sin = sin / ior;
+	sin = sin * ior2 / ior1;
 	cos = float (sqrt(1 - pow(sin, 2)));
 
 	/*if (cos < 0) {
@@ -381,6 +381,7 @@ Point Scene::refract(Point i, Point normal, float ior) {
 
 	t = v;
 	t.normalize();
+
 
 	//r = t.multiply(sin).add(normal.multiply(-cos));
 	r = t * sin + (-normal) * cos;
