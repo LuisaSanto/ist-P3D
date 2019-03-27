@@ -19,6 +19,10 @@ float Point::norma() {
     return (float) sqrt(xval*xval + yval*yval + zval*zval);
 }
 
+bool Point::isEqual(Point b) {
+    return xval == b.xval && yval == b.yval && zval == b.zval;
+}
+
 // Add or subtract two points.
 
 Point Point::operator+(Point b) {

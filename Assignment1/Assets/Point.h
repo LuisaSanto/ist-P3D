@@ -31,6 +31,8 @@ class Point {
 	    Point operator*(float a);
 	    Point operator/(float a);
 
+		bool isEqual(Point b);
+
 
 	    // Move the existing point.
 	    void move(float a, float b, float c);
