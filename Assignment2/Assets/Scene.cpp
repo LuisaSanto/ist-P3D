@@ -8,7 +8,7 @@ Scene::Scene() {}
 
 
 //=================Whitted Ray Tracing Algorithm============
-Color Scene::trace(Ray ray, int depth, float refrIndex) {
+Color Scene::trace(Ray ray, int depth, float refrIndex, bool insideObject) {
 
 
 	//Save the nearest object intersected by the ray and what type of object
@@ -38,27 +38,29 @@ Color Scene::trace(Ray ray, int depth, float refrIndex) {
 		//Local Color and illumination
 		for (Light l : getLights()) {
 
-			//Unit Vector from the hit Point to Light source position
-			Point L = l.getPos() - hitPoint;
-			L.normalize();
+            //Unit Vector from the hit Point to Light source position
+            Point L = l.getPos() - hitPoint;
+            L.normalize();
 
-			if (L.inner(normal) > 0) {
-			    //Trace Shadow Ray
-			    Point shadowHitPoint = hitPoint + L * 0.001; // add an offset
-			    Ray shadowRay = Ray(shadowHitPoint, L);
-			    tuple<float, Material, Point> shadow = getClosestIntersection(shadowRay);
-			    //If point is not in shadow
-			    if (get<0>(shadow) == kInfinity) {
-			        colorFinal = colorFinal + getLocal(material, hitPoint, L, normal);
-			    }
-			}
-		}
-
-		if (depth >= 3) { //maxDepth
+            if (L.inner(normal) > 0) {
+                //Trace Shadow Ray
+                Point shadowHitPoint = hitPoint + L * 0.001; // add an offset
+                Ray shadowRay = Ray(shadowHitPoint, L);
+                tuple<float, Material, Point> shadow = getClosestIntersection(shadowRay);
+                //If point is not in shadow
+                if (get<0>(shadow) == kInfinity) {
+                    colorFinal = colorFinal + getLocal(material, l, hitPoint, L, normal);
+                }
+            }
+        }
+		if (depth >= 6) { //maxDepth
 			return colorFinal;
 		}
 
 		//Reflective object
+        if (insideObject) {
+            normal = - normal;
+        }
 
 		if (material.getSpecular() != 0) {
 			Point rRayDirection = normal * ray.getDirection().inner(normal);
@@ -70,22 +72,29 @@ Color Scene::trace(Ray ray, int depth, float refrIndex) {
 
 			Ray rRay = Ray(rRayOrigin, rRayDirection);
 			depth = depth + 1;
-			Color rColor = trace(rRay, depth, refrIndex);
+			Color rColor = trace(rRay, depth, refrIndex, insideObject);
 			colorFinal = colorFinal + rColor * material.getSpecular();
 		}
 
 		//Translucid object
 
 		if (material.getTransmittance() != 0) {
-			Point tRayDirection = refract(-ray.getDirection(), normal, refrIndex, material.getRefrIndex());
-			tRayDirection.normalize();
-			Point tRayOrigin = hitPoint + tRayDirection * 0.001;
-			Ray tRay = Ray(tRayOrigin, tRayDirection);
-			depth = depth + 1;
-			Color tColor = trace(tRay, depth, material.getRefrIndex());
-			colorFinal = colorFinal + tColor * material.getTransmittance();
+		    Point tRayDirection;
+		    if (insideObject) {
+                tRayDirection = refract(-ray.getDirection(), normal, material.getRefrIndex(), refrIndex, insideObject);
+		    }
+			else
+                tRayDirection = refract(-ray.getDirection(), normal, refrIndex, material.getRefrIndex(), insideObject);
+			if (!tRayDirection.isEqual(Point(0,0,0))) {
+                tRayDirection.normalize();
+                Point tRayOrigin = hitPoint + tRayDirection * 0.001;
+                Ray tRay = Ray(tRayOrigin, tRayDirection);
+                depth = depth + 1;
+                insideObject = !insideObject;
+                Color tColor = trace(tRay, depth, refrIndex, insideObject);
+                colorFinal = colorFinal + tColor * material.getTransmittance();
+            }
 		}
-
 
 		return colorFinal;
 
@@ -352,68 +361,34 @@ void Scene::print() {
 //===================== Whitted Ray Tracer auxiliar methods ==============
 
 //Compute the refracted ray Direction
-Point Scene::refract(Point i, Point normal, float ioRin, float ioRout) {
+Point Scene::refract(Point i, Point normal, float ioRin, float ioRout, bool insideObject) {
 
-    //cout << "Norma v: " << i.norma() << endl;
-    //cout << "Norma normal: " << normal.norma() << endl;
 	// 1st way
 	Point v, t, r;
 	float sin, cos;
+	//cout << insideObject << endl;
 
-	//float etai = 1;
-	//float etat = ior;
+	/*if (insideObject == true)
+		normal = -normal;*/
 
-	//v = normal.multiply(i.inner(normal)).sub(i);
 	v = normal * i.inner(normal) - i;
 	sin = v.norma();
 	sin = sin * ioRin / ioRout;
-	cos = float (sqrt(1 - pow(sin, 2)));
+	if ((sin * sin) <= 1) {
+        cos = float(sqrt(1 - pow(sin, 2)));
 
-	/*if (cos < 0) {
-		cos = -cos;
-
-	}
-	else {
-		swap(etai, etat);
-		normal = -normal;
-	}*/
+        t = v;
+        t.normalize();
 
 
-	t = v;
-	t.normalize();
-
-
-	//r = t.multiply(sin).add(normal.multiply(-cos));
-	r = t * sin + (-normal) * cos;
-	r.normalize();
-	return r;
-
-
-	// 2nd way
-	/*float cosi = i.inner(normal);
-	float etai = 1, etat = ior;
-	Point n = normal;
-	if (cosi < 0) { cosi = -cosi; } else { swap(etai, etat); n= normal.operator*(-1); }
-	float eta = etai / etat;
-	float k = 1 - eta * eta * (1 - cosi * cosi);
-	return k < 0 ? Point() : i * (eta) + n * ((eta * cosi - sqrtf(k)));*/
-
-
-
-
-
-	// 3rd way
-	/*float eta = 1 / ior;
-
-	float N_dot_I = normal.inner(i);
-	float k = 1 - pow(eta, 2) * (1 - pow(N_dot_I, 2));
-	if (k < 0)
-		return Point();
-	else 
-		return i * eta - normal * (eta * N_dot_I + sqrt(k));*/
+        r = t * sin + (-normal) * cos;
+        r.normalize();
+        return r;
+    }
+	return Point(0, 0, 0);
 }
 
-Color Scene::getLocal(Material material, Point hitPoint, Point L, Point normal) {
+Color Scene::getLocal(Material material, Light light, Point hitPoint, Point L, Point normal) {
 
 	//Diffuse color
 
@@ -423,15 +398,17 @@ Color Scene::getLocal(Material material, Point hitPoint, Point L, Point normal) 
 
 	//Specular color
 	Point r = normal * L.inner(normal);
-	r = r * (-2);
+	r = r * (2);
 	r = r - L;
 	r.normalize();
 
-	Point v = hitPoint - getCamera().getEye();
+	Point v = -(hitPoint - getCamera().getEye());
 	v.normalize();
-
-	Color specularColor = material.getColor() * (material.getSpecular() * pow(r.inner(v), 25));
-
+	//cout << material.getShine() << endl;
+	Color specularColor = Color(0,0,0);
+	if (r.inner(v) > 0) {
+        specularColor = light.getColor() * (material.getSpecular() * pow(r.inner(v), material.getSpecular()));
+    }
 
 	return diffuseColor + specularColor;
 }
