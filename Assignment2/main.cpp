@@ -32,6 +32,11 @@
 
 #define MAX_DEPTH 6
 
+
+
+//Jittering Sampling parameters
+#define N 2 //Number of samples
+
 // Points defined by 2 attributes: positions which are stored in vertices array and colors which are stored in colors array
 float *colors;
 float *vertices;
@@ -221,23 +226,32 @@ void renderScene()
 
 	auto start = std::chrono::high_resolution_clock::now();
 
+	float epsilon = ((float) rand() / (RAND_MAX));
+
 	for (int y = 0; y < RES_Y; y++)
 	{
 		for (int x = 0; x < RES_X; x++)
 		{
-		
-		    /*YOUR 2 FUNTIONS:*/ 
-			Ray ray = scene.getCamera().computePrimaryRay(x, y);
-			Color color = scene.trace(ray, 0, 1);
-			//printf("%f %f %f\n", color[0], color[1], color[2]);
+
+            Color color; //= Color(0.0f, 0.0f, 0.0f);
+            //Jittering sampling
+			for (int p = 0; p < N; p++) {
+			    for (int q = 0; q < N; q++){
+			        float i = x + (p + epsilon) / N;
+			        float j = y + (q + epsilon) / N;
+                    Ray ray = scene.getCamera().computePrimaryRay(i, j);
+                    color = color + scene.trace(ray, 0, 1, false);
+                    //color.print();
+			    }
+			}
+			color = color * (1.0f/(N * N));
+
+
 			vertices[index_pos++]= (float)x;
 			vertices[index_pos++]= (float)y;
 			colors[index_col++]= color.r();
 			colors[index_col++]= color.g();
 			colors[index_col++]= color.b();
-			/*colors[index_col++]= 1.0f;
-			colors[index_col++]= 0.0f;
-			colors[index_col++]= 0.0f;*/	
 
 			if(draw_mode == 0) {  // desenhar o conteúdo da janela ponto a ponto
 				drawPoints();
@@ -359,7 +373,7 @@ int main(int argc, char* argv[])
     //INSERT HERE YOUR CODE FOR PARSING NFF FILES
 	//Scene scene;
 	scene.parse_nff(argv[1]);
-	scene.print();
+	//scene.print();
 	RES_X = scene.getCamera().getResX();
 	RES_Y = scene.getCamera().getResY(); 
 	
