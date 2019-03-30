@@ -58,7 +58,7 @@ Color Scene::trace(Ray ray, int depth, float refrIndex, bool insideObject) {
 		}
 
 		//Reflective object
-        if (insideObject) {
+            if (insideObject) {
             normal = - normal;
         }
 
@@ -263,8 +263,9 @@ void Scene::do_sphere(stringstream& line) {
 
 
 	//Create Sphere
-	Sphere s = Sphere(p, radius, material);
-	addSphere(s);
+	Sphere* s = new Sphere(p, radius, material);
+	//addSphere(s);
+	addObject(s);
 }
 
 void Scene::do_polygon(stringstream& line) {
@@ -292,8 +293,9 @@ void Scene::do_polygon(stringstream& line) {
 
 
 	//Create Polygon
-	Polygon p = Polygon(point1, point2, point3, material);
-	addPolygon(p);
+	Polygon* p = new Polygon(point1, point2, point3, material);
+	//addPolygon(p);
+    addObject(p);
 }
 
 void Scene::do_plane(stringstream& line) {
@@ -310,16 +312,9 @@ void Scene::do_plane(stringstream& line) {
 
 
 	//Create Plane
-	Plane plane = Plane(p1, p2, p3, material);
-	addPlane(plane);
-}
-
-void Scene::do_point(stringstream& line) {
-	//Create Point
-	for (int i = 0; i < 3; i++) {
-		Point p = create_Point(line);
-		points.push_back(p);
-	}
+	Plane* plane = new Plane(p1, p2, p3, material);
+	//addPlane(plane);
+    addObject(plane);
 }
 
 //=================Auxiliar Methods============
@@ -346,14 +341,8 @@ void Scene::print() {
 	for (auto value : getLights()) {
 		value.print();
 	}
-	for (auto value : getSpheres()) {
-		value.print();
-	}for (auto value : getPlanes()) {
-		value.print();
-	}for (auto value : getPoints()) {
-		value.print();
-	}for (auto value : getPolygons()) {
-		value.print();
+	for (auto value : getObjects()) {
+	    value->print();
 	}
 }
 
@@ -366,10 +355,6 @@ Point Scene::refract(Point i, Point normal, float ioRin, float ioRout, bool insi
 	// 1st way
 	Point v, t, r;
 	float sin, cos;
-	//cout << insideObject << endl;
-
-	/*if (insideObject == true)
-		normal = -normal;*/
 
 	v = normal * i.inner(normal) - i;
 	sin = v.norma();
@@ -404,7 +389,6 @@ Color Scene::getLocal(Material material, Light light, Point hitPoint, Point L, P
 
 	Point v = -(hitPoint - getCamera().getEye());
 	v.normalize();
-	//cout << material.getShine() << endl;
 	Color specularColor = Color(0,0,0);
 	if (r.inner(v) > 0) {
         specularColor = light.getColor() * (material.getSpecular() * pow(r.inner(v), material.getSpecular()));
@@ -420,64 +404,20 @@ tuple<float, Material, Point> Scene::getClosestIntersection(Ray ray) {
 	Polygon closestPolygon;
 	float tNear = kInfinity;
 	float tNearK;
+	Object* closestObj = nullptr;
 
-	//cout << "ANTES" << endl;
-
-	//Intersect with all spheres of the scene
-	for (Sphere sphere : getSpheres()) {
-		//cout << "ANTES2" << endl;
-		tNearK = sphere.intersectSphere(ray);
-		//cout << "DEPOIS" << endl;
-		if (tNearK < tNear) {
-			tNear = tNearK;
-			closestSphere = sphere;
-			closestObject = 0;
-		}
+	//Intersect with all objects of the scene
+	for (auto obj : getObjects()) {
+        tNearK = obj->checkRayCollision(ray);
+        if (tNearK < tNear) {
+            tNear = tNearK;
+            closestObj = obj;
+        }
 	}
 
-	//cout << "BOM DIAAAAA" << endl;
-
-	
-	//Intersect with all planes of the scene
-	for (Plane plane : getPlanes()) {
-		tNearK = plane.intersectPlane(ray);
-		//cout << tNearK << endl;
-		if (tNearK < tNear) {
-			tNear = tNearK;
-			closestPlane = plane;
-			closestObject = 1;
-		}
-	}
-	
-
-
-	//Intersect with all polygons
-	for (Polygon polygon : getPolygons()) {
-		tNearK = polygon.intersectPolygon(ray);
-		//cout << tNearK << endl;
-		if (tNearK < tNear) {
-			tNear = tNearK;
-			closestPolygon = polygon;
-			closestObject = 2;
-		}
-	}
-	//cout << "================= CLOSEST OBJECT ================" << endl;
 	if (tNear != kInfinity) {
-		if (closestObject == 0) { //closestObject is a sphere
-			//cout << "===SPHERE===" << endl;
-			//closestSphere.print();
-			return make_tuple(tNear, closestSphere.getMaterial(), closestSphere.getNormal());
-		} 
-		else if (closestObject == 1) { //closestObjcect is a plane
-			//cout << "===PLANE===" << endl;
-			//closestPlane.print();
-			return make_tuple(tNear, closestPlane.getMaterial(), closestPlane.getNormal());
-		}
-		else if (closestObject == 2) { //closestObjcect is a plane
-			//cout << "===POLYGON===" << endl;
-			//closestPolygon.print();
-			return make_tuple(tNear, closestPolygon.getMaterial(), closestPolygon.getNormal());
-		}
+	    //closestObj->print();
+	    return make_tuple(tNear, closestObj->getMaterial(), closestObj->getNormal());
 	}
 	else {
 		return make_tuple(tNear, Material(), Point());

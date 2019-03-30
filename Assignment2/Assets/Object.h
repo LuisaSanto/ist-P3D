@@ -1,0 +1,32 @@
+#ifndef OBJECT_H
+#define OBJECT_H
+
+#include "Material.h"
+#include "Point.h"
+#include "Ray.h"
+
+using namespace std;
+
+class Object {
+    protected:
+        Point _normal;
+        Material _material;
+
+    public:
+        //Constructors
+        Object() {}
+        Object(Material material);
+
+        //Getters
+        Material getMaterial() { return _material; }
+        Point getNormal() { return _normal; }
+
+        Point setNormal(Point normal) { _normal = normal; }
+
+        //Virtual
+        virtual float checkRayCollision (Ray ray) = 0;
+        virtual void print() = 0;
+
+};
+
+#endif

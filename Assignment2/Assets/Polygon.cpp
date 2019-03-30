@@ -1,15 +1,6 @@
 #include "Polygon.h"
 
-Polygon::Polygon (Point p1, Point p2, Point p3, Material material) {
-	_point1 = p1;
-	_point2 = p2;
-	_point3 = p3;
-	_material = material;
 
-	_normal = (p2 - p1).cross(p3 - p1);
-	_normal.normalize();
-
-}
 
 void Polygon::print() {
 	cout << "======== Polygon Info =======" << endl;
@@ -21,7 +12,7 @@ void Polygon::print() {
 	cout << "END" << endl;
 }
 
-float Polygon::intersectPolygon(Ray ray) {
+float Polygon::checkRayCollision(Ray ray) {
 	//Declare variables
 	float tNear = numeric_limits<float>::max();
 	float t, innerVert, invInnerVert, u, v;
@@ -59,30 +50,6 @@ float Polygon::intersectPolygon(Ray ray) {
 	if(t < 0){
 		return tNear;
 	}
-
-	/*if(innerVert < 0.0000001 && innerVert > -0.0000001){
-		return tNear;
-	}
-
-	invInnerVert = 1.0 / innerVert;
-
-	ori = rayOrigin.sub(_point1);
-
-	u = invInnerVert * (ori.inner(crossDir));
-
-	if(u < 0.0 || u > 1.0){
-		return tNear;
-	}
-
-	q = ori.cross(_point2.sub(_point1));
-	v = invInnerVert * (rayDirection.inner(q));
-
-	if(v < 0.0 || u + v > 1.0){
-		return tNear;
-	}
-
-	t = invInnerVert * ((_point3.sub(_point1)).inner(q));*/
-
 
 	return t;
 

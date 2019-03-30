@@ -1,11 +1,5 @@
 #include "Sphere.h"
 
-Sphere::Sphere (Point pos, float radius, Material material) {
-	_pos = pos;
-	_radius = radius;
-	_material = material;
-}
-
 void Sphere::print() {
 	cout << "======== Sphere Info =======" << endl;
 	_pos.print();
@@ -23,10 +17,10 @@ void Sphere::setNormalIntersectionPoint(Point p, float d) {
     } else {
         _normal = -result;
     }*/
-    _normal = result;
+    setNormal(result);
 }
 
-float Sphere::intersectSphere(Ray ray) {
+float Sphere::checkRayCollision(Ray ray) {
 	//Declare variables
 	float tNear = numeric_limits<float>::max();
 

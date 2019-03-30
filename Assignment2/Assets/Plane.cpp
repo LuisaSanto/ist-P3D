@@ -1,14 +1,6 @@
 #include "Plane.h"
 
-Plane::Plane (Point p1, Point p2, Point p3, Material material) {
-	_point1 = p1;
-	_point2 = p2;
-	_point3 = p3;
-	_material = material;
 
-	_normal = (p2 - p1).cross(p3 - p1);
-	_normal.normalize();
-}
 
 void Plane::print() {
 	cout << "======== Plane Info =======" << endl;
@@ -19,7 +11,7 @@ void Plane::print() {
 	cout << "END" << endl;
 }
 
-float Plane::intersectPlane(Ray ray) {
+float Plane::checkRayCollision(Ray ray) {
 	//Declare variables
 	float tNear = numeric_limits<float>::max();
 	float t;

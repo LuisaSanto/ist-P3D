@@ -3,12 +3,15 @@ CC=g++ -g -std=c++11
 CFLAGS=-c 
 OPENGLFLAGS= -lglut -lGLU -lGL -lGLEW
 
-all: Point.o Ray.o Camera.o Color.o Light.o Material.o Sphere.o Plane.o Polygon.o Cylinder.o Scene.o main.o
-	$(CC) Point.o Ray.o Color.o Camera.o Light.o Material.o Sphere.o Plane.o Polygon.o Cylinder.o Scene.o main.o -o main $(OPENGLFLAGS) 
+all: Point.o Object.o Ray.o Camera.o Color.o Light.o Material.o Sphere.o Plane.o Polygon.o Cylinder.o Scene.o main.o
+	$(CC) Point.o Object.o Ray.o Color.o Camera.o Light.o Material.o Sphere.o Plane.o Polygon.o Cylinder.o Scene.o main.o -o main $(OPENGLFLAGS)
 
 
 Point.o: Assets/Point.cpp
 	$(CC) $(CFLAGS) Assets/Point.cpp
+
+Object.o: Assets/Object.cpp
+	$(CC) $(CFLAGS) Assets/Object.cpp
 
 Color.o: Assets/Color.cpp
 	$(CC) $(CFLAGS) Assets/Color.cpp
