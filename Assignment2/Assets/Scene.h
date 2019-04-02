@@ -29,7 +29,7 @@ class Scene {
 		Color _bgColor;
 		Camera _camera;
 		vector<Material> materials;
-		vector<Light> lights;
+		vector<Light*> lights;
 		vector<Object*> objects;
 
 	public:
@@ -40,14 +40,14 @@ class Scene {
 		Color getBgColor() { return _bgColor; }
 		Camera getCamera() { return _camera; }
 		vector<Material> getMaterials() { return materials; }
-		vector<Light> getLights() { return lights; }
+		vector<Light*> getLights() { return lights; }
 		vector<Object*> getObjects() { return objects; }
 
 		//Setters
 		void addBgColor(Color color) { _bgColor = color; }
 		void addCamera(Camera camera) { _camera = camera; }
 		void addMaterial(Material material) { materials.push_back(material); }
-		void addLight(Light light) { lights.push_back(light); }
+		void addLight(Light* light) { lights.push_back(light); }
 		void addObject(Object* object) { objects.push_back(object); }
 
 
@@ -64,13 +64,13 @@ class Scene {
 		void do_polygon(stringstream& line);
 
 		//Whitted Ray-Tracing Algorithm
-		Color trace(Ray ray, int depth, float , bool insideObject);
+		Color trace(Ray ray, int depth, float , bool insideObject, int softShadows);
 
 
 		//Auxiliar Methods
 		float get_float(stringstream& line);
 		Point create_Point(stringstream& line);
-		Color getLocal(Material material, Light light, Point hitPoint, Point L, Point normal);
+		Color getLocal(Material material, Color lightColor, Point hitPoint, Point L, Point normal);
 		Object* getClosestIntersection(Ray ray);
 		bool checkInShadow(Ray ray);
 		Point refract(Point i, Point n, float ior1, float ior2, bool insideObject);

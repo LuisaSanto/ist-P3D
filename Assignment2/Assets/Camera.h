@@ -21,6 +21,11 @@ class Camera {
 		Point _xe, _ye, _ze;
 
 
+		//Depth of Field parameters
+		Point focal;
+		float aperture;
+
+
 	public:
 		//Constructors
 		Camera() {}

@@ -8,7 +8,7 @@ Scene::Scene() {}
 
 
 //=================Whitted Ray Tracing Algorithm============
-Color Scene::trace(Ray ray, int depth, float refrIndex, bool insideObject) {
+Color Scene::trace(Ray ray, int depth, float refrIndex, bool insideObject, int softShadows) {
 
 
 	//Save the nearest object intersected by the ray and what type of object
@@ -16,7 +16,6 @@ Color Scene::trace(Ray ray, int depth, float refrIndex, bool insideObject) {
 
 
 	//Get some info about the closest intersection Object
-	//Returns Tuple with closest Intersection, closest object's material and closest object's normal;
 	nearestObject = getClosestIntersection(ray);
 
 	//Check if there isn't nearest object then return bColor
@@ -25,23 +24,29 @@ Color Scene::trace(Ray ray, int depth, float refrIndex, bool insideObject) {
 		return getBgColor();
 	}
 	else {
-		//Material material = get<1>(nearestObject);
 		Material material = nearestObject->getMaterial();
 		Color colorFinal = Color(0.0f, 0.0f, 0.0f);
 
 
 		//Get the hitPoint from the Nearest Intersection tNear
-		//Point hitPoint = ray.pointAtParameter(get<0>(nearestObject));
 		Point hitPoint = nearestObject->getRayHitPoint();
 		
 		//Get the Normal at that Hit Point
 		Point normal = nearestObject->getNormal();
 
 		//Local Color and illumination
-		for (Light l : getLights()) {
+		for (Light* l : getLights()) {
 
             //Unit Vector from the hit Point to Light source position
-            Point L = l.getPos() - hitPoint;
+			Point L;
+			//No soft shadows
+			if (softShadows == 0) {
+                L = l->getPos() - hitPoint;
+            }
+            else {
+                //With soft shadows
+                L = l->getJitterPoint() - hitPoint;
+            }
             L.normalize();
 
             if (L.inner(normal) > 0) {
@@ -51,11 +56,11 @@ Color Scene::trace(Ray ray, int depth, float refrIndex, bool insideObject) {
                 bool inShadow = checkInShadow(shadowRay);
                 //If point is not in shadow
                 if (!inShadow) {
-                    colorFinal = colorFinal + getLocal(material, l, hitPoint, L, normal);
+                    colorFinal = colorFinal + getLocal(material, l->getColor(), hitPoint, L, normal);
                 }
             }
         }
-		if (depth >= 6) { //maxDepth
+		if (depth >= 3) { //maxDepth
 			return colorFinal;
 		}
 
@@ -74,7 +79,7 @@ Color Scene::trace(Ray ray, int depth, float refrIndex, bool insideObject) {
 
 			Ray rRay = Ray(rRayOrigin, rRayDirection);
 			depth = depth + 1;
-			Color rColor = trace(rRay, depth, refrIndex, insideObject);
+			Color rColor = trace(rRay, depth, refrIndex, insideObject, softShadows);
 			colorFinal = colorFinal + rColor * material.getSpecular();
 		}
 
@@ -93,7 +98,7 @@ Color Scene::trace(Ray ray, int depth, float refrIndex, bool insideObject) {
                 Ray tRay = Ray(tRayOrigin, tRayDirection);
                 depth = depth + 1;
                 insideObject = !insideObject;
-                Color tColor = trace(tRay, depth, refrIndex, insideObject);
+                Color tColor = trace(tRay, depth, refrIndex, insideObject, softShadows);
                 colorFinal = colorFinal + tColor * material.getTransmittance();
             }
 		}
@@ -224,7 +229,7 @@ void Scene::do_light(stringstream& line) {
 	Color color = Color(r, g, b);
 
 	//Create Light
-	Light l = Light(p, color);
+	Light *l = new Light(p, color);
 	addLight(l);
 }
 
@@ -341,7 +346,7 @@ void Scene::print() {
 		value.print();
 	}
 	for (auto value : getLights()) {
-		value.print();
+		value->print();
 	}
 	for (auto value : getObjects()) {
 	    value->print();
@@ -375,7 +380,7 @@ Point Scene::refract(Point i, Point normal, float ioRin, float ioRout, bool insi
 	return Point(0, 0, 0);
 }
 
-Color Scene::getLocal(Material material, Light light, Point hitPoint, Point L, Point normal) {
+Color Scene::getLocal(Material material, Color lightColor, Point hitPoint, Point L, Point normal) {
 
 	//Diffuse color
 
@@ -393,7 +398,7 @@ Color Scene::getLocal(Material material, Light light, Point hitPoint, Point L, P
 	v.normalize();
 	Color specularColor = Color(0,0,0);
 	if (r.inner(v) > 0) {
-        specularColor = light.getColor() * (material.getSpecular() * pow(r.inner(v), material.getSpecular()));
+        specularColor = lightColor * (material.getSpecular() * pow(r.inner(v), material.getShine()));
     }
 
 	return diffuseColor + specularColor;

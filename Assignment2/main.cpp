@@ -30,12 +30,15 @@
 #define VERTEX_COORD_ATTRIB 0
 #define COLOR_ATTRIB 1
 
-#define MAX_DEPTH 6
+#define MAX_DEPTH 3
 
 
 
 //Jittering Sampling parameters
-#define N 2 //Number of samples
+#define N 4 //Number of samples
+
+#define softShadows 0
+#define antiAliasing 0
 
 // Points defined by 2 attributes: positions which are stored in vertices array and colors which are stored in colors array
 float *colors;
@@ -219,33 +222,40 @@ void drawPoints()
 
 // Render function by primary ray casting from the eye towards the scene's objects
 
-void renderScene()
-{
-	int index_pos=0;
-	int index_col=0;
+void renderScene() {
+	int index_pos = 0;
+	int index_col = 0;
 
 	auto start = std::chrono::high_resolution_clock::now();
 
 	float epsilon = ((float) rand() / (RAND_MAX));
 
+	for (Light* l : scene.getLights()) {
+		l->addJitteredPoints(N);
+	}
+
+
 	for (int y = 0; y < RES_Y; y++)
 	{
 		for (int x = 0; x < RES_X; x++)
 		{
-
             Color color; //= Color(0.0f, 0.0f, 0.0f);
             //Jittering sampling
-			for (int p = 0; p < N; p++) {
-			    for (int q = 0; q < N; q++){
-			        float i = x + (p + epsilon) / N;
-			        float j = y + (q + epsilon) / N;
-                    Ray ray = scene.getCamera().computePrimaryRay(i, j);
-                    color = color + scene.trace(ray, 0, 1, false);
-                    //color.print();
-			    }
-			}
-			color = color * (1.0f/(N * N));
-
+            if (antiAliasing == 0) {
+                Ray ray = scene.getCamera().computePrimaryRay(x, y);
+                color = color + scene.trace(ray, 0, 1, false, softShadows);
+            }
+            else {
+                for (int p = 0; p < N; p++) {
+                    for (int q = 0; q < N; q++) {
+                        float i = x + (p + epsilon) / N;
+                        float j = y + (q + epsilon) / N;
+                        Ray ray = scene.getCamera().computePrimaryRay(i, j);
+                        color = color + scene.trace(ray, 0, 1, false, softShadows);
+                    }
+                }
+                color = color * (1.0f / (N * N));
+            }
 
 			vertices[index_pos++]= (float)x;
 			vertices[index_pos++]= (float)y;
