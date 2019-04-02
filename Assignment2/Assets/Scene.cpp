@@ -12,7 +12,7 @@ Color Scene::trace(Ray ray, int depth, float refrIndex, bool insideObject) {
 
 
 	//Save the nearest object intersected by the ray and what type of object
-	tuple<float, Material, Point> nearestObject;
+	Object* nearestObject;
 
 
 	//Get some info about the closest intersection Object
@@ -21,19 +21,21 @@ Color Scene::trace(Ray ray, int depth, float refrIndex, bool insideObject) {
 
 	//Check if there isn't nearest object then return bColor
 	
-	if (get<0>(nearestObject) == kInfinity) {
+	if (nearestObject == nullptr) {
 		return getBgColor();
 	}
 	else {
-		Material material = get<1>(nearestObject);
+		//Material material = get<1>(nearestObject);
+		Material material = nearestObject->getMaterial();
 		Color colorFinal = Color(0.0f, 0.0f, 0.0f);
 
 
 		//Get the hitPoint from the Nearest Intersection tNear
-		Point hitPoint = ray.pointAtParameter(get<0>(nearestObject));
+		//Point hitPoint = ray.pointAtParameter(get<0>(nearestObject));
+		Point hitPoint = nearestObject->getRayHitPoint();
 		
 		//Get the Normal at that Hit Point
-		Point normal = get<2>(nearestObject);
+		Point normal = nearestObject->getNormal();
 
 		//Local Color and illumination
 		for (Light l : getLights()) {
@@ -46,9 +48,9 @@ Color Scene::trace(Ray ray, int depth, float refrIndex, bool insideObject) {
                 //Trace Shadow Ray
                 Point shadowHitPoint = hitPoint + L * 0.001; // add an offset
                 Ray shadowRay = Ray(shadowHitPoint, L);
-                tuple<float, Material, Point> shadow = getClosestIntersection(shadowRay);
+                bool inShadow = checkInShadow(shadowRay);
                 //If point is not in shadow
-                if (get<0>(shadow) == kInfinity) {
+                if (!inShadow) {
                     colorFinal = colorFinal + getLocal(material, l, hitPoint, L, normal);
                 }
             }
@@ -397,11 +399,7 @@ Color Scene::getLocal(Material material, Light light, Point hitPoint, Point L, P
 	return diffuseColor + specularColor;
 }
 
-tuple<float, Material, Point> Scene::getClosestIntersection(Ray ray) {
-	int closestObject;
-	Sphere closestSphere;
-	Plane closestPlane;
-	Polygon closestPolygon;
+Object* Scene::getClosestIntersection(Ray ray) {
 	float tNear = kInfinity;
 	float tNearK;
 	Object* closestObj = nullptr;
@@ -412,14 +410,21 @@ tuple<float, Material, Point> Scene::getClosestIntersection(Ray ray) {
         if (tNearK < tNear) {
             tNear = tNearK;
             closestObj = obj;
+            closestObj->setRayHitPoint(ray, tNear);
         }
 	}
+	return closestObj;
+}
 
-	if (tNear != kInfinity) {
-	    //closestObj->print();
-	    return make_tuple(tNear, closestObj->getMaterial(), closestObj->getNormal());
-	}
-	else {
-		return make_tuple(tNear, Material(), Point());
-	}
+bool Scene::checkInShadow(Ray ray) {
+    float tNear = kInfinity;
+    float tNearK;
+    //Intersect with all objects of the scene
+    for (auto obj : getObjects()) {
+        tNearK = obj->checkRayCollision(ray);
+        if (tNearK < tNear) {
+            return true;
+        }
+    }
+    return false;
 }

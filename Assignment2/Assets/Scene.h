@@ -71,7 +71,8 @@ class Scene {
 		float get_float(stringstream& line);
 		Point create_Point(stringstream& line);
 		Color getLocal(Material material, Light light, Point hitPoint, Point L, Point normal);
-		tuple<float, Material, Point> getClosestIntersection(Ray ray);
+		Object* getClosestIntersection(Ray ray);
+		bool checkInShadow(Ray ray);
 		Point refract(Point i, Point n, float ior1, float ior2, bool insideObject);
 
 		void print();
