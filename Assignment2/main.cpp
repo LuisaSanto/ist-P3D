@@ -39,6 +39,7 @@
 
 #define softShadows 0
 #define antiAliasing 0
+#define grid 1
 
 // Points defined by 2 attributes: positions which are stored in vertices array and colors which are stored in colors array
 float *colors;
@@ -383,6 +384,10 @@ int main(int argc, char* argv[])
     //INSERT HERE YOUR CODE FOR PARSING NFF FILES
 	//Scene scene;
 	scene.parse_nff(argv[1]);
+
+	if(grid == 1){
+		scene.createGrid();
+	}
 	//scene.print();
 	RES_X = scene.getCamera().getResX();
 	RES_Y = scene.getCamera().getResY(); 

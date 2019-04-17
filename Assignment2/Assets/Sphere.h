@@ -16,6 +16,7 @@ class Sphere : public Object {
 		float _radius;
 		Material _material;	
 		Point _normal;
+
 	public:
 		//Constructors
 		Sphere() {}
@@ -36,6 +37,7 @@ class Sphere : public Object {
 		float checkRayCollision(Ray ray);
 
 		void setNormalIntersectionPoint(Point point, float d);
+		void computeBoundingBox();
 
 
 };

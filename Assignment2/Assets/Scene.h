@@ -19,6 +19,7 @@
 #include "Sphere.h"
 #include "Plane.h"
 #include "Polygon.h"
+#include "Grid.h"
 
 const float kInfinity = numeric_limits<float>::max();
 
@@ -31,6 +32,7 @@ class Scene {
 		vector<Material> materials;
 		vector<Light*> lights;
 		vector<Object*> objects;
+		Grid grid;
 
 	public:
 		//Constructor
@@ -74,6 +76,7 @@ class Scene {
 		Object* getClosestIntersection(Ray ray);
 		bool checkInShadow(Ray ray);
 		Point refract(Point i, Point n, float ior1, float ior2, bool insideObject);
+		void createGrid();
 
 		void print();
 };

@@ -433,3 +433,7 @@ bool Scene::checkInShadow(Ray ray) {
     }
     return false;
 }
+
+void Scene::createGrid(){
+	this->grid = Grid(this->objects);
+}
