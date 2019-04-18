@@ -38,9 +38,8 @@
 #define N 4 //Number of samples
 
 
-#define softShadows 0
-#define antiAliasing 0
-#define grid 1
+
+
 
 
 // Points defined by 2 attributes: positions which are stored in vertices array and colors which are stored in colors array
@@ -65,6 +64,19 @@ int RES_X, RES_Y;
 int draw_mode=2; 
 
 int WindowHandle = 0;
+
+
+
+//Soft shadows: 0 - off; 1 - softShadows with Jittering Method
+int softShadows = 0;
+
+//Anti- Alising:  0 - off ; 1 - antiAliasinng with Stochastic Sampling;  2 - antiAliasing with Jittering Method
+int antiAliasing = 2;
+
+
+//Acceleration grid: 0 - off; 1 - on;
+int acceleration_grid = 0;
+
 
 ///////////////////////////////////////////////////////////////////////  RAY-TRACE SCENE
 
@@ -245,12 +257,23 @@ void renderScene() {
 		for (int x = 0; x < RES_X; x++)
 		{
             Color color; //= Color(0.0f, 0.0f, 0.0f);
-            //Jittering sampling
             if (antiAliasing == 0) {
                 Ray ray = scene.getCamera().computePrimaryRay(x, y);
                 color = color + scene.trace(ray, 0, 1, false, softShadows);
             }
-            else {
+            //Stochastic sampling
+            else if (antiAliasing == 1) {
+                int n_square = N * N;
+                for (int p = 1; p < n_square; p++) {
+                    float i = x + epsilon;
+                    float j = y + epsilon;
+                    Ray ray = scene.getCamera().computePrimaryRay(i, j);
+                    color = color + scene.trace(ray, 0, 1, false, softShadows);
+                }
+                color = color * (1.0f / n_square);
+            }
+            //Jittering sampling
+            else if (antiAliasing == 2) {
                 for (int p = 0; p < N; p++) {
                     for (int q = 0; q < N; q++) {
                         float i = x + (p + epsilon) / N;
@@ -389,9 +412,11 @@ int main(int argc, char* argv[])
 	//Scene scene;
 	scene.parse_nff(argv[1]);
 
-	if(grid == 1){
+	// If acceleration grid mode is on, create a grid
+	if(acceleration_grid == 1){
 		scene.createGrid();
 	}
+
 	//scene.print();
 	RES_X = scene.getCamera().getResX();
 	RES_Y = scene.getCamera().getResY(); 
