@@ -55,3 +55,35 @@ float Polygon::checkRayCollision(Ray ray) {
 
 
 }
+
+
+void Polygon::computeBoundingBox() {
+	Point p1 = Point(pMin,pMin,pMin);
+	Point p2 = Point(pMax,pMax,pMax);
+
+	Point points[] = { _point1, _point2, _point3 };
+
+	for(int i = 0; i < 3; i++){
+		if(points[i].x() < p1.x()){
+			p1.setX(points[i].x());
+		}
+		if(points[i].x() > p2.x()){
+			p2.setX(points[i].x());
+		}
+		if(points[i].y() < p1.y()){
+			p1.setY(points[i].y());
+		}
+		if(points[i].y() > p2.y()){
+			p2.setY(points[i].y());
+		}
+		if(points[i].z() < p1.z()){
+			p1.setZ(points[i].z());
+		}
+		if(points[i].z() > p2.z()){
+			p2.setZ(points[i].z());
+		}
+
+	}
+
+	BoundingBox box = BoundingBox(p1, p2);
+}
