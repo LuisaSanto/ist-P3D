@@ -19,20 +19,23 @@ using namespace std;
 
 class Grid
 {
-public:
-    BoundingBox box;
-    int nx, ny, nz;
-    int number_objects;
-    float m = 2.0f;
-    std::vector<std::vector<Object*>> cells;
-    Grid();
-    Grid(std::vector<Object*> objects) {
-        number_objects = objects.size();
-        computeBoundingBox(objects);
-    }
-private:
-        void computeBoundingBox(std::vector<Object*> objects);
-        void initializeGridCells(std::vector<Object*> objects);
+    public:
+        BoundingBox box;
+        int nx, ny, nz;
+        int number_objects;
+        float m = 2.0f;
+        std::vector<std::vector<Object*>> cells;
+        Grid() {};
+        Grid(std::vector<Object*> objects) {
+            number_objects = objects.size();
+            computeBoundingBox(objects);
+        }
+    private:
+            void computeBoundingBox(std::vector<Object*> objects);
+            void initializeGridCells(std::vector<Object*> objects);
+            int clamp(float x, float a, float b) {
+                return x < a ? a : (x > b ? b : x);
+            }
 };
 
 #endif
