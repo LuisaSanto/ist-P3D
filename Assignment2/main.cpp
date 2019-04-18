@@ -37,8 +37,8 @@
 //Jittering Sampling parameters
 #define N 4 //Number of samples
 
-#define softShadows 0
-#define antiAliasing 0
+#define softShadows 1
+#define antiAliasing 1
 
 // Points defined by 2 attributes: positions which are stored in vertices array and colors which are stored in colors array
 float *colors;
@@ -230,8 +230,10 @@ void renderScene() {
 
 	float epsilon = ((float) rand() / (RAND_MAX));
 
-	for (Light* l : scene.getLights()) {
-		l->addJitteredPoints(N);
+	if (softShadows == 1) {
+		for (Light *l : scene.getLights()) {
+			l->addJitteredPoints(N);
+		}
 	}
 
 

@@ -39,8 +39,9 @@ Color Scene::trace(Ray ray, int depth, float refrIndex, bool insideObject, int s
 
             //Unit Vector from the hit Point to Light source position
 			Point L;
-			//No soft shadows
+
 			if (softShadows == 0) {
+				//No soft shadows
                 L = l->getPos() - hitPoint;
             }
             else {
