@@ -101,3 +101,16 @@ float BoundingBox::intersectBoundingBox(Ray ray) {
 
 
 }
+
+bool BoundingBox::inside(Point p){
+
+	if(p.x() < _point1.x()) return false;
+	if(p.x() > _point2.x()) return false;
+	if(p.y() < _point1.y()) return false;
+	if(p.y() > _point2.y()) return false;
+	if(p.z() < _point1.z()) return false;
+	if(p.z() > _point2.z()) return false;
+
+	return true;
+
+}

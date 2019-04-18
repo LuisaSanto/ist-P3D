@@ -75,3 +75,102 @@ void Grid::initializeGridCells(std::vector<Object*> objects) {
 
 	}
 }
+
+float Grid::traverse(Ray ray) {
+
+	float ox = ray.getOrigin().x();
+	float oy = ray.getOrigin().y();
+	float oz = ray.getOrigin().z();
+
+	float dx = ray.getDirection().x();
+	float dy = ray.getDirection().y();
+	float dz = ray.getDirection().z();
+
+	float x0 = box.getMin().x();
+	float y0 = box.getMin().y();
+	float z0 = box.getMin().z();
+
+	float x1 = box.getMax().x();
+	float y1 = box.getMax().y();
+	float z1 = box.getMax().z();
+
+	float tx_min, ty_min, tz_min;
+	float tx_max, ty_max, tz_max;
+
+	int ix, iy, iz;
+	float t0, t1;
+
+	//starting cell
+	if(box.inside(ray.getOrigin())){
+		ix = clamp((ox - x0) * nx / (x1/x0),0,nx-1);
+		iy = clamp((oy - y0) * ny / (y1/y0),0,ny-1);
+		iz = clamp((oz - z0) * nz / (z1/z0),0,nz-1);
+	}
+	else{
+		Point p = ray.getOrigin() + ray.getDirection().operator*(t0);
+		ix = clamp((p.x() - x0) * nx / (x1/x0),0,nx-1);
+		iy = clamp((p.y() - y0) * ny / (y1/y0),0,ny-1);
+		iz = clamp((p.z() - z0) * nz / (z1/z0),0,nz-1);
+	}
+
+	//stepping through the grid
+
+	float dtx = (tx_max - tx_min) / nx;
+	float dty = (ty_max - ty_min) / ny;
+	float dtz = (tz_max - tz_min) / nz;
+
+	float tx_next, ty_next, tz_next;
+	int ix_step, iy_step, iz_step;
+	int ix_stop, iy_stop, iz_stop;
+
+
+	if(dx > 0){
+		tx_next = tx_min + (ix + 1 ) * dtx;
+		ix_step = +1;
+		ix_stop = nx;
+	}
+	else{
+		tx_next = tx_min + (nx - ix) * dtx;
+		ix_step = -1;
+		ix_stop = -1;
+	}
+	if(dx == 0.0){
+		tx_next = kMax;
+		ix_step = -1;
+		ix_stop = -1;
+	}
+
+	if(dy > 0){
+		ty_next = ty_min + (iy + 1 ) * dty;
+		iy_step = +1;
+		iy_stop = ny;
+	}
+	else{
+		ty_next = ty_min + (ny - iy) * dty;
+		iy_step = -1;
+		iy_stop = -1;
+	}
+	if(dy == 0.0){
+		ty_next = kMax;
+		iy_step = -1;
+		iy_stop = -1;
+	}
+
+	if(dz > 0){
+		tz_next = tz_min + (iz + 1 ) * dtz;
+		iz_step = +1;
+		iz_stop = nz;
+	}
+	else{
+		tz_next = tz_min + (nz - iz) * dtz;
+		iz_step = -1;
+		iz_stop = -1;
+	}
+	if(dz == 0.0){
+		tz_next = kMax;
+		iz_step = -1;
+		iz_stop = -1;
+	}
+
+
+}

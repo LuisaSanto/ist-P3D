@@ -27,6 +27,8 @@ class BoundingBox {
 		//Intersection of a ray
 		float intersectBoundingBox(Ray ray);
 
+		bool inside(Point p);
+
 
 };
 
