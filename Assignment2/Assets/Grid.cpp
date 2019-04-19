@@ -49,6 +49,9 @@ void Grid::initializeGridCells(std::vector<Object*> objects) {
 	nz = trunc(m * wz / s) + 1;
 
 	int number_cells = nx * ny * nz;
+	vector<Object*> empty;
+	for (int i = 0; i < number_cells; i++)
+		cells.push_back(empty);
 
 	int xmin, xmax, ymin, ymax, zmin, zmax;
 
@@ -76,7 +79,7 @@ void Grid::initializeGridCells(std::vector<Object*> objects) {
 	}
 }
 
-bool Grid::traverse(Ray ray) {
+Object* Grid::traverse(Ray ray) {
 
 	float ox = ray.getOrigin().x();
 	float oy = ray.getOrigin().y();
@@ -153,7 +156,8 @@ bool Grid::traverse(Ray ray) {
 		t1 = tz_max;
 	}
 	if(t0 > t1){
-		return false;
+		//return false;
+		return nullptr;
 	}
 
 	int ix, iy, iz;
@@ -238,7 +242,8 @@ bool Grid::traverse(Ray ray) {
 		if(object_ptr.size() != 0 ){
 			for(int k = 0; k < object_ptr.size(); k++){
 				if(object_ptr[k]->checkRayCollision(ray) < kMax){
-					return true;
+					//return true;
+					return object_ptr[k];
 				}
 			}
 		}
@@ -249,7 +254,8 @@ bool Grid::traverse(Ray ray) {
 			ix += ix_step;
 
 			if(ix == ix_stop){
-				return false;
+				//return false;
+				return nullptr;
 			}
 
 		}
@@ -260,7 +266,8 @@ bool Grid::traverse(Ray ray) {
 				iy += iy_step;
 
 				if(iy == iy_stop){
-					return false;
+					//return false;
+					return nullptr;
 				}
 			}
 			else{
@@ -269,7 +276,8 @@ bool Grid::traverse(Ray ray) {
 				iz += iz_step;
 
 				if(iz == iz_stop){
-					return false;
+					//return false;
+					return nullptr;
 				}
 
 			}

@@ -19,21 +19,23 @@ using namespace std;
 
 class Grid
 {
-    public:
+    private:
         BoundingBox box;
         int nx, ny, nz;
         int number_objects;
         float m = 2.0f;
         std::vector<std::vector<Object*>> cells;
-        Grid() {};
-        Grid(std::vector<Object*> objects) {
-            number_objects = objects.size();
-            computeBoundingBox(objects);
-        }
-    private:
+
+    public:
+            Grid() {};
+            Grid(std::vector<Object*> objects) {
+                number_objects = objects.size();
+                computeBoundingBox(objects);
+                initializeGridCells(objects);
+            }
             void computeBoundingBox(std::vector<Object*> objects);
             void initializeGridCells(std::vector<Object*> objects);
-            bool traverse(Ray ray);
+            Object* traverse(Ray ray);
             int clamp(float x, float a, float b) {
                 return x < a ? a : (x > b ? b : x);
             }

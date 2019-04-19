@@ -75,7 +75,7 @@ int antiAliasing = 2;
 
 
 //Acceleration grid: 0 - off; 1 - on;
-int acceleration_grid = 0;
+int acceleration_grid = 1;
 
 
 ///////////////////////////////////////////////////////////////////////  RAY-TRACE SCENE
@@ -259,7 +259,7 @@ void renderScene() {
             Color color; //= Color(0.0f, 0.0f, 0.0f);
             if (antiAliasing == 0) {
                 Ray ray = scene.getCamera().computePrimaryRay(x, y);
-                color = color + scene.trace(ray, 0, 1, false, softShadows);
+                color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
             }
             //Stochastic sampling
             else if (antiAliasing == 1) {
@@ -268,7 +268,7 @@ void renderScene() {
                     float i = x + epsilon;
                     float j = y + epsilon;
                     Ray ray = scene.getCamera().computePrimaryRay(i, j);
-                    color = color + scene.trace(ray, 0, 1, false, softShadows);
+                    color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
                 }
                 color = color * (1.0f / n_square);
             }
@@ -279,7 +279,7 @@ void renderScene() {
                         float i = x + (p + epsilon) / N;
                         float j = y + (q + epsilon) / N;
                         Ray ray = scene.getCamera().computePrimaryRay(i, j);
-                        color = color + scene.trace(ray, 0, 1, false, softShadows);
+                        color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
                     }
                 }
                 color = color * (1.0f / (N * N));

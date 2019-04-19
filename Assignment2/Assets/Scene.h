@@ -66,7 +66,7 @@ class Scene {
 		void do_polygon(stringstream& line);
 
 		//Whitted Ray-Tracing Algorithm
-		Color trace(Ray ray, int depth, float , bool insideObject, int softShadows);
+		Color trace(Ray ray, int depth, float , bool insideObject, int softShadows, int acc_mode);
 
 
 		//Auxiliar Methods
@@ -74,7 +74,7 @@ class Scene {
 		Point create_Point(stringstream& line);
 		Color getLocal(Material material, Color lightColor, Point hitPoint, Point L, Point normal);
 		Object* getClosestIntersection(Ray ray);
-		bool checkInShadow(Ray ray);
+		Object* checkInShadow(Ray ray);
 		Point refract(Point i, Point n, float ior1, float ior2, bool insideObject);
 		void createGrid();
 

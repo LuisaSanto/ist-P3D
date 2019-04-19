@@ -8,7 +8,7 @@ Scene::Scene() {}
 
 
 //=================Whitted Ray Tracing Algorithm============
-Color Scene::trace(Ray ray, int depth, float refrIndex, bool insideObject, int softShadows) {
+Color Scene::trace(Ray ray, int depth, float refrIndex, bool insideObject, int softShadows, int acc_mode) {
 
 
 	//Save the nearest object intersected by the ray and what type of object
@@ -16,11 +16,17 @@ Color Scene::trace(Ray ray, int depth, float refrIndex, bool insideObject, int s
 
 
 	//Get some info about the closest intersection Object
-	nearestObject = getClosestIntersection(ray);
+	if (acc_mode == 1) {
+	    nearestObject = grid.traverse(ray);
+	}
+	else {
+        nearestObject = getClosestIntersection(ray);
+    }
 
 	//Check if there isn't nearest object then return bColor
 	
 	if (nearestObject == nullptr) {
+        cout << "ola" << endl;
 		return getBgColor();
 	}
 	else {
@@ -54,9 +60,15 @@ Color Scene::trace(Ray ray, int depth, float refrIndex, bool insideObject, int s
                 //Trace Shadow Ray
                 Point shadowHitPoint = hitPoint + L * 0.001; // add an offset
                 Ray shadowRay = Ray(shadowHitPoint, L);
-                bool inShadow = checkInShadow(shadowRay);
-                //If point is not in shadow
-                if (!inShadow) {
+                Object *inShadow;
+                if (acc_mode == 0) {
+					inShadow = checkInShadow(shadowRay);
+				}
+                else {
+					inShadow = grid.traverse(shadowRay);
+				}
+                	//If point is not in shadow
+                if (inShadow == nullptr) {
                     colorFinal = colorFinal + getLocal(material, l->getColor(), hitPoint, L, normal);
                 }
             }
@@ -80,7 +92,7 @@ Color Scene::trace(Ray ray, int depth, float refrIndex, bool insideObject, int s
 
 			Ray rRay = Ray(rRayOrigin, rRayDirection);
 			depth = depth + 1;
-			Color rColor = trace(rRay, depth, refrIndex, insideObject, softShadows);
+			Color rColor = trace(rRay, depth, refrIndex, insideObject, softShadows, acc_mode);
 			colorFinal = colorFinal + rColor * material.getSpecular();
 		}
 
@@ -99,7 +111,7 @@ Color Scene::trace(Ray ray, int depth, float refrIndex, bool insideObject, int s
                 Ray tRay = Ray(tRayOrigin, tRayDirection);
                 depth = depth + 1;
                 insideObject = !insideObject;
-                Color tColor = trace(tRay, depth, refrIndex, insideObject, softShadows);
+                Color tColor = trace(tRay, depth, refrIndex, insideObject, softShadows, acc_mode);
                 colorFinal = colorFinal + tColor * material.getTransmittance();
             }
 		}
@@ -422,17 +434,17 @@ Object* Scene::getClosestIntersection(Ray ray) {
 	return closestObj;
 }
 
-bool Scene::checkInShadow(Ray ray) {
+Object* Scene::checkInShadow(Ray ray) {
     float tNear = kInfinity;
     float tNearK;
     //Intersect with all objects of the scene
     for (auto obj : getObjects()) {
         tNearK = obj->checkRayCollision(ray);
         if (tNearK < tNear) {
-            return true;
+            return obj;
         }
     }
-    return false;
+    return nullptr;
 }
 
 void Scene::createGrid(){
