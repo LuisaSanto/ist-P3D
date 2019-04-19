@@ -76,7 +76,7 @@ void Grid::initializeGridCells(std::vector<Object*> objects) {
 	}
 }
 
-float Grid::traverse(Ray ray) {
+bool Grid::traverse(Ray ray) {
 
 	float ox = ray.getOrigin().x();
 	float oy = ray.getOrigin().y();
@@ -97,8 +97,66 @@ float Grid::traverse(Ray ray) {
 	float tx_min, ty_min, tz_min;
 	float tx_max, ty_max, tz_max;
 
-	int ix, iy, iz;
+	float a = 1.0 / dx;
+	if(a >= 0){
+		tx_min = (x0 - ox) * a;
+		tx_max = (x1 - ox) * a;
+	}
+	else{
+		tx_min = (x1 - ox) * a;
+		tx_max = (x0 - ox) * a;
+	}
+
+	float b = 1.0 / dy;
+	if(b >= 0){
+		ty_min = (y0 - oy) * b;
+		ty_max = (y1 - oy) * b;
+	}
+	else{
+		ty_min = (y1 - oy) * b;
+		ty_max = (y0 - oy) * b;
+	}
+
+	float c = 1.0 / dz;
+	if(c >= 0){
+		tz_min = (z0 - oz) * c;
+		tz_max = (z1 - oz) * c;
+	}
+	else{
+		tz_min = (z1 - oz) * c;
+		tz_max = (z0 - oz) * c;
+	}
+	
+
 	float t0, t1;
+
+
+	//find largest entering t value
+	if(tx_min > ty_min){
+		t0 = tx_min;
+	}
+	else{
+		t0 = ty_min;
+	}
+	if(tz_min > t0){
+		t0 = tz_min;
+	}
+
+	//find smallest exiting t value
+	if(tx_max < ty_max){
+		t1 = tx_max;
+	}
+	else{
+		t1 = ty_max;
+	}
+	if(tz_max < t1){
+		t1 = tz_max;
+	}
+	if(t0 > t1){
+		return false;
+	}
+
+	int ix, iy, iz;
 
 	//starting cell
 	if(box.inside(ray.getOrigin())){
@@ -172,5 +230,51 @@ float Grid::traverse(Ray ray) {
 		iz_stop = -1;
 	}
 
+	std::vector<Object*> object_ptr;
+
+	while(true){
+		object_ptr = cells[ix + nx * iy + nx * ny * iz];
+
+		if(object_ptr.size() != 0 ){
+			for(int k = 0; k < object_ptr.size(); k++){
+				if(object_ptr[k]->checkRayCollision(ray) < kMax){
+					return true;
+				}
+			}
+		}
+
+		if(tx_next < ty_next && tx_next < tz_next){
+
+			tx_next += dtx;
+			ix += ix_step;
+
+			if(ix == ix_stop){
+				return false;
+			}
+
+		}
+		else{
+			if(ty_next < tz_next){
+				
+				ty_next += dty;
+				iy += iy_step;
+
+				if(iy == iy_stop){
+					return false;
+				}
+			}
+			else{
+
+				tz_next += dtz;
+				iz += iz_step;
+
+				if(iz == iz_stop){
+					return false;
+				}
+
+			}
+
+		}
+	}
 
 }

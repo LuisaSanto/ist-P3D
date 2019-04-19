@@ -33,7 +33,7 @@ class Grid
     private:
             void computeBoundingBox(std::vector<Object*> objects);
             void initializeGridCells(std::vector<Object*> objects);
-            float traverse(Ray ray);
+            bool traverse(Ray ray);
             int clamp(float x, float a, float b) {
                 return x < a ? a : (x > b ? b : x);
             }
