@@ -20,6 +20,14 @@ class Point {
 	    float y() { return yval; }
 	    float z() { return zval; }
 
+	    void setX(float x){ xval = x;}
+	    void setY(float y){ yval = y;}
+	    void setZ(float z){ zval = z;}
+
+	    void setPlusX(float x){ xval += x;}
+	    void setPlusY(float y){ yval += y;}
+	    void setPlusZ(float z){ zval += z;}
+
 	    // Distance to another point.  Pythagorean thm.
 	    float dist(Point other);
 

@@ -8,6 +8,9 @@
 #include <math.h>
 #include <limits>
 
+const float pMin = numeric_limits<float>::min();
+const float pMax = numeric_limits<float>::max();
+
 using namespace std;
 
 class Polygon : public Object {
@@ -15,6 +18,8 @@ class Polygon : public Object {
 		Point _point1;
 		Point _point2;
 		Point _point3;
+
+		
 
 	public:
 		//Constructors
@@ -37,6 +42,8 @@ class Polygon : public Object {
 
 		//Intersection of a ray
 		float checkRayCollision(Ray ray);
+
+		void computeBoundingBox();
 
 
 };

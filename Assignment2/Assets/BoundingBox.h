@@ -13,19 +13,21 @@ class BoundingBox {
 	private:
 		Point _point1;
 		Point _point2;
-		Material _material;	
 	public:
 		//Constructors
 		BoundingBox() {}
-		BoundingBox(Point , Point ,Material material);
+		BoundingBox(Point , Point);
 
 		//Getters
-		Material getMaterial() { return _material; }
+		Point getMin(){return _point1;}
+		Point getMax(){return _point2;}
 		
 		void print();
 
 		//Intersection of a ray
 		float intersectBoundingBox(Ray ray);
+
+		bool inside(Point p);
 
 
 };

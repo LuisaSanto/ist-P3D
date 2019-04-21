@@ -4,6 +4,7 @@
 #include "Material.h"
 #include "Point.h"
 #include "Ray.h"
+#include "BoundingBox.h"
 
 using namespace std;
 
@@ -12,6 +13,7 @@ class Object {
         Point _normal;
         Point _rayHitPoint;
         Material _material;
+        BoundingBox box;
 
     public:
         //Constructors
@@ -23,6 +25,7 @@ class Object {
         Material getMaterial() { return _material; }
         Point getNormal() { return _normal; }
         Point getRayHitPoint() { return _rayHitPoint; }
+        BoundingBox getBoundingBox(){return box;}
 
 
         Point setNormal(Point normal) { _normal = normal; }

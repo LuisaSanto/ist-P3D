@@ -1,9 +1,8 @@
 #include "BoundingBox.h"
 
-BoundingBox::BoundingBox (Point p1, Point p2, Material material) {
+BoundingBox::BoundingBox (Point p1, Point p2) {
 	_point1 = p1;
 	_point2 = p2;
-	_material = material;
 
 }
 
@@ -11,7 +10,6 @@ void BoundingBox::print() {
 	cout << "======== Bounding Box Info =======" << endl;
 	_point1.print();
 	_point2.print();
-	_material.print();
 	cout << "END" << endl;
 }
 
@@ -101,5 +99,18 @@ float BoundingBox::intersectBoundingBox(Ray ray) {
 
 	return t0;
 
+
+}
+
+bool BoundingBox::inside(Point p){
+
+	if(p.x() < _point1.x()) return false;
+	if(p.x() > _point2.x()) return false;
+	if(p.y() < _point1.y()) return false;
+	if(p.y() > _point2.y()) return false;
+	if(p.z() < _point1.z()) return false;
+	if(p.z() > _point2.z()) return false;
+
+	return true;
 
 }
