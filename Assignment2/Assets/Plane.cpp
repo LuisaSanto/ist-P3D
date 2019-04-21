@@ -1,7 +1,5 @@
 #include "Plane.h"
 
-
-
 void Plane::print() {
 	cout << "======== Plane Info =======" << endl;
 	_point1.print();
@@ -16,7 +14,7 @@ float Plane::checkRayCollision(Ray ray) {
 	float tNear = numeric_limits<float>::max();
 	float t;
 
-	Point normal = getNormal();
+	Point normal = Object::getNormal();
 	Point rayDirection = ray.getDirection();
 	Point rayOrigin = ray.getOrigin();
 
@@ -24,11 +22,28 @@ float Plane::checkRayCollision(Ray ray) {
 		return tNear;
 	}
 
-	t = -((normal.inner((rayOrigin - _point1) / normal.inner(rayDirection))));
+	t = -((normal.inner((rayOrigin-_point1) / normal.inner(rayDirection))));
 	if(t < 0){
 		return tNear;
 	}
 	
 	return t;
+}
 
+Plane::Plane() {}
+
+Plane::Plane(Point &normal, float d) : _normal(normal), _d(d) {}
+
+Plane::Plane(Point p1, Point p2, Point p3, Material material) : Object(material) {
+	float z;
+
+	_point1 = p1;
+	_point2 = p2;
+	_point3 = p3;
+	_material = material;
+
+	_normal = (p2-p1).cross(p3-p1);
+	_normal.normalize();
+
+	_d = _point1.inner(_normal) / _normal.norma();
 }

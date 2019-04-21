@@ -27,6 +27,7 @@ class Color {
 	    Color operator-(Color c);
 	    Color operator*(Color c);
 	    Color operator*(float t);
+		Color operator/(float t);
 
 	    Color add(Color c);
 	    Color sub(Color c);

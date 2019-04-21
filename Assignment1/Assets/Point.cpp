@@ -6,7 +6,6 @@ Point::Point(float x, float y, float z) {
         zval = z;
 }
 
-
 // Distance to another point.  Pythagorean thm.
 float Point::dist(Point other) {
     float xd = xval - other.xval;

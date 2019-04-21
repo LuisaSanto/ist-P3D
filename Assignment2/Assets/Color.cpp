@@ -39,6 +39,10 @@ Color Color::operator*(float t) {
     return Color(r() * t, g() * t, b() * t);
 }
 
+Color Color::operator/(float t) {
+    return Color(r() / t, g() / t, b() / t);
+}
+
 
 void Color::print() {
 	cout << "======== Color Info =======" << endl;

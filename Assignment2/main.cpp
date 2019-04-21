@@ -22,6 +22,8 @@
 #include "Assets/Scene.h"
 #include "Assets/Ray.h"
 #include "Assets/Color.h"
+#include "Assets/Camera.h"
+#include "Assets/LensCamera.h"
 
 //#include "scene.h"
 
@@ -36,6 +38,16 @@
 
 //Jittering Sampling parameters
 #define N 4 //Number of samples
+
+#define softShadows 0
+#define antiAliasing 0
+#define lensNumber 3
+#define focalDistance -0.5
+#define aperture 0.01
+
+/* Camera Mode: 0 - pinhole camera; 1 - lens camera random single ray; 2 - lens camera iterative random rays*/
+int camera_mode = 2;
+
 
 
 
@@ -258,6 +270,22 @@ void renderScene() {
 		{
             Color color; //= Color(0.0f, 0.0f, 0.0f);
             if (antiAliasing == 0) {
+				int lens_number = 0;
+				if (camera_mode == 2) {
+					lens_number = lensNumber * lensNumber;
+				}
+				for (int l = 0; l <= lens_number; l++) {
+					Ray ray = scene.getCamera().computePrimaryRay(x, y);
+					if (camera_mode > 1) {
+						Point focalPoint = scene.getCamera().getFocalPoint(ray);
+						Point samplePoint = scene.getCamera().getLenseSamplePoint();
+						ray = Ray(samplePoint, (focalPoint - samplePoint).normalize());
+					}
+					color = color + scene.trace(ray, 0, 1, false, softShadows);
+				}
+				if (camera_mode == 2){
+					color = color/(lensNumber * lensNumber);
+				}
                 Ray ray = scene.getCamera().computePrimaryRay(x, y);
                 color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
             }
