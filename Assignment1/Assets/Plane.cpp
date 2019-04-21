@@ -19,6 +19,8 @@ void Plane::print() {
 	cout << "END" << endl;
 }
 
+Plane::Plane(Point &normal, float d) :  setNormal(normal), d(d) {}
+
 float Plane::intersectPlane(Ray ray) {
 	//Declare variables
 	float tNear = numeric_limits<float>::max();

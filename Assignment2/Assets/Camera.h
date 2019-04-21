@@ -10,7 +10,7 @@
 using namespace std;
 
 //Class to represent a Camera
-class Camera {
+struct Camera {
 	private:
 		Point _eye, _at, _up;
 		float _fovy;
@@ -19,11 +19,6 @@ class Camera {
 
 		float _w, _h;
 		Point _xe, _ye, _ze;
-
-
-		//Depth of Field parameters
-		Point focal;
-		float aperture;
 
 
 	public:
@@ -52,6 +47,9 @@ class Camera {
 
 		//Compute a Primary ray
 		Ray computePrimaryRay(float x, float y);
+
+		virtual Point getFocalPoint(Ray &r) { return Point(0.0, 0.0, 0.0); }
+		virtual Point getLenseSamplePoint() { return Point(0.0, 0.0, 0.0);  }
 };
 
 #endif

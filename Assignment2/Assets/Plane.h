@@ -15,27 +15,24 @@ class Plane : public Object {
 		Point _point1;
 		Point _point2;
 		Point _point3;
+
 	public:
 		//Constructors
-		Plane() {}
-		Plane(Point p1, Point p2, Point p3,Material material) : Object(material) {
-			_point1 = p1;
-			_point2 = p2;
-			_point3 = p3;
-			_material = material;
+		Plane();
 
-			_normal = (p2 - p1).cross(p3 - p1);
-			_normal.normalize();
-		};
+		Plane(Point p1, Point p2, Point p3, Material material);
+
+		Plane(Point &normal, float d);
 
 		//Getters
-		//Point getNormal() { return _normal; }
-		//Material getMaterial() { return _material; }
+		// Point getNormal() { return _normal; }
+		// Material getMaterial() { return _material; }
+
 
 		void print();
 
 		//Intersection of a ray
-		float checkRayCollision(Ray ray);
+		virtual float checkRayCollision(Ray ray);
 
 
 };
