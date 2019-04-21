@@ -66,5 +66,5 @@ float Sphere::checkRayCollision(Ray ray) {
 void Sphere::computeBoundingBox() {
 	Point p1 = Point(_pos.x() - _radius, _pos.y() - _radius, _pos.z() - _radius);
 	Point p2 = Point(_pos.x() + _radius, _pos.y() + _radius, _pos.z() + _radius);
-	//BoundingBox box = new BoundingBox(p1, p2);
+	BoundingBox box = BoundingBox(p1, p2);
 }

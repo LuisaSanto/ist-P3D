@@ -26,7 +26,7 @@ Color Scene::trace(Ray ray, int depth, float refrIndex, bool insideObject, int s
 	//Check if there isn't nearest object then return bColor
 	
 	if (nearestObject == nullptr) {
-        cout << "ola" << endl;
+        //cout << "ola" << endl;
 		return getBgColor();
 	}
 	else {

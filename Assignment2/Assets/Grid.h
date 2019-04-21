@@ -21,9 +21,9 @@ class Grid
 {
     private:
         BoundingBox box;
-        int nx, ny, nz;
         int number_objects;
-        float m = 2.0f;
+        int nx, ny, nz;
+		float m = 2.0f;
         std::vector<std::vector<Object*>> cells;
 
     public:

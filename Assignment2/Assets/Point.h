@@ -26,6 +26,10 @@ class Point {
 	    void setPlusY(float y){ yval += y;}
 	    void setPlusZ(float z){ zval += z;}
 
+	    void setLessX(float x){ xval -= x;}
+	    void setLessY(float y){ yval -= y;}
+	    void setLessZ(float z){ zval -= z;}
+
 	    // Distance to another point.  Pythagorean thm.
 	    float dist(Point other);
 
