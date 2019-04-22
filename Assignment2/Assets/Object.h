@@ -34,7 +34,8 @@ class Object {
         //Virtual
         virtual float checkRayCollision (Ray ray) = 0;
         virtual void print() = 0;
-        virtual bool CheckRayCollision(const Ray &Ray, float *distance, Point *hitpoint) = 0;
+        virtual void computeBoundingBox() = 0;
+        //virtual bool CheckRayCollision(const Ray &Ray, float *distance, Point *hitpoint) = 0;
 
 };
 

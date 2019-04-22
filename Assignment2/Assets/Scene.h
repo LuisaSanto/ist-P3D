@@ -20,6 +20,7 @@
 #include "Plane.h"
 #include "Polygon.h"
 #include "Grid.h"
+#include "LensCamera.h"
 
 const float kInfinity = numeric_limits<float>::max();
 
@@ -29,6 +30,7 @@ class Scene {
 	private:
 		Color _bgColor;
 		Camera _camera;
+		LensCamera _lensCamera;
 		vector<Material> materials;
 		vector<Light*> lights;
 		vector<Object*> objects;
@@ -41,6 +43,7 @@ class Scene {
 		//Getters
 		Color getBgColor() { return _bgColor; }
 		Camera getCamera() { return _camera; }
+		LensCamera getLensCamera() { return _lensCamera; }
 		vector<Material> getMaterials() { return materials; }
 		vector<Light*> getLights() { return lights; }
 		vector<Object*> getObjects() { return objects; }
@@ -51,6 +54,7 @@ class Scene {
 		void addMaterial(Material material) { materials.push_back(material); }
 		void addLight(Light* light) { lights.push_back(light); }
 		void addObject(Object* object) { objects.push_back(object); }
+		void addLensCamera(LensCamera camera) {_lensCamera = camera; }
 
 
 

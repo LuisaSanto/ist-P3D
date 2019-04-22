@@ -11,9 +11,10 @@ class Point {
 	private:
 	    float xval, yval, zval;
 	public:
-		Point() : xval(0.0f), yval(0.0f), zval(0.0f) {}
-		Point(const float x = 0.0, const float y = 0.0) {}
-	    Point(const float x = 0.0, const float y = 0.0, const float z = 0.0);
+		//Point() : xval(0.0f), yval(0.0f), zval(0.0f) {}
+		//Point(const float x = 0.0, const float y = 0.0) {}
+	    //Point(const float x = 0.0, const float y = 0.0, const float z = 0.0);
+		Point(float x = 0.0, float y = 0.0, float z = 0.0);
 
 	    // Extractors.
 	    float x() { return xval; }

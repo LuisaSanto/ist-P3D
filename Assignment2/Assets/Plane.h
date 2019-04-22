@@ -15,6 +15,7 @@ class Plane : public Object {
 		Point _point1;
 		Point _point2;
 		Point _point3;
+		float _focalDistance;
 
 	public:
 		//Constructors
@@ -22,18 +23,20 @@ class Plane : public Object {
 
 		Plane(Point p1, Point p2, Point p3, Material material);
 
-		Plane(Point &normal, float d);
+		Plane(Point normal, float d);
 
 		//Getters
 		// Point getNormal() { return _normal; }
 		// Material getMaterial() { return _material; }
+		float getFocalDistance() { return _focalDistance; }
 
 
 		void print();
 
 		//Intersection of a ray
-		virtual float checkRayCollision(Ray ray);
-
+		//virtual float checkRayCollision(Ray ray);
+		float checkRayCollision(Ray ray);
+		void computeBoundingBox() {};
 
 };
 

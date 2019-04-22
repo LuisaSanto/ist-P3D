@@ -39,11 +39,10 @@
 //Jittering Sampling parameters
 #define N 4 //Number of samples
 
-#define softShadows 0
-#define antiAliasing 0
-#define lensNumber 3
+
+#define lensNumber 4
 #define focalDistance -0.5
-#define aperture 0.01
+#define aperture 0.03
 
 /* Camera Mode: 0 - pinhole camera; 1 - lens camera random single ray; 2 - lens camera iterative random rays*/
 int camera_mode = 2;
@@ -73,9 +72,11 @@ Scene scene;
 int RES_X, RES_Y;
 
 /* Draw Mode: 0 - point by point; 1 - line by line; 2 - full frame */
-int draw_mode=1; 
+int draw_mode=2;
 
 int WindowHandle = 0;
+
+LensCamera* lensCamera;
 
 
 
@@ -83,11 +84,11 @@ int WindowHandle = 0;
 int softShadows = 0;
 
 //Anti- Alising:  0 - off ; 1 - antiAliasinng with Stochastic Sampling;  2 - antiAliasing with Jittering Method
-int antiAliasing = 2;
+int antiAliasing = 0;
 
 
 //Acceleration grid: 0 - off; 1 - on;
-int acceleration_grid = 1;
+int acceleration_grid = 0;
 
 
 ///////////////////////////////////////////////////////////////////////  RAY-TRACE SCENE
@@ -277,17 +278,22 @@ void renderScene() {
 				for (int l = 0; l <= lens_number; l++) {
 					Ray ray = scene.getCamera().computePrimaryRay(x, y);
 					if (camera_mode > 1) {
-						Point focalPoint = scene.getCamera().getFocalPoint(ray);
-						Point samplePoint = scene.getCamera().getLenseSamplePoint();
-						ray = Ray(samplePoint, (focalPoint - samplePoint).normalize());
+					    //cout << "ola" << endl;
+						Point focalPoint = scene.getLensCamera().getFocalPoint(ray);
+						Point samplePoint = scene.getLensCamera().getLenseSamplePoint();
+						//focalPoint.print();
+						//samplePoint.print();
+						Point p = focalPoint - samplePoint;
+						p.normalize();
+						ray = Ray(samplePoint, p);
 					}
-					color = color + scene.trace(ray, 0, 1, false, softShadows);
+					color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
 				}
 				if (camera_mode == 2){
 					color = color/(lensNumber * lensNumber);
 				}
-                Ray ray = scene.getCamera().computePrimaryRay(x, y);
-                color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
+                /*Ray ray = scene.getCamera().computePrimaryRay(x, y);
+                color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);*/
             }
             //Stochastic sampling
             else if (antiAliasing == 1) {
@@ -444,10 +450,18 @@ int main(int argc, char* argv[])
 	if(acceleration_grid == 1){
 		scene.createGrid();
 	}
+	if (camera_mode > 1) {
+	    //cout << "ola!!!!" << endl;
+        //scene.getCamera().print();
+	    LensCamera lensCam = LensCamera(scene.getCamera(), focalDistance, aperture);
+	    scene.addLensCamera(lensCam);
+	    //scene.getLensCamera().getFocalPlane().print();
+
+	}
 
 	//scene.print();
 	RES_X = scene.getCamera().getResX();
-	RES_Y = scene.getCamera().getResY(); 
+	RES_Y = scene.getCamera().getResY();
 	
     //RES_Y = 512;
     //RES_X = 512;

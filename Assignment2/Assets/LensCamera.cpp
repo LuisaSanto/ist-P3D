@@ -6,10 +6,17 @@
 
 Point LensCamera::getFocalPoint(Ray &r) {
     // TODO
+    //==========ISTO SUPOSTAMENTE NAO PODE SER CALCULADO USANDO O RAIO COMO ARGUMENTO============//
     Point hitpoint = Point(0.0, 0.0, 0.0);
-    hitpoint = focalPlane.getRayHitPoint()
+    hitpoint = focalPlane.getRayHitPoint();
+    //cout << "Focal Plane" << endl;
+    //focalPlane.print();
     focalPlane.checkRayCollision(r);
     return hitpoint;
+
+    //==========Se souberes o centro da lente, consegues atraves da trigonometria calcular o ponto focal=======000
+    //==========    Slide 35 do Distribution RayTracing
+    //focalPoint = Point(px, py, -focalPlane.getFocalDistance());
 }
 
 Point LensCamera::getLenseSamplePoint() {
@@ -23,10 +30,12 @@ Point LensCamera::getLenseSamplePoint() {
 
         randomPoint = getEye() + getXe()*k1 + getYe()*k2;
 
+
         if ((randomPoint - getEye()).norma() < aperture * aperture) {
+            //randomPoint.print();
             inside = true;
         }
     }
-
+    //cout << "sai" << endl;
     return randomPoint;
 }

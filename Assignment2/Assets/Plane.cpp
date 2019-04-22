@@ -32,7 +32,11 @@ float Plane::checkRayCollision(Ray ray) {
 
 Plane::Plane() {}
 
-Plane::Plane(Point &normal, float d) : _normal(normal), _d(d) {}
+Plane::Plane(Point normal, float d) {
+	_normal = normal;
+	_focalDistance = d;
+}
+//: _normal(normal), _d(d)
 
 Plane::Plane(Point p1, Point p2, Point p3, Material material) : Object(material) {
 	float z;
@@ -45,5 +49,5 @@ Plane::Plane(Point p1, Point p2, Point p3, Material material) : Object(material)
 	_normal = (p2-p1).cross(p3-p1);
 	_normal.normalize();
 
-	_d = _point1.inner(_normal) / _normal.norma();
+	_focalDistance = _point1.inner(_normal) / _normal.norma();
 }
