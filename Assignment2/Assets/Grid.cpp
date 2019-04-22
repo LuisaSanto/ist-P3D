@@ -5,13 +5,12 @@ void Grid::computeBoundingBox(std::vector<Object*> objects) {
 	float epsilon = 0.00001;
 	BoundingBox bb;
 
-	Point p0 = Point(kMin,kMin,kMin);
-	Point p1 = Point(kMax,kMax,kMax);
+	Point p0 = Point(kMax,kMax,kMax);
+	Point p1 = Point(kMin,kMin,kMin);
 
 	for(int j = 0; j < objects.size(); j++){
 	    objects[j]->computeBoundingBox();
 		bb = objects[j]->getBoundingBox();
-		bb.print();
 
 		if(bb.getMin().x() < p0.x()){
 			p0.setX(bb.getMin().x());
@@ -38,6 +37,7 @@ void Grid::computeBoundingBox(std::vector<Object*> objects) {
 
 
 	box = BoundingBox(p0, p1);
+	box.print();
 	
 }
 
@@ -174,11 +174,11 @@ Object* Grid::traverse(Ray ray) {
 		t1 = tz_max;
 	}
 
-	//Se descomentar da background color
-	/*if(t0 > t1){
+	//Se descomentar da background color EDIT: fixed
+	if(t0 > t1){
 		//return false;
 		return nullptr;
-	}*/
+	}
 
 	int ix, iy, iz;
 

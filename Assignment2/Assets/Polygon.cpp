@@ -58,8 +58,8 @@ float Polygon::checkRayCollision(Ray ray) {
 
 
 void Polygon::computeBoundingBox() {
-	Point p1 = Point(pMin,pMin,pMin);
-	Point p2 = Point(pMax,pMax,pMax);
+	Point p1 = Point(pMax,pMax,pMax);
+	Point p2 = Point(pMin,pMin,pMin);
 
 	Point points[] = { _point1, _point2, _point3 };
 
@@ -85,5 +85,5 @@ void Polygon::computeBoundingBox() {
 
 	}
 
-	BoundingBox box = BoundingBox(p1, p2);
+	box = BoundingBox(p1, p2);
 }
