@@ -38,6 +38,7 @@ public:
 //    Point getFocalPoint(float x, float y);
 //    Point getLenseSamplePoint();
     virtual Ray computePrimaryRay(float x, float y);
+    //Ray getPrimaryRay(float x, float y);
 
 
 };

@@ -72,7 +72,7 @@ int RES_X, RES_Y;
 int draw_mode=2;
 
 /* Camera Mode: 0 - prespective; 1 - DoP; */
-int camera_mode = 1
+int camera_mode = 1;
 
 int WindowHandle = 0;
 
@@ -81,7 +81,7 @@ LensCamera* lensCamera;
 
 
 //Soft shadows: 0 - off; 1 - softShadows with Jittering Method
-int softShadows = 0;
+int softShadows = 1;
 
 //Anti- Alising:  0 - off ; 1 - antiAliasinng with Stochastic Sampling;  2 - antiAliasing with Jittering Method
 int antiAliasing = 0;
@@ -272,7 +272,7 @@ void renderScene() {
             Color color; //= Color(0.0f, 0.0f, 0.0f);
             if (antiAliasing == 0) {
 				if (camera_mode == 1) {
-					Ray ray = scene.getLensCamera().computePrimaryRay(i, j);
+					Ray ray = scene.getLensCamera().computePrimaryRay(x, y);
 					color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
 				} else {
 					Ray ray = scene.getCamera().computePrimaryRay(x, y);
@@ -445,7 +445,7 @@ int main(int argc, char* argv[])
 		scene.createGrid();
 	}
 
-	camera = cene.getCamera()
+	Camera camera = scene.getCamera();
 	if (camera_mode > 1) {
 	    LensCamera lensCam = LensCamera(camera, focalPoint, aperture);
 	    scene.addLensCamera(lensCam);

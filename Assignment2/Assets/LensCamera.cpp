@@ -43,10 +43,14 @@
 //    return randomPoint;
 //}
 
-Ray LensCamera::getPrimaryRay(float x, float y) {
-    Point p = getEye() -getAt()*focalDistance + x*getResX()*getXe() + y*getResY()*getYe();
+Ray LensCamera::computePrimaryRay(float x, float y) {
+    Point p = getEye() -getAt()*focalDistance + (getXe()*getResX()) * x + (getYe()*getResY()) * y;
     float r1 = sqrtf(random())*aperture;
     float r2 = random()*2.0f*pi;
+    //cout << "cos: " << cosf(r2) << endl;
+    //cout << "sin " << sinf(r2) << endl;
     Point center2 = getEye() + getXe()*r1*cosf(r2) + getUp()*r1*sinf(r2);
-    return Ray(center2, (p-center2).normalize());
+    Point a = p - center2;
+    a.normalize();
+    return Ray(center2, a);
 }
