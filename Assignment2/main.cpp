@@ -83,7 +83,7 @@ LensCamera* lensCamera;
 
 
 //Soft shadows: 0 - off; 1 - softShadows with Jittering Method
-int softShadows = 1;
+int softShadows = 0;
 
 //Anti- Alising:  0 - off ; 1 - antiAliasinng with Stochastic Sampling;  2 - antiAliasing with Jittering Method
 int antiAliasing = 0;
@@ -252,6 +252,26 @@ void drawPoints()
 
 // Render function by primary ray casting from the eye towards the scene's objects
 
+
+ Color traceDOFRays(Color color, int x, int y) {
+
+	 for (int n = 0; n < N; n++) {
+		 for (int m = 0; m < N; m++) {
+			 Point focalp = scene.getLensCamera().getFocalPoint(x + ((n + (ERAND / N)) / N), y + ((m + (ERAND / N)) / N));
+			 for (int o = 0; o < samplesDOF; o++) {
+				 for (int q = 0; q < samplesDOF; q++) {
+					 Ray ray = scene.getLensCamera().computePrimaryRay(focalp);
+					 color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
+					 //delete ray;
+				 }
+			 }
+			 //delete focalp;
+		 }
+	 }
+	 color = color * ((float)1 / (samplesDOF * samplesDOF * N * N));
+	 return color;
+ }
+
 void renderScene() {
 	int index_pos = 0;
 	int index_col = 0;
@@ -274,7 +294,7 @@ void renderScene() {
             Color color; //= Color(0.0f, 0.0f, 0.0f);
             if (antiAliasing == 0) {
 				if (camera_mode == 1) {
-					traceDOFRays(color, x, y);
+					color = traceDOFRays(color, x, y);
 				} else {
 					Ray ray = scene.getCamera().computePrimaryRay(x, y);
 					color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
@@ -287,7 +307,7 @@ void renderScene() {
                     float i = x + epsilon;
                     float j = y + epsilon;
                     if (camera_mode == 1) {
-						traceDOFRays(color, i, j); //Sera i, j?
+						color = traceDOFRays(color, i, j); //Sera i, j?
                     } else {
 						Ray ray = scene.getCamera().computePrimaryRay(i, j);
 						color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
@@ -345,23 +365,7 @@ void renderScene() {
 	cout << "Time taken by function: " <<   duration.count() << " seconds" << endl;
 }
 
-void traceDOFRays(Color color, int x, int y) {
 
-	for (int n = 0; n < N; n++) {
-		for (int m = 0; m < N; m++) {
-			Point * focalp = scene.getLensCamera()->GetFocalPoint(x + ((n + (ERAND / N)) / N), y + ((m + (ERAND / N)) / N));
-			for (int o = 0; o < samplesDOF; o++) {
-				for (int q = 0; q < samplesDOF; q++) {
-					Ray * ray = scene.getLensCamera().computePrimaryRay(focalp);
-					color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
-					delete ray;
-				}
-			}
-			delete focalp;
-		}
-	}
-	color*((float)1 / (samplesDOF * samplesDOF * N * N));
-}
 
 void cleanup()
 {

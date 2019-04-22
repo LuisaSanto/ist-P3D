@@ -34,8 +34,8 @@ public:
 
 
 
-    virtual Ray computePrimaryRay(Point* focalp);
-    Point* originDOF();
+    virtual Ray computePrimaryRay(Point focalp);
+    Point originDOF();
     Point getFocalPoint(float x, float y);
 
 

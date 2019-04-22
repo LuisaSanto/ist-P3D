@@ -30,6 +30,7 @@ Color Scene::trace(Ray ray, int depth, float refrIndex, bool insideObject, int s
 		return getBgColor();
 	}
 	else {
+		//nearestObject->getMaterial().print();
 		Material material = nearestObject->getMaterial();
 		Color colorFinal = Color(0.0f, 0.0f, 0.0f);
 

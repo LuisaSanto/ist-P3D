@@ -4,36 +4,37 @@
 
 #include "LensCamera.h"
 
-Ray LensCamera::computePrimaryRay(Point *focalp) {
-    Point * origin = originDOF();
-    Point * direction = new Point(focalp);
+Ray LensCamera::computePrimaryRay(Point focalp) {
+    Point origin = originDOF();
+    //Point * direction = new Point(focalp);
+    Point direction = Point(focalp);
     direction-origin;
-    return new Ray(origin, direction);
+    return Ray(origin, direction);
 }
 
-Point* LensCamera::originDOF() {
+Point LensCamera::originDOF() {
     float r, theta, x, y;
-    Point* u, v, w;
+    Point u, v, w;
     r = sqrtf(RAND); theta = 2*PIRAND;
     x = aperture * r * cosf(theta);
     y = aperture * r * sinf(theta);
 
-    u = new Point(getXe());
-    v = new Point(getYe());
-    w = new Point(getZe());
+    u = Point(getXe());
+    v = Point(getYe());
+    w = Point(getZe());
 
     u*x; u*y; u+v; u+getEye();
 
-    delete w; delete v;
+    //delete w; delete v;
     return u;
 }
 
 Point LensCamera::getFocalPoint(float x, float y) {
-    Point* u, v, w;
+    Point u, v, w;
 
-    u = new Point(getXe());
-    v = new Point(getYe());
-    w = new Point(getZe());
+    u = Point(getXe());
+    v = Point(getYe());
+    w = Point(getZe());
 
     u*(focalDistance * getWidth() * ((x / getResX()) - 0.5f));
     v*(focalDistance * getHeight() * ((y / getResY()) - 0.5f));
@@ -41,6 +42,6 @@ Point LensCamera::getFocalPoint(float x, float y) {
 
     u+v; u+w; u+getEye();
 
-    delete v; delete u;
+    //delete v; delete u;
     return u;
 }
