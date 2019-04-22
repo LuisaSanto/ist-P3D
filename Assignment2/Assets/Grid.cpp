@@ -9,7 +9,9 @@ void Grid::computeBoundingBox(std::vector<Object*> objects) {
 	Point p1 = Point(kMax,kMax,kMax);
 
 	for(int j = 0; j < objects.size(); j++){
+	    objects[j]->computeBoundingBox();
 		bb = objects[j]->getBoundingBox();
+		bb.print();
 
 		if(bb.getMin().x() < p0.x()){
 			p0.setX(bb.getMin().x());
@@ -49,13 +51,18 @@ cout << "s " << s << endl;
 	nx = trunc(m * wx / s) + 1;
 	ny = trunc(m * wy / s) + 1;
 	nz = trunc(m * wz / s) + 1;
-	cout << "nx " << wx << endl;
-	cout << "ny " << wy << endl;
-	cout << "nz " << wz << endl;
+	cout << "wx " << wx << endl;
+	cout << "wy " << wy << endl;
+	cout << "wz " << wz << endl;
+
+	cout << "nx " << nx << endl;
+	cout << "ny " << ny << endl;
+	cout << "nz " << nz << endl;
 
 	int number_cells = nx * ny * nz;
 	cout << "Cells " << number_cells << endl;
 
+	//number_cells = 10;
 
 	vector<Object*> empty;
 	for (int i = 0; i < number_cells; i++)

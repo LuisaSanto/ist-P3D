@@ -16,7 +16,7 @@ class BoundingBox {
 	public:
 		//Constructors
 		BoundingBox() {}
-		BoundingBox(Point , Point);
+		BoundingBox(Point p1, Point p2);
 
 		//Getters
 		Point getMin(){return _point1;}

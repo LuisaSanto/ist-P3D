@@ -30,8 +30,11 @@ class Grid
             Grid() {};
             Grid(std::vector<Object*> objects) {
                 number_objects = objects.size();
+                cout << "Number of objects: " << number_objects << endl;
                 computeBoundingBox(objects);
+                cout << "Done computing Bounding Box" << endl;
                 initializeGridCells(objects);
+                cout << "Done initializing grid cells" << endl;
             }
             void computeBoundingBox(std::vector<Object*> objects);
             void initializeGridCells(std::vector<Object*> objects);
