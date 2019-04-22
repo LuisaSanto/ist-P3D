@@ -28,7 +28,7 @@ public:
             camera.getUp(), camera.getFovy(), camera.getNear(), camera.getResX(), camera.getResY()) ,
             focalPlane(getZe(), focalDistance), aperture(aperture) {}
 
-    Point getFocalPoint(Ray &r);
+    Point getFocalPoint(float x, float y);
     Point getLenseSamplePoint();
 
     //Plane getFocalPlane() {return focalPlane;}

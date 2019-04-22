@@ -4,19 +4,22 @@
 
 #include "LensCamera.h"
 
-Point LensCamera::getFocalPoint(Ray &r) {
+Point LensCamera::getFocalPoint(float psx,float  psy) {
     // TODO
     //==========ISTO SUPOSTAMENTE NAO PODE SER CALCULADO USANDO O RAIO COMO ARGUMENTO============//
-    Point hitpoint = Point(0.0, 0.0, 0.0);
+    /*Point hitpoint = Point(0.0, 0.0, 0.0);
     hitpoint = focalPlane.getRayHitPoint();
     //cout << "Focal Plane" << endl;
     //focalPlane.print();
     focalPlane.checkRayCollision(r);
-    return hitpoint;
+    return hitpoint;*/
 
     //==========Se souberes o centro da lente, consegues atraves da trigonometria calcular o ponto focal=======000
     //==========    Slide 35 do Distribution RayTracing
-    //focalPoint = Point(px, py, -focalPlane.getFocalDistance());
+    float px = psx * focalPlane.getFocalDistance() / getNear();
+    float py = psy * focalPlane.getFocalDistance() / getNear();
+    Point focalPoint = Point(px, py, -focalPlane.getFocalDistance());
+    return focalPoint;
 }
 
 Point LensCamera::getLenseSamplePoint() {
