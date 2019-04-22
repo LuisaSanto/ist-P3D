@@ -40,9 +40,14 @@
 #define N 4 //Number of samples
 
 
-#define NUMEROAMOSTRAS_DOF 1			//Actually sqrt(numero de amostras dof) //Set to 1 if disabled
+#define samplesDOF 1			//Actually sqrt(numero de amostras dof) //Set to 1 if disabled
 #define aperture (float) 0.32
 #define focalDistance 0.85
+#define M_PI (float) 3.1415926535
+#define RAND (float)rand()/RAND_MAX
+#define PIRAND (float)rand()/RAND_MAX*M_PI
+#define ERAND (float)rand()/RAND_MAX
+
 
 
 
@@ -269,12 +274,11 @@ void renderScene() {
             Color color; //= Color(0.0f, 0.0f, 0.0f);
             if (antiAliasing == 0) {
 				if (camera_mode == 1) {
-					Ray ray = scene.getLensCamera().computePrimaryRay(x, y);
-					color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
+					traceDOFRays(color, x, y);
 				} else {
 					Ray ray = scene.getCamera().computePrimaryRay(x, y);
-					color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
 				}
+				color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
             }
             //Stochastic sampling
             else if (antiAliasing == 1) {
@@ -283,8 +287,7 @@ void renderScene() {
                     float i = x + epsilon;
                     float j = y + epsilon;
                     if (camera_mode == 1) {
-						Ray ray = scene.getLensCamera().computePrimaryRay(i, j);
-						color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
+						traceDOFRays(color, i, j); //Sera i, j?
                     } else {
 						Ray ray = scene.getCamera().computePrimaryRay(i, j);
 						color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
@@ -299,8 +302,7 @@ void renderScene() {
                         float i = x + (p + epsilon) / N;
                         float j = y + (q + epsilon) / N;
 						if (camera_mode == 1) {
-							Ray ray = scene.getLensCamera().computePrimaryRay(i, j);
-							color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
+							traceDOFRays(color, i, j); //Sera i, j?
 						} else {
 							Ray ray = scene.getCamera().computePrimaryRay(i, j);
 							color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
@@ -341,6 +343,24 @@ void renderScene() {
 
 	printf("Terminou!\n");
 	cout << "Time taken by function: " <<   duration.count() << " seconds" << endl;
+}
+
+void traceDOFRays(Color color, int x, int y) {
+
+	for (int n = 0; n < N; n++) {
+		for (int m = 0; m < N; m++) {
+			Point * focalp = scene.getLensCamera()->GetFocalPoint(x + ((n + (ERAND / N)) / N), y + ((m + (ERAND / N)) / N));
+			for (int o = 0; o < samplesDOF; o++) {
+				for (int q = 0; q < samplesDOF; q++) {
+					Ray * ray = scene.getLensCamera().computePrimaryRay(focalp);
+					color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
+					delete ray;
+				}
+			}
+			delete focalp;
+		}
+	}
+	color*((float)1 / (samplesDOF * samplesDOF * N * N));
 }
 
 void cleanup()
