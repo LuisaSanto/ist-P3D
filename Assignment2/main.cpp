@@ -277,8 +277,8 @@ void renderScene() {
 					traceDOFRays(color, x, y);
 				} else {
 					Ray ray = scene.getCamera().computePrimaryRay(x, y);
+					color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
 				}
-				color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
             }
             //Stochastic sampling
             else if (antiAliasing == 1) {
