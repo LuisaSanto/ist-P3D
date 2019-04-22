@@ -46,10 +46,10 @@ struct Camera {
 		void print();
 
 		//Compute a Primary ray
-		Ray computePrimaryRay(float x, float y);
+		virtual Ray computePrimaryRay(float x, float y);
 
-		virtual Point getFocalPoint(Ray &r) { return Point(0.0, 0.0, 0.0); }
-		virtual Point getLenseSamplePoint() { return Point(0.0, 0.0, 0.0);  }
+//		virtual Point getFocalPoint(Ray &r) { return Point(0.0, 0.0, 0.0); }
+//		virtual Point getLenseSamplePoint() { return Point(0.0, 0.0, 0.0);  }
 };
 
 #endif

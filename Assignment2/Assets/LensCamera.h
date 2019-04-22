@@ -12,9 +12,16 @@
 #include "Object.h"
 
 
+// The epsilon value adjustment for precision errors.
+static const float epsilon = 0.000001f;
+
+// The mathematical pi constant
+static const float pi = 3.141592f;
+
+
 struct LensCamera : public Camera {
 private:
-    Plane focalPlane;
+    float focalDistance;
     float aperture;
 
 public:
@@ -22,16 +29,16 @@ public:
 
     LensCamera(Point eye, Point at, Point up, int angle, float hither,
             int ResX, int ResY, float focalDistance, float aperture)
-            : Camera(eye, at, up, angle, hither, ResX, ResY), focalPlane(getZe(), focalDistance), aperture(aperture){}
+            : Camera(eye, at, up, angle, hither, ResX, ResY), focalDistance(focalDistance), aperture(aperture){}
 
     LensCamera(Camera camera, float focalDistance, float aperture) : Camera(camera.getEye(), camera.getAt(),
             camera.getUp(), camera.getFovy(), camera.getNear(), camera.getResX(), camera.getResY()) ,
-            focalPlane(getZe(), focalDistance), aperture(aperture) {}
+            focalDistance(focalDistance), aperture(aperture) {}
 
-    Point getFocalPoint(float x, float y);
-    Point getLenseSamplePoint();
+//    Point getFocalPoint(float x, float y);
+//    Point getLenseSamplePoint();
+    virtual Ray computePrimaryRay(float x, float y);
 
-    //Plane getFocalPlane() {return focalPlane;}
 
 };
 
