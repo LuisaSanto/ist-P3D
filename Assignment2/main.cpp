@@ -71,6 +71,7 @@ int RES_X, RES_Y;
 /* Draw Mode: 0 - point by point; 1 - line by line; 2 - full frame */
 int draw_mode=2;
 
+/* Camera Mode: 0 - prespective; 1 - DoP; */
 int camera_mode = 1
 
 int WindowHandle = 0;
@@ -270,8 +271,13 @@ void renderScene() {
 		{
             Color color; //= Color(0.0f, 0.0f, 0.0f);
             if (antiAliasing == 0) {
-                Ray ray = scene.getCamera().computePrimaryRay(x, y);
-                color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
+				if (camera_mode == 1) {
+					Ray ray = scene.getLensCamera().computePrimaryRay(i, j);
+					color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
+				} else {
+					Ray ray = scene.getCamera().computePrimaryRay(x, y);
+					color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
+				}
             }
             //Stochastic sampling
             else if (antiAliasing == 1) {
@@ -279,8 +285,13 @@ void renderScene() {
                 for (int p = 1; p < n_square; p++) {
                     float i = x + epsilon;
                     float j = y + epsilon;
-                    Ray ray = scene.getCamera().computePrimaryRay(i, j);
-                    color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
+                    if (camera_mode == 1) {
+						Ray ray = scene.getLensCamera().computePrimaryRay(i, j);
+						color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
+                    } else {
+						Ray ray = scene.getCamera().computePrimaryRay(i, j);
+						color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
+					}
                 }
                 color = color * (1.0f / n_square);
             }
@@ -290,8 +301,13 @@ void renderScene() {
                     for (int q = 0; q < N; q++) {
                         float i = x + (p + epsilon) / N;
                         float j = y + (q + epsilon) / N;
-                        Ray ray = scene.getCamera().computePrimaryRay(i, j);
-                        color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
+						if (camera_mode == 1) {
+							Ray ray = scene.getLensCamera().computePrimaryRay(i, j);
+							color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
+						} else {
+							Ray ray = scene.getCamera().computePrimaryRay(i, j);
+							color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
+						}
                     }
                 }
                 color = color * (1.0f / (N * N));
