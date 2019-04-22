@@ -11,12 +11,9 @@
 #include "Ray.h"
 #include "Object.h"
 
-
-// The epsilon value adjustment for precision errors.
-static const float epsilon = 0.000001f;
-
-// The mathematical pi constant
-static const float pi = 3.141592f;
+#define M_PI (float) 3.1415926535
+#define RAND (float)rand()/RAND_MAX
+#define PIRAND (float)rand()/RAND_MAX*M_PI
 
 
 struct LensCamera : public Camera {
@@ -35,10 +32,12 @@ public:
             camera.getUp(), camera.getFovy(), camera.getNear(), camera.getResX(), camera.getResY()) ,
             focalDistance(focalDistance), aperture(aperture) {}
 
-//    Point getFocalPoint(float x, float y);
-//    Point getLenseSamplePoint();
-    virtual Ray computePrimaryRay(float x, float y);
-    //Ray getPrimaryRay(float x, float y);
+
+
+    virtual Ray computePrimaryRay(Point* focalp);
+    Point* originDOF();
+    Point getFocalPoint(float x, float y);
+
 
 
 };

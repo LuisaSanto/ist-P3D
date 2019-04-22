@@ -4,53 +4,43 @@
 
 #include "LensCamera.h"
 
-//Point LensCamera::getFocalPoint(float psx,float  psy) {
-//    // TODO
-//    //==========ISTO SUPOSTAMENTE NAO PODE SER CALCULADO USANDO O RAIO COMO ARGUMENTO============//
-//    /*Point hitpoint = Point(0.0, 0.0, 0.0);
-//    hitpoint = focalPlane.getRayHitPoint();
-//    //cout << "Focal Plane" << endl;
-//    //focalPlane.print();
-//    focalPlane.checkRayCollision(r);
-//    return hitpoint;*/
-//
-//    //==========Se souberes o centro da lente, consegues atraves da trigonometria calcular o ponto focal=======000
-//    //==========    Slide 35 do Distribution RayTracing
-//    float px = psx * focalPlane.getFocalDistance() / getNear();
-//    float py = psy * focalPlane.getFocalDistance() / getNear();
-//    Point focalPoint = Point(px, py, -focalPlane.getFocalDistance());
-//    return focalPoint;
-//}
-//
-//Point LensCamera::getLenseSamplePoint() {
-//    Point randomPoint = Point(0.0, 0.0, 0.0);
-//    float k1, k2;
-//    bool inside = false;
-//    while (!inside) {
-//        //random between [-aperture, +aperture]
-//        k1 = aperture * 2 * (((double)rand() / (RAND_MAX)) - 0.5);
-//        k2 = aperture * 2 * (((double)rand() / (RAND_MAX)) - 0.5);
-//
-//        randomPoint = getEye() + getXe()*k1 + getYe()*k2;
-//
-//
-//        if ((randomPoint - getEye()).norma() < aperture * aperture) {
-//            //randomPoint.print();
-//            inside = true;
-//        }
-//    }
-//    //cout << "sai" << endl;
-//    return randomPoint;
-//}
+Ray LensCamera::computePrimaryRay(Point *focalp) {
+    Point * origin = originDOF();
+    Point * direction = new Point(focalp);
+    direction-origin;
+    return new Ray(origin, direction);
+}
 
-Ray LensCamera::computePrimaryRay(float x, float y) {
-    Point p = getEye() -getAt()*focalDistance + (getXe()*getResX()) * x + (getYe()*getResY()) * y;
-    float r1 = sqrtf(random())*aperture;
-    float r2 = random()*2.0f*pi;
-    //cout << "cos: " << cosf(r2) << endl;
-    //cout << "sin " << sinf(r2) << endl;
-    Point center2 = getEye() + getXe()*r1*cosf(r2) + getUp()*r1*sinf(r2);
-    Point a = p - center2;
-    a.normalize();
-    return Ray(center2, a);
+Point* LensCamera::originDOF() {
+    float r, theta, x, y;
+    Point* u, v, w;
+    r = sqrtf(RAND); theta = 2*PIRAND;
+    x = aperture * r * cosf(theta);
+    y = aperture * r * sinf(theta);
+
+    u = new Point(getXe());
+    v = new Point(getYe());
+    w = new Point(getZe());
+
+    u*x; u*y; u+v; u+getEye();
+
+    delete w; delete v;
+    return u;
+}
+
+Point LensCamera::getFocalPoint(float x, float y) {
+    Point* u, v, w;
+
+    u = new Point(getXe());
+    v = new Point(getYe());
+    w = new Point(getZe());
+
+    u*(focalDistance * getWidth() * ((x / getResX()) - 0.5f));
+    v*(focalDistance * getHeight() * ((y / getResY()) - 0.5f));
+    w*(focalDistance * (getEye() - getAt()).norma());
+
+    u+v; u+w; u+getEye();
+
+    delete v; delete u;
+    return u;
 }

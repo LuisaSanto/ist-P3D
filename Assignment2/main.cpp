@@ -40,12 +40,9 @@
 #define N 4 //Number of samples
 
 
-#define lensNumber 4
-#define focalPoint -0.5
-#define aperture 0.03
-
-
-
+#define NUMEROAMOSTRAS_DOF 1			//Actually sqrt(numero de amostras dof) //Set to 1 if disabled
+#define aperture (float) 0.32
+#define focalDistance 0.85
 
 
 
@@ -447,7 +444,7 @@ int main(int argc, char* argv[])
 
 	Camera camera = scene.getCamera();
 	if (camera_mode > 1) {
-	    LensCamera lensCam = LensCamera(camera, focalPoint, aperture);
+	    LensCamera lensCam = LensCamera(camera, focalDistance, aperture);
 	    scene.addLensCamera(lensCam);
 	}
 
