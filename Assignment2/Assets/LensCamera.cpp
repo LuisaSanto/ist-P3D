@@ -4,20 +4,32 @@
 
 #include "LensCamera.h"
 
-Ray LensCamera::computePrimaryRay(Point focalp) {
+Ray LensCamera::(Point focalp) {
     Point origin = originDOF();
     Point direction = Point(focalp);
     Point newDirection = direction-origin
-    return Ray(origin, newDirection);
+    return Ray(origin, newDirection.normalize());
 }
 
 Point LensCamera::originDOF() {
+    float k1, k2; Point origin;
+
     float r = sqrtf(RAND);
     float theta = 2*PIRAND;
+    boot insideCircle = false;
 
-    Point o = getXe()*(aperture * r * cosf(theta)) + getYe()*(aperture * r * sinf(theta)) + getEye();
+    while (!insideCircle) {
+        k1 = aperture * r * cosf(theta);
+        k2 = aperture * r * sinf(theta);
 
-    return o;
+        origin = getXe()*k1 + getYe()*k2 + getEye();
+
+        if ((origin - getEye()).norma() < aperture * aperture) {
+            insideCircle = true
+        }
+    }
+
+    return origin;
 }
 
 Point LensCamera::getFocalPoint(float x, float y) {
@@ -32,3 +44,5 @@ Point LensCamera::getFocalPoint(float x, float y) {
 
     return direction;
 }
+
+
