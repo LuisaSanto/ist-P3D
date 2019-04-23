@@ -74,7 +74,7 @@ int RES_X, RES_Y;
 int draw_mode=2;
 
 /* Camera Mode: 0 - prespective; 1 - DoP; */
-int camera_mode = 0;
+int camera_mode = 1;
 
 int WindowHandle = 0;
 
@@ -90,7 +90,7 @@ int antiAliasing = 0;
 
 
 //Acceleration grid: 0 - off; 1 - on;
-int acceleration_grid = 1;
+int acceleration_grid = 0;
 
 
 ///////////////////////////////////////////////////////////////////////  RAY-TRACE SCENE
