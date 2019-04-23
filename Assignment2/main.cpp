@@ -74,7 +74,7 @@ int RES_X, RES_Y;
 int draw_mode=2;
 
 /* Camera Mode: 0 - prespective; 1 - DoP; */
-int camera_mode = 1;
+int camera_mode = 0;
 
 int WindowHandle = 0;
 
@@ -306,23 +306,28 @@ void renderScene() {
 						color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
 					}
                 }
-                color = color * (1.0f / n_square);
+                if (camera_mode != 1) {
+                    color = color * (1.0f / n_square);
+                }
             }
             //Jittering sampling
             else if (antiAliasing == 2) {
+                int n_square = N * N;
                 for (int p = 0; p < N; p++) {
                     for (int q = 0; q < N; q++) {
                         float i = x + (p + epsilon) / N;
                         float j = y + (q + epsilon) / N;
 						if (camera_mode == 1) {
-							traceDOFRays(color, i, j); //Sera i, j?
+							color = traceDOFRays(color, i, j); //Sera i, j?
 						} else {
 							Ray ray = scene.getCamera().computePrimaryRay(i, j);
 							color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
 						}
                     }
                 }
-                color = color * (1.0f / (N * N));
+                if (camera_mode != 1) {
+                    color = color * (1.0f / n_square);
+                }
             }
 
 			vertices[index_pos++]= (float)x;
