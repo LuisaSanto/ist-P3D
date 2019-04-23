@@ -1,0 +1,65 @@
+cmake_minimum_required(VERSION 3.13)
+project(ist_P3D)
+
+set(CMAKE_CXX_STANDARD 14)
+
+include_directories(Assignment1/Assets)
+include_directories(Assignment2/Assets)
+
+add_executable(ist_P3D
+        Assignment1/Assets/Camera.cpp
+        Assignment1/Assets/Camera.h
+        Assignment1/Assets/Color.cpp
+        Assignment1/Assets/Color.h
+        Assignment1/Assets/Cylinder.cpp
+        Assignment1/Assets/Cylinder.h
+        Assignment1/Assets/Light.cpp
+        Assignment1/Assets/Light.h
+        Assignment1/Assets/Material.cpp
+        Assignment1/Assets/Material.h
+        Assignment1/Assets/Plane.cpp
+        Assignment1/Assets/Plane.h
+        Assignment1/Assets/Point.cpp
+        Assignment1/Assets/Point.h
+        Assignment1/Assets/Polygon.cpp
+        Assignment1/Assets/Polygon.h
+        Assignment1/Assets/Ray.cpp
+        Assignment1/Assets/Ray.h
+        Assignment1/Assets/Scene.cpp
+        Assignment1/Assets/Scene.h
+        Assignment1/Assets/Sphere.cpp
+        Assignment1/Assets/Sphere.h
+        Assignment1/main.cpp
+        Assignment2/Assets/BoundingBox.cpp
+        Assignment2/Assets/BoundingBox.h
+        Assignment2/Assets/Camera.cpp
+        Assignment2/Assets/Camera.h
+        Assignment2/Assets/Color.cpp
+        Assignment2/Assets/Color.h
+        Assignment2/Assets/Cylinder.cpp
+        Assignment2/Assets/Cylinder.h
+        Assignment2/Assets/Grid.cpp
+        Assignment2/Assets/Grid.h
+        Assignment2/Assets/LensCamera.cpp
+        Assignment2/Assets/LensCamera.h
+        Assignment2/Assets/Light.cpp
+        Assignment2/Assets/Light.h
+        Assignment2/Assets/LightArea.cpp
+        Assignment2/Assets/LightArea.h
+        Assignment2/Assets/Material.cpp
+        Assignment2/Assets/Material.h
+        Assignment2/Assets/Object.cpp
+        Assignment2/Assets/Object.h
+        Assignment2/Assets/Plane.cpp
+        Assignment2/Assets/Plane.h
+        Assignment2/Assets/Point.cpp
+        Assignment2/Assets/Point.h
+        Assignment2/Assets/Polygon.cpp
+        Assignment2/Assets/Polygon.h
+        Assignment2/Assets/Ray.cpp
+        Assignment2/Assets/Ray.h
+        Assignment2/Assets/Scene.cpp
+        Assignment2/Assets/Scene.h
+        Assignment2/Assets/Sphere.cpp
+        Assignment2/Assets/Sphere.h
+        Assignment2/main.cpp)
