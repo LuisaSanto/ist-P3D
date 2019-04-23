@@ -15,13 +15,13 @@ Ray LensCamera::computePrimaryRay(Point focalp) {
 Point LensCamera::originDOF() {
     float k1, k2; Point origin;
 
-    float r = sqrtf(RAND);
-    float theta = 2*PIRAND;
+    //float r = rand()/
+    //float theta = 2*PIRAND;
     bool insideCircle = false;
 
     while (!insideCircle) {
-        k1 = aperture * r * (((double)rand() / (RAND_MAX)) - 0.5);
-        k2 = aperture * r * (((double)rand() / (RAND_MAX)) - 0.5);
+        k1 = aperture * 2 * (((double)rand() / (RAND_MAX)) - 0.5);
+        k2 = aperture * 2 * (((double)rand() / (RAND_MAX)) - 0.5);
 
         origin = getXe()*k1 + getYe()*k2 + getEye();
 
