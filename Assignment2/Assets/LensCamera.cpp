@@ -9,7 +9,7 @@ Ray LensCamera::computePrimaryRay(Point focalp) {
     Point direction = Point(focalp);
     Point newDirection = direction-origin;
     newDirection.normalize();
-    return Ray(origin, newDirection);
+    return Ray(origin + getEye(), newDirection);
 }
 
 Point LensCamera::originDOF() {
@@ -32,7 +32,7 @@ Point LensCamera::originDOF() {
     k1 = aperture * radius;
     k2 = aperture * radius;
 
-    origin = getXe()*k1 + getYe()*k2 + getEye();
+    origin = getXe()*k1 + getYe()*k2;
 
     return origin;
 }
