@@ -6,7 +6,7 @@
 
 Ray LensCamera::computePrimaryRay(Point focalp) {
     Point origin = originDOF();
-    Point direction = Point(origin);
+    Point direction = Point(focalp);
     Point newDirection = direction-origin;
     newDirection.normalize();
     return Ray(origin, newDirection);
