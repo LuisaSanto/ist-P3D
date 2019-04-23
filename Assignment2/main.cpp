@@ -460,7 +460,7 @@ int main(int argc, char* argv[])
 	}
 
 	Camera camera = scene.getCamera();
-	if (camera_mode > 1) {
+	if (camera_mode == 1) {
 	    LensCamera lensCam = LensCamera(camera, focalDistance, aperture);
 	    scene.addLensCamera(lensCam);
 	}
