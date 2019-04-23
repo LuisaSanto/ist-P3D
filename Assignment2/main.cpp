@@ -253,24 +253,18 @@ void drawPoints()
 // Render function by primary ray casting from the eye towards the scene's objects
 
 
- Color traceDOFRays(Color color, int x, int y) {
-
-	 for (int n = 0; n < N; n++) {
-		 for (int m = 0; m < N; m++) {
-			 Point focalp = scene.getLensCamera().getFocalPoint(x + ((n + (ERAND / N)) / N), y + ((m + (ERAND / N)) / N));
-			 for (int o = 0; o < samplesDOF; o++) {
-				 for (int q = 0; q < samplesDOF; q++) {
-					 Ray ray = scene.getLensCamera().computePrimaryRay(focalp);
-					 color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
-					 //delete ray;
-				 }
-			 }
-			 //delete focalp;
-		 }
-	 }
-	 color = color * ((float)1 / (samplesDOF * samplesDOF * N * N));
-	 return color;
- }
+Color traceDOFRays(Color color, int x, int y) {
+    lens_number = samplesDOF * samplesDOF;
+     Point focalp = scene.getLensCamera().getFocalPoint(x + (((ERAND / N)) / N), y + (((ERAND / N)) / N));
+     for (int o = 0; o < samplesDOF; o++) {
+         for (int q = 0; q < samplesDOF; q++) {
+             Ray ray = scene.getLensCamera().computePrimaryRay(focalp);
+             color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
+         }
+     }
+     color = color * ((float)1 / (samplesDOF * samplesDOF));
+     return color;
+}
 
 void renderScene() {
 	int index_pos = 0;
