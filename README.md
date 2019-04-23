@@ -7,19 +7,19 @@
  
  ## How to change modes
 
-* Draw Mode: 0 - point by point; 1 - line by line; 2 - full frame
-- draw_mode;
+### Draw Mode: 0 - point by point; 1 - line by line; 2 - full frame
+- draw_mode
 
-* Camera Mode: 0 - prespective; 1 - DoP
+### Camera Mode: 0 - prespective; 1 - DoP
 - camera_mode
 
-* Soft shadows: 0 - off; 1 - softShadows with Jittering Method
+### Soft shadows: 0 - off; 1 - softShadows with Jittering Method
 - softShadows
 
-* Anti- Alising:  0 - off ; 1 - antiAliasinng with Stochastic Sampling;  2 - antiAliasing with Jittering Method
+### Anti- Alising:  0 - off ; 1 - antiAliasinng with Stochastic Sampling;  2 - antiAliasing with Jittering Method
 - antiAliasing
 
-* Acceleration grid: 0 - off; 1 - on;
+### Acceleration grid: 0 - off; 1 - on;
 - acceleration_grid
 
 
