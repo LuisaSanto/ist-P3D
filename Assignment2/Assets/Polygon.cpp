@@ -18,7 +18,7 @@ float Polygon::checkRayCollision(Ray ray) {
 	float t, innerVert, invInnerVert, u, v;
 	Point crossDir, ori, q;
 
-	if (ray.id == lastRay) {
+	if (ray.getRayID() == lastRay) {
 		return _lastTNear;
 	}
 
@@ -56,7 +56,8 @@ float Polygon::checkRayCollision(Ray ray) {
 		return tNear;
 	}
 
-	lastRay = ray.id;
+	lastRay = ray.getRayID();
+	_lastTNear = t;
 	return t;
 
 

@@ -256,7 +256,7 @@ Object* Grid::traverse(Ray ray) {
 
 		if(object_ptr.size() != 0 ){
 			for(int k = 0; k < object_ptr.size(); k++){
-				if(object_ptr[k]->checkRayCollision(ray) < tNear){
+				if(object_ptr[k]->checkRayCollision(ray) != kMax){
 					tNear = object_ptr[k]->checkRayCollision(ray);
 			        object_ptr[k]->setRayHitPoint(ray, tNear);
 					return object_ptr[k];

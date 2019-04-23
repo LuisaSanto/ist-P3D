@@ -6,8 +6,10 @@ Ray::Ray(Point origin, Point direction) {
 	//When creating a ray it will always be normalized!
 	direction.normalize();
 	_direction = direction;
+	_id = ++numRay;
 	//cout << "Norma: " << _direction.norma() << endl;
 }
+
 
 Point Ray::pointAtParameter(float t) {
 

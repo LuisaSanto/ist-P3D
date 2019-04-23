@@ -14,7 +14,7 @@ float Plane::checkRayCollision(Ray ray) {
 	float tNear = numeric_limits<float>::max();
 	float t;
 
-	if (ray.id == lastRay) {
+	if (ray.getRayID() == lastRay) {
 		return _lastTNear;
 	}
 
@@ -31,7 +31,9 @@ float Plane::checkRayCollision(Ray ray) {
 		return tNear;
 	}
 	
-	lastRay = ray.id;
+	lastRay = ray.getRayID();
+	//cout << lastRay << endl;
+	_lastTNear = t;
 	return t;
 }
 

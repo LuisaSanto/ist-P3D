@@ -11,20 +11,22 @@ class Ray {
 		Point _origin;
 		Point _direction;
 		static int numRay;
+        int _id;
 
 	public:
 
-		int id;
+
 
 		//Constructor
 		
 		Ray(Point origin, Point direction);
-		Ray(Point origin, Point direction, int numRay){numRay++;};
+		Ray(Point origin, Point direction, int numRay);
 
 		//Getters
 
 		Point getOrigin() { return _origin; }
 		Point getDirection() { return _direction; }
+		int getRayID() { return _id; }
 
 		//Get a Ray from origin to a point
 		Point pointAtParameter(float t);
