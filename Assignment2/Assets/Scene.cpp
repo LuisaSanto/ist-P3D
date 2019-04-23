@@ -18,15 +18,16 @@ Color Scene::trace(Ray ray, int depth, float refrIndex, bool insideObject, int s
 	//Get some info about the closest intersection Object
 	if (acc_mode == 1) {
 	    nearestObject = grid.traverse(ray);
+	    
 	}
 	else {
         nearestObject = getClosestIntersection(ray);
     }
+    
 
 	//Check if there isn't nearest object then return bColor
 	
 	if (nearestObject == nullptr) {
-        //cout << "ola" << endl;
 		return getBgColor();
 	}
 	else {

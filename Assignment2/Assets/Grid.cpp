@@ -47,20 +47,11 @@ void Grid::initializeGridCells(std::vector<Object*> objects) {
 	float wz = box.getMax().z() - box.getMin().z();
 
 	float s = pow((wx * wy * wz) / objects.size(), 1/3);
-cout << "s " << s << endl;
 	nx = trunc(m * wx / s) + 1;
 	ny = trunc(m * wy / s) + 1;
 	nz = trunc(m * wz / s) + 1;
-	cout << "wx " << wx << endl;
-	cout << "wy " << wy << endl;
-	cout << "wz " << wz << endl;
-
-	cout << "nx " << nx << endl;
-	cout << "ny " << ny << endl;
-	cout << "nz " << nz << endl;
 
 	int number_cells = nx * ny * nz;
-	cout << "Cells " << number_cells << endl;
 
 	//number_cells = 10;
 
@@ -85,9 +76,7 @@ cout << "s " << s << endl;
 			for(int y = ymin; y <= ymax; y++){
 				for(int x = xmin; x <= xmax; x++){
 					int idx = x + nx * y + nx * ny * z;
-					cout << "Fifth " << idx << endl;
 					cells[idx].push_back(obj);
-					cout << "Six" << endl;
 
 				}
 			}
@@ -257,6 +246,9 @@ Object* Grid::traverse(Ray ray) {
 	}
 
 	std::vector<Object*> object_ptr;
+	float tNear = kMax;
+	float tNearK;
+	Object* closestObj = nullptr;
 
 	while(true){
 		object_ptr = cells[ix + nx * iy + nx * ny * iz];
@@ -264,9 +256,9 @@ Object* Grid::traverse(Ray ray) {
 
 		if(object_ptr.size() != 0 ){
 			for(int k = 0; k < object_ptr.size(); k++){
-				if(object_ptr[k]->checkRayCollision(ray) < kMax){
-					//return true;
-					//cout << "ola" << object_ptr[k]->checkRayCollision(ray) << endl;
+				if(object_ptr[k]->checkRayCollision(ray) < tNear){
+					tNear = object_ptr[k]->checkRayCollision(ray);
+			        object_ptr[k]->setRayHitPoint(ray, tNear);
 					return object_ptr[k];
 				}
 
