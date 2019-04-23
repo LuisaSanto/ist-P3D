@@ -13,35 +13,23 @@ Ray LensCamera::computePrimaryRay(Point focalp) {
 }
 
 Point LensCamera::originDOF() {
-    float r, theta, x, y;
-    Point u, v, w;
-    r = sqrtf(RAND); theta = 2*PIRAND;
-    x = aperture * r * cosf(theta);
-    y = aperture * r * sinf(theta);
+    float r = sqrtf(RAND);
+    float theta = 2*PIRAND;
 
-    u = Point(getXe());
-    v = Point(getYe());
-    w = Point(getZe());
+    Point u = getXe()*(aperture * r * cosf(theta)) + getYe()*(aperture * r * sinf(theta)) + getEye();
 
-    u*x; u*y; u+v; u+getEye();
-
-    //delete w; delete v;
     return u;
 }
 
 Point LensCamera::getFocalPoint(float x, float y) {
-    Point u, v, w;
+    float df;
+    df = (getEye() - getAt()).norma();
 
-    u = Point(getXe());
-    v = Point(getYe());
-    w = Point(getZe());
+    Point xe = getXe()*(focalDistance * getWidth() * ((x / getResX()) - 0.5f));
+    Point ye = getYe()*(focalDistance * getHeight() * ((y / getResY()) - 0.5f));
+    Point ze  = getZe() *(focalDistance * (-df));
 
-    u*(focalDistance * getWidth() * ((x / getResX()) - 0.5f));
-    v*(focalDistance * getHeight() * ((y / getResY()) - 0.5f));
-    w*(focalDistance * (getEye() - getAt()).norma());
+    Point direction = ze + ye + xe;
 
-    u+v; u+w; u+getEye();
-
-    //delete v; delete u;
-    return u;
+    return direction;
 }
