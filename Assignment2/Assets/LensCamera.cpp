@@ -21,8 +21,8 @@ Point LensCamera::originDOF() {
         lensX = (float)rand()/RAND_MAX;
         lensY = (float)rand()/RAND_MAX;
 
-        lensX = (lensX * 2) -1
-        lensY = (lensY * 2) -1
+        lensX = (lensX * 2) - 1;
+        lensY = (lensY * 2) - 1;
     }
 
 //    float theta = 2*PIRAND;
