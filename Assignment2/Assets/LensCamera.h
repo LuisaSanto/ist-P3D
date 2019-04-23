@@ -12,6 +12,8 @@
 #include "Object.h"
 
 #define M_PI (float) 3.1415926535
+#define RAND (float)rand()/RAND_MAX
+#define PIRAND (float)rand()/RAND_MAX*M_PI
 
 
 struct LensCamera : public Camera {
@@ -29,7 +31,6 @@ public:
     LensCamera(Camera camera, float focalDistance, float aperture) : Camera(camera.getEye(), camera.getAt(),
             camera.getUp(), camera.getFovy(), camera.getNear(), camera.getResX(), camera.getResY()) ,
             focalDistance(focalDistance), aperture(aperture) {}
-
 
 
     virtual Ray computePrimaryRay(Point focalp);
