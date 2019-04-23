@@ -20,8 +20,8 @@ Point LensCamera::originDOF() {
     bool insideCircle = false;
 
     while (!insideCircle) {
-        k1 = aperture * r * cosf(theta);
-        k2 = aperture * r * sinf(theta);
+        k1 = aperture * r * (((double)rand() / (RAND_MAX)) - 0.5);
+        k2 = aperture * r * (((double)rand() / (RAND_MAX)) - 0.5);
 
         origin = getXe()*k1 + getYe()*k2 + getEye();
 
