@@ -254,10 +254,9 @@ void drawPoints()
 
 
 Color traceDOFRays(Color color, int x, int y) {
-    int lens_number = samplesDOF * samplesDOF;
     Point focalp = scene.getLensCamera().getFocalPoint(x, y);
-    for (int o = 0; o < lens_number; o++) {
-         for (int q = 0; q < lens_number; q++) {
+    for (int o = 0; o < samplesDOF; o++) {
+         for (int q = 0; q < samplesDOF; q++) {
              Ray ray = scene.getLensCamera().computePrimaryRay(focalp);
              color = color + scene.trace(ray, 0, 1, false, softShadows, acceleration_grid);
          }
