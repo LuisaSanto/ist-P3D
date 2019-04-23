@@ -14,4 +14,4 @@
 
 * By running our DoF nff and set the fdRatio to 0.2 and aperture to 0.1 you will see:
 
-![](Images/dof1.png =250x)
+![](Images/dof1.png | width=100)
