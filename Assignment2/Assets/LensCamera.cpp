@@ -29,8 +29,8 @@ Point LensCamera::originDOF() {
     float radius = 0.2;
 //    k1 = aperture * r * cosf(theta);
 //    k2 = aperture * r * sinf(theta);
-    k1 = aperture * radius;
-    k2 = aperture * radius;
+    k1 = lensX * aperture;
+    k2 = lensY * aperture;
 
     origin = getXe()*k1 + getYe()*k2;
 
