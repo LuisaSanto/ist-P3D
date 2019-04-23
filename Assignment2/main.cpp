@@ -40,9 +40,9 @@
 #define N 4 //Number of samples
 
 
-#define samplesDOF 1			//Actually sqrt(numero de amostras dof) //Set to 1 if disabled
-#define aperture (float) 0.32
-#define focalDistance 0.85
+#define samplesDOF 4			//Actually sqrt(numero de amostras dof) //Set to 1 if disabled
+#define aperture (float) 0.01
+#define focalDistance 0.5
 #define M_PI (float) 3.1415926535
 #define RAND (float)rand()/RAND_MAX
 #define PIRAND (float)rand()/RAND_MAX*M_PI
