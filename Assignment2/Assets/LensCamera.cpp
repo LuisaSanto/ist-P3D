@@ -6,19 +6,18 @@
 
 Ray LensCamera::computePrimaryRay(Point focalp) {
     Point origin = originDOF();
-    //Point * direction = new Point(focalp);
     Point direction = Point(focalp);
-    direction-origin;
-    return Ray(origin, direction);
+    Point newDirection = direction-origin
+    return Ray(origin, newDirection);
 }
 
 Point LensCamera::originDOF() {
     float r = sqrtf(RAND);
     float theta = 2*PIRAND;
 
-    Point u = getXe()*(aperture * r * cosf(theta)) + getYe()*(aperture * r * sinf(theta)) + getEye();
+    Point o = getXe()*(aperture * r * cosf(theta)) + getYe()*(aperture * r * sinf(theta)) + getEye();
 
-    return u;
+    return o;
 }
 
 Point LensCamera::getFocalPoint(float x, float y) {
