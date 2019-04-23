@@ -15,7 +15,7 @@ class Plane : public Object {
 		Point _point1;
 		Point _point2;
 		Point _point3;
-		float _focalDistance;
+		float _fdRatio;
 
 	public:
 		//Constructors
@@ -28,7 +28,7 @@ class Plane : public Object {
 		//Getters
 		// Point getNormal() { return _normal; }
 		// Material getMaterial() { return _material; }
-		float getFocalDistance() { return _focalDistance; }
+		float getfdRatio() { return _fdRatio; }
 
 
 		void print();

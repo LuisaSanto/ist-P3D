@@ -42,7 +42,7 @@
 
 #define samplesDOF 4			//Actually sqrt(numero de amostras dof) //Set to 1 if disabled
 #define aperture (float) 0.1
-#define focalDistance 1
+#define fdRatio 1
 #define M_PI (float) 3.1415926535
 #define RAND (float)rand()/RAND_MAX
 #define PIRAND (float)rand()/RAND_MAX*M_PI
@@ -461,7 +461,7 @@ int main(int argc, char* argv[])
 
 	Camera camera = scene.getCamera();
 	if (camera_mode == 1) {
-	    LensCamera lensCam = LensCamera(camera, focalDistance, aperture);
+	    LensCamera lensCam = LensCamera(camera, fdRatio, aperture);
 	    scene.addLensCamera(lensCam);
 	}
 

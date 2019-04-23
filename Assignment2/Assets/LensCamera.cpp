@@ -25,10 +25,6 @@ Point LensCamera::originDOF() {
         lensY = (lensY * 2) - 1;
     }
 
-//    float theta = 2*PIRAND;
-    float radius = 0.2;
-//    k1 = aperture * r * cosf(theta);
-//    k2 = aperture * r * sinf(theta);
     k1 = lensX * aperture;
     k2 = lensY * aperture;
 
@@ -41,9 +37,9 @@ Point LensCamera::getFocalPoint(float x, float y) {
     float df;
     df = (getEye() - getAt()).norma();
 
-    Point xe = getXe()*(focalDistance * getWidth() * ((x / getResX()) - 0.5f));
-    Point ye = getYe()*(focalDistance * getHeight() * ((y / getResY()) - 0.5f));
-    Point ze  = getZe() *(focalDistance * (-df));
+    Point xe = getXe()*(fdRatio * getWidth() * ((x / getResX()) - 0.5f));
+    Point ye = getYe()*(fdRatio * getHeight() * ((y / getResY()) - 0.5f));
+    Point ze  = getZe() *(fdRatio * (-df));
 
     Point direction = ze + ye + xe;
 
