@@ -24,6 +24,11 @@ float Sphere::checkRayCollision(Ray ray) {
 	//Declare variables
 	float tNear = numeric_limits<float>::max();
 
+	if (ray.id == lastRay) {
+		//cout << "Second" << lastRay << endl;
+		return _lastTNear;
+	}
+
 	float radius = getRadius();
 	Point rayOrigin = ray.getOrigin();
 	Point rayDirection = ray.getDirection();
@@ -58,6 +63,7 @@ float Sphere::checkRayCollision(Ray ray) {
 	}
 
 	setNormalIntersectionPoint(ray.pointAtParameter(t), d);
+	lastRay = ray.id;
 	return t;
 }
 

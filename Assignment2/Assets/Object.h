@@ -14,6 +14,8 @@ class Object {
         Point _rayHitPoint;
         Material _material;
         BoundingBox box;
+        int lastRay = 0;
+        float _lastTNear;
 
     public:
         //Constructors

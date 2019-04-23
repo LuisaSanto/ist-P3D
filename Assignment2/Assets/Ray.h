@@ -10,10 +10,16 @@ class Ray {
 	private:
 		Point _origin;
 		Point _direction;
+		static int numRay;
 
 	public:
+
+		int id;
+
 		//Constructor
+		
 		Ray(Point origin, Point direction);
+		Ray(Point origin, Point direction, int numRay){numRay++;};
 
 		//Getters
 
@@ -22,6 +28,7 @@ class Ray {
 
 		//Get a Ray from origin to a point
 		Point pointAtParameter(float t);
+
 
 		void print();
 };

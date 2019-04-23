@@ -6,4 +6,5 @@ Object::Object (Material material) {
 
 Point Object::setRayHitPoint(Ray ray, float t) {
     _rayHitPoint = ray.pointAtParameter(t);
+    _lastTNear = t;
 }

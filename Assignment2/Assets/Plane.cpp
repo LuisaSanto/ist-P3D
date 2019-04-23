@@ -14,6 +14,10 @@ float Plane::checkRayCollision(Ray ray) {
 	float tNear = numeric_limits<float>::max();
 	float t;
 
+	if (ray.id == lastRay) {
+		return _lastTNear;
+	}
+
 	Point normal = Object::getNormal();
 	Point rayDirection = ray.getDirection();
 	Point rayOrigin = ray.getOrigin();
@@ -27,6 +31,7 @@ float Plane::checkRayCollision(Ray ray) {
 		return tNear;
 	}
 	
+	lastRay = ray.id;
 	return t;
 }
 

@@ -18,6 +18,11 @@ float Polygon::checkRayCollision(Ray ray) {
 	float t, innerVert, invInnerVert, u, v;
 	Point crossDir, ori, q;
 
+	if (ray.id == lastRay) {
+		return _lastTNear;
+	}
+
+
 	Point normal = getNormal();
 	Point rayOrigin = ray.getOrigin();
 	Point rayDirection = ray.getDirection();
@@ -51,6 +56,7 @@ float Polygon::checkRayCollision(Ray ray) {
 		return tNear;
 	}
 
+	lastRay = ray.id;
 	return t;
 
 

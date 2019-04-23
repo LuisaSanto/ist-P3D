@@ -24,3 +24,5 @@ void Ray::print() {
 	cout << "Direction: " << endl;
 	getDirection().print();
 }
+
+int Ray::numRay = 0;
