@@ -30,12 +30,40 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 1;
+
+        numLapPlayer = 0;
+        playerTime = 0.0f;
+        playerWins = false;
+
+        numLapOpponent = 0;
+        opponentTime = 0.0f;
+        opponentWins = false;
         
+    }
+
+    //Count player's time
+    public void PlayerLapsCounter()
+    {
+        if (playerLapStarted)
+        {
+            playerTime += Time.deltaTime;
+        }
+    }
+
+    //Count Opponent's time
+    public void OpponentLapsCounter()
+    {
+        if (opponentLapStarted)
+        {
+            opponentTime += Time.deltaTime;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        PlayerLapsCounter();
+        OpponentLapsCounter();
     }
 }

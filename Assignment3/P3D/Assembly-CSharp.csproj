@@ -62,6 +62,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\CheckPointManager.cs" />
+    <Compile Include="Assets\Scripts\Dot_Truck_Controller.cs" />
     <Compile Include="Assets\Scripts\GameController.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>/Users/hugogaspar/Desktop/ist-P3D/Assignment3/P3D/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
