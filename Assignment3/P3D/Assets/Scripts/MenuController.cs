@@ -19,7 +19,7 @@ public class MenuController : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("game scene");
+        SceneManager.LoadScene("Level 02");
     }
 
     public void ExitGame()
