@@ -76,14 +76,14 @@ public class CheckPointManager : MonoBehaviour {
                 gc.GetComponent<GameController>().numCheckPoint = 1;
             }
 
-            if (cp == CheckPoints.one && gc.GetComponent<GameController>().numCheckPoint == 1 && gc.GetComponent<GameController>().numLapPlayer == 3)
+            if (cp == CheckPoints.one && gc.GetComponent<GameController>().numCheckPoint == 1 && gc.GetComponent<GameController>().numLapPlayer == gc.GetComponent<GameController>().lapsLimit)
             {
                 gc.GetComponent<GameController>().playerWins = true;
             }
         }
 
 
-        if (coll.tag == "Opponent")
+        if (coll.tag == "Enemy")
         {
             if (cp == CheckPoints.one && gc.GetComponent<GameController>().numCheckPointOpponent == 0
             && gc.GetComponent<GameController>().numLapOpponent == 0)
@@ -126,7 +126,7 @@ public class CheckPointManager : MonoBehaviour {
 
 
             if (cp == CheckPoints.one && gc.GetComponent<GameController>().numCheckPointOpponent == 1
-            && gc.GetComponent<GameController>().numLapOpponent == 3)
+            && gc.GetComponent<GameController>().numLapOpponent == gc.GetComponent<GameController>().lapsLimit)
             {
                 gc.GetComponent<GameController>().opponentWins = true;
             }

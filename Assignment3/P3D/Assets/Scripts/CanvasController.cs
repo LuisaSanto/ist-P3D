@@ -89,7 +89,7 @@ public class CanvasController : MonoBehaviour
             endGame.enabled = true;
             endGame.text = "DEFEAT";
             mainMenu.gameObject.SetActive(true);
-            mainMenu.gameObject.SetActive(true);
+            restart.gameObject.SetActive(true);
             Time.timeScale = 0;
         }
 
@@ -98,7 +98,7 @@ public class CanvasController : MonoBehaviour
             endGame.enabled = true;
             endGame.text = "VICTORY";
             mainMenu.gameObject.SetActive(true);
-            mainMenu.gameObject.SetActive(true);
+            restart.gameObject.SetActive(true);
             Time.timeScale = 0;
         }
     }
