@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour
     public int numCheckPoint;
     public int numLapPlayer;
     public int lapsLimit;
+    public int numLifes;
 
     public bool playerLapStarted;
     public bool playerWins;
@@ -65,5 +66,11 @@ public class GameController : MonoBehaviour
     {
         PlayerLapsCounter();
         OpponentLapsCounter();
+    }
+
+    // Lose life is called whenever player collides with track walls
+    public void LoseLife()
+    {
+
     }
 }

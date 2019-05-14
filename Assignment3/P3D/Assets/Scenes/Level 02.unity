@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 18745766}
   m_Layer: 0
   m_Name: Curved Wall (10)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -317,7 +317,7 @@ GameObject:
   - component: {fileID: 42296185}
   m_Layer: 0
   m_Name: Curved Wall (33)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -466,7 +466,7 @@ GameObject:
   - component: {fileID: 133547425}
   m_Layer: 0
   m_Name: Curved Wall (38)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -672,7 +672,7 @@ GameObject:
   - component: {fileID: 181850376}
   m_Layer: 0
   m_Name: Curved Wall (23)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -812,7 +812,7 @@ GameObject:
   - component: {fileID: 196728580}
   m_Layer: 0
   m_Name: Curved Wall (40)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -873,7 +873,7 @@ GameObject:
   - component: {fileID: 204080176}
   m_Layer: 0
   m_Name: Curved Wall (3)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -991,7 +991,7 @@ GameObject:
   - component: {fileID: 237666839}
   m_Layer: 0
   m_Name: Curved Wall (18)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1094,7 +1094,7 @@ GameObject:
   - component: {fileID: 293486101}
   m_Layer: 0
   m_Name: Curved Wall (57)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1378,7 +1378,7 @@ GameObject:
   - component: {fileID: 311177160}
   m_Layer: 0
   m_Name: Curved Wall (6)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1461,7 +1461,7 @@ GameObject:
   - component: {fileID: 335298963}
   m_Layer: 0
   m_Name: Curved Wall (32)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1846,7 +1846,7 @@ GameObject:
   - component: {fileID: 424704369}
   m_Layer: 0
   m_Name: Curved Wall (36)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1926,6 +1926,7 @@ MonoBehaviour:
   numCheckPoint: 0
   numLapPlayer: 0
   lapsLimit: 2
+  numLifes: 3
   playerLapStarted: 0
   playerWins: 0
   playerTime: 0
@@ -2115,7 +2116,7 @@ GameObject:
   - component: {fileID: 461361024}
   m_Layer: 0
   m_Name: Curved Wall (48)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2366,7 +2367,7 @@ GameObject:
   - component: {fileID: 491409862}
   m_Layer: 0
   m_Name: Curved Wall (28)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2559,7 +2560,7 @@ GameObject:
   - component: {fileID: 542088086}
   m_Layer: 0
   m_Name: Curved Wall (51)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2620,7 +2621,7 @@ GameObject:
   - component: {fileID: 542441079}
   m_Layer: 0
   m_Name: Curved Wall (11)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2709,7 +2710,7 @@ GameObject:
   - component: {fileID: 574862591}
   m_Layer: 0
   m_Name: Straight Wall (1)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2770,7 +2771,7 @@ GameObject:
   - component: {fileID: 593580224}
   m_Layer: 0
   m_Name: Curved Wall (56)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2910,7 +2911,7 @@ GameObject:
   - component: {fileID: 675935504}
   m_Layer: 0
   m_Name: Curved Wall (26)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2993,7 +2994,7 @@ GameObject:
   - component: {fileID: 688101285}
   m_Layer: 0
   m_Name: Straight Wall (3)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3076,7 +3077,7 @@ GameObject:
   - component: {fileID: 742553540}
   m_Layer: 0
   m_Name: Curved Wall (17)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3317,7 +3318,7 @@ GameObject:
   - component: {fileID: 821329861}
   m_Layer: 0
   m_Name: Straight Wall
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3378,7 +3379,7 @@ GameObject:
   - component: {fileID: 851700806}
   m_Layer: 0
   m_Name: Curved Wall (52)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4571,7 +4572,7 @@ GameObject:
   - component: {fileID: 909982486}
   m_Layer: 0
   m_Name: Curved Wall (4)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4654,7 +4655,7 @@ GameObject:
   - component: {fileID: 918293586}
   m_Layer: 0
   m_Name: Curved Wall (58)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4715,7 +4716,7 @@ GameObject:
   - component: {fileID: 927592120}
   m_Layer: 0
   m_Name: Curved Wall (1)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4840,13 +4841,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 959334162}
-  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 160, y: 0, z: 670}
   m_LocalScale: {x: 2.065038, y: 1, z: 0.24159482}
   m_Children: []
   m_Father: {fileID: 1709548952}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &965221214
 GameObject:
   m_ObjectHideFlags: 0
@@ -4860,7 +4861,7 @@ GameObject:
   - component: {fileID: 965221215}
   m_Layer: 0
   m_Name: Curved Wall (45)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4921,7 +4922,7 @@ GameObject:
   - component: {fileID: 969366540}
   m_Layer: 0
   m_Name: Curved Wall (21)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4982,7 +4983,7 @@ GameObject:
   - component: {fileID: 975019694}
   m_Layer: 0
   m_Name: Curved Wall (47)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5150,7 +5151,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1032074751}
   - component: {fileID: 1032074750}
-  - component: {fileID: 1032074749}
   - component: {fileID: 1032074748}
   m_Layer: 8
   m_Name: MiniMapCamera
@@ -5173,14 +5173,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerIcon: {fileID: 1293849667}
   enemyIcon: {fileID: 1703964250}
---- !u!81 &1032074749
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1032074747}
-  m_Enabled: 1
 --- !u!20 &1032074750
 Camera:
   m_ObjectHideFlags: 0
@@ -5273,7 +5265,7 @@ GameObject:
   - component: {fileID: 1037311502}
   m_Layer: 0
   m_Name: Curved Wall (15)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5356,7 +5348,7 @@ GameObject:
   - component: {fileID: 1049837345}
   m_Layer: 0
   m_Name: Straight Wall (2)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5439,7 +5431,7 @@ GameObject:
   - component: {fileID: 1070316452}
   m_Layer: 0
   m_Name: Curved Wall (5)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5748,13 +5740,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1101022370}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
   m_LocalPosition: {x: 73, y: 0, z: 458.4}
   m_LocalScale: {x: 2.065037, y: 1, z: 0.2415947}
   m_Children: []
   m_Father: {fileID: 1709548952}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!1 &1114006344 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1612025164714750, guid: a7ba6ecbaa39e284a89b19fdf84e6b2d,
@@ -5864,7 +5856,7 @@ GameObject:
   - component: {fileID: 1146371156}
   m_Layer: 0
   m_Name: Curved Wall (41)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5925,7 +5917,7 @@ GameObject:
   - component: {fileID: 1146861495}
   m_Layer: 0
   m_Name: Curved Wall (13)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6306,7 +6298,7 @@ GameObject:
   - component: {fileID: 1182427746}
   m_Layer: 0
   m_Name: Curved Wall (35)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6676,7 +6668,7 @@ GameObject:
   - component: {fileID: 1352292173}
   m_Layer: 0
   m_Name: Curved Wall
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6759,7 +6751,7 @@ GameObject:
   - component: {fileID: 1374943309}
   m_Layer: 0
   m_Name: Curved Wall (16)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6949,7 +6941,7 @@ GameObject:
   - component: {fileID: 1430640436}
   m_Layer: 0
   m_Name: Curved Wall (49)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7010,7 +7002,7 @@ GameObject:
   - component: {fileID: 1434807217}
   m_Layer: 0
   m_Name: Curved Wall (44)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7261,7 +7253,7 @@ GameObject:
   - component: {fileID: 1518574666}
   m_Layer: 0
   m_Name: Curved Wall (22)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7350,7 +7342,7 @@ GameObject:
   - component: {fileID: 1546777332}
   m_Layer: 0
   m_Name: Curved Wall (20)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7708,7 +7700,7 @@ GameObject:
   - component: {fileID: 1612472917}
   m_Layer: 0
   m_Name: Curved Wall (42)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7769,7 +7761,7 @@ GameObject:
   - component: {fileID: 1628063368}
   m_Layer: 0
   m_Name: Curved Wall (54)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7897,7 +7889,7 @@ GameObject:
   - component: {fileID: 1685635146}
   m_Layer: 0
   m_Name: Curved Wall (31)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8213,7 +8205,7 @@ GameObject:
   - component: {fileID: 1706903376}
   m_Layer: 0
   m_Name: Curved Wall (29)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8458,7 +8450,7 @@ GameObject:
   - component: {fileID: 1722717261}
   m_Layer: 0
   m_Name: Curved Wall (24)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8519,7 +8511,7 @@ GameObject:
   - component: {fileID: 1731397831}
   m_Layer: 0
   m_Name: Curved Wall (9)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8580,7 +8572,7 @@ GameObject:
   - component: {fileID: 1738841972}
   m_Layer: 0
   m_Name: Curved Wall (14)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8641,7 +8633,7 @@ GameObject:
   - component: {fileID: 1743901939}
   m_Layer: 0
   m_Name: Curved Wall (34)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8880,7 +8872,7 @@ NavMeshObstacle:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1762513683}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
   m_Extents: {x: 2.175, y: 0.86, z: 4.035}
@@ -8924,7 +8916,7 @@ GameObject:
   - component: {fileID: 1765145639}
   m_Layer: 0
   m_Name: Curved Wall (59)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9007,7 +8999,7 @@ GameObject:
   - component: {fileID: 1794735349}
   m_Layer: 0
   m_Name: Curved Wall (39)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9423,7 +9415,7 @@ GameObject:
   - component: {fileID: 1848907752}
   m_Layer: 0
   m_Name: Curved Wall (25)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9484,7 +9476,7 @@ GameObject:
   - component: {fileID: 1883025273}
   m_Layer: 0
   m_Name: Curved Wall (2)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9545,7 +9537,7 @@ GameObject:
   - component: {fileID: 1884891147}
   m_Layer: 0
   m_Name: Curved Wall (7)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9628,7 +9620,7 @@ GameObject:
   - component: {fileID: 1892682742}
   m_Layer: 0
   m_Name: Curved Wall (8)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9689,7 +9681,7 @@ GameObject:
   - component: {fileID: 1902459491}
   m_Layer: 0
   m_Name: Curved Wall (53)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9750,7 +9742,7 @@ GameObject:
   - component: {fileID: 1929422980}
   m_Layer: 0
   m_Name: Curved Wall (43)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9956,13 +9948,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1958739579}
-  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 160, y: 0, z: 311.2}
   m_LocalScale: {x: 2.065038, y: 1, z: 0.24159482}
   m_Children: []
   m_Father: {fileID: 1709548952}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &1966698818
 GameObject:
   m_ObjectHideFlags: 0
@@ -9976,7 +9968,7 @@ GameObject:
   - component: {fileID: 1966698819}
   m_Layer: 0
   m_Name: Curved Wall (30)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10037,7 +10029,7 @@ GameObject:
   - component: {fileID: 1974861526}
   m_Layer: 0
   m_Name: Curved Wall (55)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10098,7 +10090,7 @@ GameObject:
   - component: {fileID: 1975535765}
   m_Layer: 0
   m_Name: Curved Wall (19)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10157,7 +10149,7 @@ GameObject:
   - component: {fileID: 1979755196}
   m_Layer: 0
   m_Name: Walls
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10399,7 +10391,7 @@ GameObject:
   - component: {fileID: 2012243228}
   m_Layer: 0
   m_Name: Curved Wall (12)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10460,7 +10452,7 @@ GameObject:
   - component: {fileID: 2015807271}
   m_Layer: 0
   m_Name: Curved Wall (27)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10521,7 +10513,7 @@ GameObject:
   - component: {fileID: 2040356511}
   m_Layer: 0
   m_Name: Curved Wall (50)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10582,7 +10574,7 @@ GameObject:
   - component: {fileID: 2051212849}
   m_Layer: 0
   m_Name: Curved Wall (37)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11122,7 +11114,7 @@ GameObject:
   - component: {fileID: 2131957575}
   m_Layer: 0
   m_Name: Curved Wall (46)
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

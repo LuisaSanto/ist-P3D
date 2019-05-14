@@ -64,6 +64,7 @@ public class Dot_Truck_Controller : MonoBehaviour
             rb.drag = 0;
         }
 
+
         foreach(Dot_Truck truck_Info in truck_Infos)
         {
             if(truck_Info.steering == true)
@@ -122,6 +123,41 @@ public class Dot_Truck_Controller : MonoBehaviour
         if(coll.tag == "Track")
         {
             StartCoroutine(RecoverVehicle());
+        }
+        if(coll.tag == "Walls")
+        {
+            gc.GetComponent<GameController>().numLifes -= 1;
+            print(gc.GetComponent<GameController>().numLifes);
+            
+            if (gc.GetComponent<GameController>().numLifes == 0)
+            {
+                gc.GetComponent<GameController>().numLifes = 3;
+                //transform.rotation = Quaternion.Euler(0, 180, 0);
+                //transform.position = new Vector3(transform.position.x, 2, transform.position.z);
+                if (gc.GetComponent<GameController>().numCheckPoint == 0)
+                {
+                    aux = GameObject.Find("Finish Line");
+                }
+                else if (gc.GetComponent<GameController>().numCheckPoint == 1)
+                {
+                    aux = GameObject.Find("Finish Line");
+                }
+                else if (gc.GetComponent<GameController>().numCheckPoint == 2)
+                {
+                    aux = GameObject.Find("Checkpoint2");
+                }
+                else if (gc.GetComponent<GameController>().numCheckPoint == 3)
+                {
+                    aux = GameObject.Find("Checkpoint3");
+                }
+                else if (gc.GetComponent<GameController>().numCheckPoint == 4)
+                {
+                    aux = GameObject.Find("Checkpoint4");
+                }
+                transform.rotation = aux.transform.rotation;
+                transform.position = aux.transform.position;
+            }
+            new WaitForSeconds(5.0f);
         }
     }
 

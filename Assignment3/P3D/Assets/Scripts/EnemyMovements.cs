@@ -45,8 +45,6 @@ public class EnemyMovements : MonoBehaviour
     {
         if (other.tag == "Enemy")
         {
-            print("Ola\n");
-            print(ac);
             switch (ac)
             {   
          

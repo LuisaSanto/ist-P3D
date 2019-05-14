@@ -40,6 +40,7 @@ public class CheckPointManager : MonoBehaviour {
         {
             if (cp == CheckPoints.one && gc.GetComponent<GameController>().numCheckPoint == 0 && gc.GetComponent<GameController>().numLapPlayer == 0)
             {
+                print("Entrei");
                 gc.GetComponent<GameController>().playerLapStarted = true;
                 gc.GetComponent<GameController>().numCheckPoint = 1;
             }
